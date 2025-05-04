@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Historial de pedidos</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <div class="header">
+        <div class="logo-title">
+            <a href="inicio.php"><img src="img/hogar.png" alt="Home" height="30px"></a>
+            <div class="title">HISTORIAL DE PEDIDOS</div>
+        </div>
+        <div class="menu-container">
+            <button id="toggleMenu">
+                <img src="img/menuOpciones.png" alt="Opciones" height="30px">
+            </button>
+            <div id="menu">
+            <ul>
+            <li><a href="menu.php"><img src="img/menuRestaurante.png" alt="menuComida" class="icono-menu">  Ver menú</a></li>
+                <li><a href="historialPedidos.php"><img src="img/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
+                <li><a href="configuracion.php"><img src="img/configuracion.png" alt="configuracion" class="icono-menu"> Configuración</a></li>
+            </ul>
+            </div>
+            <script>
+                const btn = document.getElementById("toggleMenu");
+                const menu = document.getElementById("menu");
+
+                btn.addEventListener("click", () => {
+                if (menu.style.display === "none" || menu.style.display === "") {
+                    menu.style.display = "block";
+                } else {
+                    menu.style.display = "none";
+                }
+                });
+            </script>
+        </div>
+    </div>
+    <div class="filters-container">
+        <div class="filter-group">
+            <label class="filter-label">Desde</label>
+            <input type="date" class="date-input" id="desde-fecha">
+        </div>
+        
+        <div class="filter-group">
+            <label class="filter-label">Hasta</label>
+            <input type="date" class="date-input" id="hasta-fecha">
+        </div>
+        
+        <div class="filter-group">
+            <label class="filter-label">Tipo de pago</label>
+            <select class="filter-input">
+                <option>efectivo</option>
+                <option>transferencia</option>
+                <option>tarjeta</option>
+            </select>
+        </div>
+        
+        <div class="filter-group">
+            <label class="filter-label">ID de orden</label>
+            <input type="text" class="order-id-input" placeholder="escriba el ID">
+        </div>
+        
+        <div class="filter-actions">
+            <button class="btn-export">
+                EXPORTAR
+                <span class="export-icon">⤴</span>
+            </button>
+            <div class="buttons-container">
+                <button class="btn btn-search">BUSCAR</button>
+                <button class="btn btn-clear">LIMPIAR</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Orden</th>
+                    <th>Fecha</th>
+                    <th>Monto</th>
+                    <th>Tipo de pago</th>
+                    <th>Cliente</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</body>
+</html>
