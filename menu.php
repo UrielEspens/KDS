@@ -87,7 +87,7 @@
     <div class="menu-body">
         <div class="menu-options">
             <div class="menu-search-container">
-                <input type="text" placeholder="Buscar">
+                <input type="text" placeholder="Ingrese el nombre del producto">
                 <button>Buscar</button>
             </div>
             <div class="menu-categories">
