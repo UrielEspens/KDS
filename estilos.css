@@ -1,5 +1,24 @@
+/*
+<div class="order-card">
+        <button class="botonStatus">
+            <div class="status-indicator status-red"></div>
+        </button>
+        <button class="botonDetalles">
+            <div class="order-details">
+            <div class="order-number">No. Pedido: 1</div>
+            <div class="customer-name">nombreCliente</div>
+            <div class="check-icon"></div>
+            </div>
+        </button>
+        <button class="botonCheck">
+            <img src="img/controlar.png" alt="Listo" width="25px" height="27px"></a>
+        </button> 
+        
+        </div>
+
+*/
+
 body {
-    font-family: 'casadia code light', sans-serif;
     margin: 0;
     padding: 0;
     background-color: #dddddd;
@@ -9,7 +28,7 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
+    font-family: 'casadia code light', sans-serif;
 }
 
 .header {
@@ -380,7 +399,113 @@ body {
     margin-left: auto;
 }
 
+/* Detalles del pedido */
+.fondoDifuminado {
+    display: flex;
+    justify-content: space-around;
+    backdrop-filter: blur(10px);
+    z-index: 999;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
 
+#contenedorDetallesPedido {
+    margin-top: 5%;
+    border: #0c0c0c solid 1px;
+    max-height: 75%;
+    background-color: #ffffff;
+    border-radius: 0;
+    overflow: auto; /* Permite el scroll si el contenido excede la altura máxima */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.lista-articulos {
+    font-size: 15;
+    border: none;
+    resize: none;
+    padding-top: 3px;
+    padding-left: 20px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    margin-left: 10px;
+    margin-right: 10px;
+    background-color: white;
+}
+
+.detalles-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    color: white;
+    font-weight: bold;
+}
+
+.header-pendiente {
+    background-color: #ff4d4d;
+}
+
+.header-preparacion {
+    background-color: #ffdd59;
+    color: #333;
+}
+
+.header-listo {
+    background-color: #4cd137;
+}
+
+.info-pedido {
+    background-color: white;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.info-pedido p {
+    margin: 5px 0;
+}
+
+
+.total-pedido {
+    background-color: white;
+    padding: 10px 15px;
+    text-align: right;
+    font-weight: bold;
+    border-top: 1px solid #ddd;
+}
+
+.botones-accion {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: white;
+    border-top: 1px solid #ddd;
+}
+
+.boton-volver {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 8px 20px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.botones-iconos {
+    display: flex;
+    gap: 10px;
+}
+
+.editarDetalles, .eliminarDetalles {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
 
 
 
