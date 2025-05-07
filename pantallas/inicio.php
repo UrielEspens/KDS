@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="../estilos/inicio.css">
 </head>
 <body>
-    <div class="header">
+    <div class="header" id="miCabecera">
         <div class="logo-title">
             <a href="inicio.php"><img src="../img/general/hogar.png" alt="Home" height="30px"></a>
             <div class="title">CENTRO DE ORDENES</div>
@@ -29,6 +29,54 @@
     <div class="orders-container">
         <?php
         $pedidos = [
+            ['id' => 1, 'cliente' => 'nombreCliente1', 'estado' => 'red'],
+            ['id' => 2, 'cliente' => 'nombreCliente2', 'estado' => 'yellow'],
+            ['id' => 3, 'cliente' => 'nombreCliente3', 'estado' => 'green'],
+            ['id' => 1, 'cliente' => 'nombreCliente1', 'estado' => 'red'],
+            ['id' => 2, 'cliente' => 'nombreCliente2', 'estado' => 'yellow'],
+            ['id' => 3, 'cliente' => 'nombreCliente3', 'estado' => 'green'],
+            ['id' => 1, 'cliente' => 'nombreCliente1', 'estado' => 'red'],
+            ['id' => 2, 'cliente' => 'nombreCliente2', 'estado' => 'yellow'],
+            ['id' => 3, 'cliente' => 'nombreCliente3', 'estado' => 'green'],
+            ['id' => 1, 'cliente' => 'nombreCliente1', 'estado' => 'red'],
+            ['id' => 2, 'cliente' => 'nombreCliente2', 'estado' => 'yellow'],
+            ['id' => 3, 'cliente' => 'nombreCliente3', 'estado' => 'green'],
+            ['id' => 1, 'cliente' => 'nombreCliente1', 'estado' => 'red'],
+            ['id' => 2, 'cliente' => 'nombreCliente2', 'estado' => 'yellow'],
+            ['id' => 3, 'cliente' => 'nombreCliente3', 'estado' => 'green'],
+            ['id' => 1, 'cliente' => 'nombreCliente1', 'estado' => 'red'],
+            ['id' => 2, 'cliente' => 'nombreCliente2', 'estado' => 'yellow'],
+            ['id' => 3, 'cliente' => 'nombreCliente3', 'estado' => 'green'],
+            ['id' => 1, 'cliente' => 'nombreCliente1', 'estado' => 'red'],
+            ['id' => 2, 'cliente' => 'nombreCliente2', 'estado' => 'yellow'],
+            ['id' => 3, 'cliente' => 'nombreCliente3', 'estado' => 'green'],
+            ['id' => 1, 'cliente' => 'nombreCliente1', 'estado' => 'red'],
+            ['id' => 2, 'cliente' => 'nombreCliente2', 'estado' => 'yellow'],
+            ['id' => 3, 'cliente' => 'nombreCliente3', 'estado' => 'green'],
+            ['id' => 1, 'cliente' => 'nombreCliente1', 'estado' => 'red'],
+            ['id' => 2, 'cliente' => 'nombreCliente2', 'estado' => 'yellow'],
+            ['id' => 3, 'cliente' => 'nombreCliente3', 'estado' => 'green'],
+            ['id' => 1, 'cliente' => 'nombreCliente1', 'estado' => 'red'],
+            ['id' => 2, 'cliente' => 'nombreCliente2', 'estado' => 'yellow'],
+            ['id' => 3, 'cliente' => 'nombreCliente3', 'estado' => 'green'],
+            ['id' => 1, 'cliente' => 'nombreCliente1', 'estado' => 'red'],
+            ['id' => 2, 'cliente' => 'nombreCliente2', 'estado' => 'yellow'],
+            ['id' => 3, 'cliente' => 'nombreCliente3', 'estado' => 'green'],
+            ['id' => 1, 'cliente' => 'nombreCliente1', 'estado' => 'red'],
+            ['id' => 2, 'cliente' => 'nombreCliente2', 'estado' => 'yellow'],
+            ['id' => 3, 'cliente' => 'nombreCliente3', 'estado' => 'green'],
+            ['id' => 1, 'cliente' => 'nombreCliente1', 'estado' => 'red'],
+            ['id' => 2, 'cliente' => 'nombreCliente2', 'estado' => 'yellow'],
+            ['id' => 3, 'cliente' => 'nombreCliente3', 'estado' => 'green'],
+            ['id' => 1, 'cliente' => 'nombreCliente1', 'estado' => 'red'],
+            ['id' => 2, 'cliente' => 'nombreCliente2', 'estado' => 'yellow'],
+            ['id' => 3, 'cliente' => 'nombreCliente3', 'estado' => 'green'],
+            ['id' => 1, 'cliente' => 'nombreCliente1', 'estado' => 'red'],
+            ['id' => 2, 'cliente' => 'nombreCliente2', 'estado' => 'yellow'],
+            ['id' => 3, 'cliente' => 'nombreCliente3', 'estado' => 'green'],
+            ['id' => 1, 'cliente' => 'nombreCliente1', 'estado' => 'red'],
+            ['id' => 2, 'cliente' => 'nombreCliente2', 'estado' => 'yellow'],
+            ['id' => 3, 'cliente' => 'nombreCliente3', 'estado' => 'green'],
             ['id' => 1, 'cliente' => 'nombreCliente1', 'estado' => 'red'],
             ['id' => 2, 'cliente' => 'nombreCliente2', 'estado' => 'yellow'],
             ['id' => 3, 'cliente' => 'nombreCliente3', 'estado' => 'green'],
