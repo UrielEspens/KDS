@@ -1,40 +1,65 @@
-const btnCarrito = document.getElementById("carrito");
-const menuCarrito = document.getElementById("carritoPedido");
-const btnMenu = document.getElementById("toggleMenu");
-const menuOpciones = document.getElementById("menu");
+document.addEventListener('DOMContentLoaded', function() {
+    const menuItems = document.querySelectorAll('.menu-item');
+    const modal = document.getElementById('modalDetallesProducto');
+    const closeButton = modal.querySelector('.close-button');
+    const nombreDetalle = document.getElementById('nombre-producto-detalle');
+    const imagenDetalle = document.getElementById('imagen-producto-detalle');
+    const descripcionDetalle = document.getElementById('descripcion-producto-detalle');
+    const precioDetalle = document.getElementById('precio-producto-detalle');
+    const categoryButtons = document.querySelectorAll('.menu-categories button');
+    const menuSections = document.querySelectorAll('.menu-section');
+    const menuContainerProductos = document.querySelector('.menu-container-productos');
 
-function closeOtherMenu(openMenu) {
-    if (openMenu === menuCarrito) {
-        menuOpciones.style.display = "none";
-    } else if (openMenu === menuOpciones) {
-        menuCarrito.style.display = "none";
+    function showSection(category) {
+        menuSections.forEach(section => {
+            section.style.display = 'none';
+        });
+        document.getElementById(category.toLowerCase().replace(' ', '-') + '-section').style.display = 'block';
     }
-}
 
-btnCarrito.addEventListener("click", () => {
-    if (menuCarrito.style.display === "none" || menuCarrito.style.display === "") {
-        menuCarrito.style.display = "block";
-        closeOtherMenu(menuCarrito);
-    } else {
-        menuCarrito.style.display = "none";
-    }
-});
+    categoryButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            categoryButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            showSection(this.dataset.categoria);
+        });
+    });
 
-btnMenu.addEventListener("click", () => {
-    if (menuOpciones.style.display === "none" || menuOpciones.style.display === "") {
-        menuOpciones.style.display = "block";
-        closeOtherMenu(menuOpciones);
-    } else {
-        menuOpciones.style.display = "none";
-    }
-});
+    menuItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const productId = this.dataset.productId;
+            if (productId) {
+                fetch(`obtener_detalles_producto.php?id=${productId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data) {
+                            nombreDetalle.textContent = data.nombre;
+                            descripcionDetalle.textContent = data.descripcion;
+                            precioDetalle.textContent = `$${data.precio} MXN`;
+                            imagenDetalle.src = data.imagen;
+                            modal.style.display = 'block';
+                        } else {
+                            alert('No se encontraron detalles para este producto.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error al obtener los detalles del producto:', error);
+                        alert('Ocurrió un error al cargar los detalles.');
+                    });
+            }
+        });
+    });
 
-// Cierra los menús si se hace clic fuera de ellos
-document.addEventListener('click', (event) => {
-    if (!btnCarrito.contains(event.target) && !menuCarrito.contains(event.target)) {
-        menuCarrito.style.display = 'none';
-    }
-    if (!btnMenu.contains(event.target) && !menuOpciones.contains(event.target)) {
-        menuOpciones.style.display = 'none';
-    }
+    closeButton.addEventListener('click', function() {
+        modal.style.display = 'none';
+    });
+
+    window.addEventListener('click', function(event) {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    });
+
+    // Mostrar la sección "Todos" al cargar la página
+    showSection(document.querySelector('.menu-categories .active').dataset.categoria);
 });
