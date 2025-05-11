@@ -13,12 +13,14 @@
         </div>
         <div class="menu-container">
             <button id="toggleMenu">
-                <img src="../img/menuOpciones.png" alt="Opciones" height="30px">
+                <img src="../img/general/menuOpciones.png" alt="Opciones" height="30px">
             </button>
             <div id="menu">
             <ul>
-            <li><a href="menu.php"><img src="../img/general/menuRestaurante.png" alt="menuComida" class="icono-menu">  Ver menú</a></li>
+                <li><a href="menu.php"><img src="../img/general/menuRestaurante.png" alt="menuComida" class="icono-menu">  Ver menú</a></li>
+                <hr>
                 <li><a href="historialPedidos.html"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
+                <hr>
                 <li><a href="configuracion.php"><img src="../img/general/configuracion.png" alt="configuracion" class="icono-menu"> Configuración</a></li>
             </ul>
             </div>

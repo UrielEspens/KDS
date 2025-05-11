@@ -56,18 +56,18 @@
 
 .menu-categories button{
     display: flex;
-    border: gray 1px solid;
+    border: rgb(0, 0, 0) .1px solid;
     margin-right: 15px;
     padding: 8px 15px;
-    border-radius: 5px;
+    border-radius: 3px;
     background-color: white;
     cursor: pointer;
 }
 
 .menu-categories button.active {
-    background-color: #007bff;
+    background-color: #00bbff;
     color: white;
-    border-color: #007bff;
+    border-color: #00bbff;
 }
 
 .menu-container-productos .menu-section {
@@ -100,12 +100,11 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 15px;
-    margin-bottom: 20px;
 
 }
 
 .menu-item {
-    
+    margin-bottom: 20px;
     border: 1px solid #ddd;
     border-radius: 5px;
     display: flex;
@@ -144,10 +143,10 @@
 }
 
 .add-buttons {
-    background-color: #007bff;
+    background-color: #00bbff;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 3px;
     padding: 8px 12px;
     cursor: pointer;
     font-size: 14px;
