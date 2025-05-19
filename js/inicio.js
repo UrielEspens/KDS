@@ -16,6 +16,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // Objeto para almacenar los estados modificados de los pedidos
     const estadosModificados = {};
 
+    function bloquearScroll() {
+        document.body.style.overflow = 'hidden';
+        document.documentElement.style.overflow = 'hidden'; // Para navegadores que no soportan body
+    }
+
+    function desbloquearScroll() {
+        document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
+    }
+
     botonesStatus.forEach(botonStatus => {
         botonStatus.addEventListener('click', function() {
             const pedidoId = this.nextElementSibling.getAttribute('data-pedido-id'); // Obtener el ID del pedido del botón de detalles hermano
@@ -50,6 +60,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Mostrar indicador de carga
             listaArticulosDetalle.value = "Cargando detalles...";
+            bloquearScroll(); // Bloquear el scroll al mostrar los detalles
+            fondoDifuminado.style.display = 'flex';
 
             fetch(`obtener_detalles_pedido.php?id=${pedidoId}`)
                 .then(response => {
@@ -104,8 +116,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
                                 listaFormateada += `${item.cantidad} ${item.nombre} ${espacios} ${item.precio}\n`;
                             });
-
-                            
                         } else {
                             listaFormateada = 'No hay artículos en este pedido';
                         }
@@ -131,12 +141,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Cerrar el modal al hacer clic en el botón de volver
     botonCerrar.addEventListener('click', function() {
         fondoDifuminado.style.display = 'none';
+        desbloquearScroll(); // Desbloquear el scroll al cerrar los detalles
     });
 
     // Cerrar el modal al hacer clic fuera del contenedor
     fondoDifuminado.addEventListener('click', function(event) {
         if (event.target === fondoDifuminado) {
             fondoDifuminado.style.display = 'none';
+            desbloquearScroll(); // Desbloquear el scroll al cerrar el modal
         }
     });
 });

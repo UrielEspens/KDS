@@ -1,40 +1,22 @@
-const btnCarrito = document.getElementById("carrito");
-const menuCarrito = document.getElementById("carritoPedido");
-const btnMenu = document.getElementById("toggleMenu");
-const menuOpciones = document.getElementById("menu");
+document.addEventListener('DOMContentLoaded', function() {
+    const categoryButtons = document.querySelectorAll('.menu-categories button');
+    const menuSections = document.querySelectorAll('.menu-section');
 
-function closeOtherMenu(openMenu) {
-    if (openMenu === menuCarrito) {
-        menuOpciones.style.display = "none";
-    } else if (openMenu === menuOpciones) {
-        menuCarrito.style.display = "none";
+    function showSection(category) {
+        menuSections.forEach(section => {
+            section.style.display = 'none';
+        });
+        document.getElementById(category.toLowerCase().replace(' ', '-') + '-section').style.display = 'block';
     }
-}
 
-btnCarrito.addEventListener("click", () => {
-    if (menuCarrito.style.display === "none" || menuCarrito.style.display === "") {
-        menuCarrito.style.display = "block";
-        closeOtherMenu(menuCarrito);
-    } else {
-        menuCarrito.style.display = "none";
-    }
-});
+    categoryButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            categoryButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            showSection(this.dataset.categoria);
+        });
+    });
 
-btnMenu.addEventListener("click", () => {
-    if (menuOpciones.style.display === "none" || menuOpciones.style.display === "") {
-        menuOpciones.style.display = "block";
-        closeOtherMenu(menuOpciones);
-    } else {
-        menuOpciones.style.display = "none";
-    }
-});
-
-// Cierra los menús si se hace clic fuera de ellos
-document.addEventListener('click', (event) => {
-    if (!btnCarrito.contains(event.target) && !menuCarrito.contains(event.target)) {
-        menuCarrito.style.display = 'none';
-    }
-    if (!btnMenu.contains(event.target) && !menuOpciones.contains(event.target)) {
-        menuOpciones.style.display = 'none';
-    }
+    // Mostrar la sección "Todos" al cargar la página
+    showSection(document.querySelector('.menu-categories .active').dataset.categoria);
 });

@@ -20,6 +20,7 @@ body {
     align-items: center;
     height: 80px;
     position: static;
+    width: 100%;
 }
 
 .header img:hover {
