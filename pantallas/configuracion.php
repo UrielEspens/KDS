@@ -39,7 +39,7 @@
        </div>
        <hr class = "linea">
        <div class = "container-perfil">
-           <a href="gestioDeUsuarios.php"><div class = "labelConfiguracion">GESTION DE USUARIOS</div> </a><br>
+           <a href="gestionUsuarios.php"><div class = "labelConfiguracion">GESTION DE USUARIOS</div> </a><br>
        </div>
        <hr class = "linea">
        <div class = "container-perfil">
