@@ -1,0 +1,52 @@
+.container {
+    background-color: #c7c6c6;
+    display: flex;
+    width: 400px;
+    padding: 15px;
+    margin: 8%;
+    margin-left: 40%;
+    border:black 1px solid;
+    flex-flow: column;
+}
+.container2{
+    display: flex;
+    margin-top: 20px;
+}
+.containerForm{
+    display: flex;
+    flex-flow: column;
+}
+
+.containerPerfil{
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
+}
+
+.btnRegistrar{
+    border: black 1px solid;
+    color: rgb(0, 0, 0);
+    padding: 2px 6px;
+    text-align: center;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.input{
+    background-color: #c7c6c6;
+    border: black 1px solid;
+    padding: 2px 6px;
+    text-align: center;
+    font-size: 14px;
+    margin: 3px 1px;
+}
+
+.labelTittle{
+    font-size: 14px;
+    font-weight: bold;
+}

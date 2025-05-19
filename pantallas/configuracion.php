@@ -26,6 +26,25 @@
             </div>
         </div>
     </div>
+    <div class = "container">
+       <div class = "container-perfil">
+           <div class="infoPerfil">
+                <img src="../img/general/usuario.png" alt="usuario" height = "45" width = "45">
+                <a href="verPerfil.php"><div class = "labelConfiguracion">
+                    Armando Solis <br>
+                    Mesero
+                </div></a>
+           </div>
+            <a href="login.php"></a><button class = "buttonConfiguracion"> Cerrar sesion</button>
+       </div>
+       <hr class = "linea">
+       <div class = "container-perfil">
+           <a href="gestioDeUsuarios.php"><div class = "labelConfiguracion">GESTION DE USUARIOS</div> </a><br>
+       </div>
+       <hr class = "linea">
+       <div class = "container-perfil">
+           <a href="menu.php"><div class = "labelConfiguracion">MENU</div></a><br>
+       </div>
     <script src="../js/menuOpciones.js"></script>
 </body>
 </html>
