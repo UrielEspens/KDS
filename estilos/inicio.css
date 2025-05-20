@@ -116,7 +116,7 @@
 .status-red {
     background-color: #ff4d4d;
 }
-.status-red:hover {
+.status-res:hover {
     border: .5px solid #222;
 }
 .status-yellow {
@@ -150,12 +150,12 @@
     background-color: #ff4d4d;
 }
 
-.header-preparacion {
+.header-yellow {
     background-color: #ffdd59;
     color: #333;
 }
 
-.header-listo {
+.header-green {
     background-color: #4cd137;
 }
 

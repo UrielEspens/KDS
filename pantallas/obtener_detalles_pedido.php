@@ -33,7 +33,7 @@ if (isset($_GET['id'])) {
                 ['cantidad' => 2, 'nombre' => 'Refresco', 'precio' => '30.00']
             ],
             'total' => '275.00',
-            'estado' => 'red' // Añadimos el estado 'red'
+            'estado' => 'pendiente' // Añadimos el estado 'red'
         ];
         echo json_encode($detalles_simulados);
         exit(); // Importante detener la ejecución después de enviar la respuesta simulada
@@ -49,7 +49,7 @@ if (isset($_GET['id'])) {
                 ['cantidad' => 3, 'nombre' => 'Agua', 'precio' => '20.00']
             ],
             'total' => '240.00',
-            'estado' => 'yellow' // Añadimos el estado 'yellow'
+            'estado' => 'preparacion' // Añadimos el estado 'yellow'
         ];
         echo json_encode($detalles_simulados);
         exit();
@@ -65,7 +65,7 @@ if (isset($_GET['id'])) {
                 ['cantidad' => 1, 'nombre' => 'Jugo de Naranja', 'precio' => '35.00']
             ],
             'total' => '105.00',
-            'estado' => 'green' // Añadimos el estado 'green'
+            'estado' => 'listo' // Añadimos el estado 'green'
         ];
         echo json_encode($detalles_simulados);
         exit();
