@@ -1,3 +1,16 @@
+<?php
+require_once('procedimientos/conexion.php');
+require_once('procedimientos/crudProductos.php'); 
+require_once('procedimientos/claseInfoProducto.php');
+require_once('procedimientos/claseCategoria.php');
+
+$crudProductos = new CrudProductos();
+$categorias = $crudProductos->obtenerCategorias(); // Obtener todas las categorías de la DB
+$todosLosProductos = $crudProductos->obtenerTodosLosProductos(); // Obtener todos los productos de la DB
+
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,13 +26,13 @@
         </div>
 
         <div class="menu-container">
-            <a href=carrito.php id="carrito"><img src="../img/menu/carritoPedido.png" alt="Opciones" height="30px"></a>
+            <a href="carrito.php" id="carrito"><img src="../img/menu/carritoPedido.png" alt="Opciones" height="30px"></a>
             <button id="toggleMenu">
                 <img src="../img/general/menuOpciones.png" alt="Opciones" height="30px">
             </button>
             <div id="menu">
                 <ul>
-                    <li><a href="menu.php"><img src="../img/general/menuRestaurante.png" alt="menuComida" class="icono-menu">  Ver menú</a></li>
+                    <li><a href="menu.php"><img src="../img/general/menuRestaurante.png" alt="menuComida" class="icono-menu"> Ver menú</a></li>
                     <hr>
                     <li><a href="historialPedidos.html"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
                     <hr>
@@ -37,85 +50,40 @@
             </div>
             <div class="menu-categories">
                 <button class="active" data-categoria="todos">Todos</button>
-                <button data-categoria="Platos principales">Platos principales</button>
-                <button data-categoria="Bebidas">Bebidas</button>
-                <button data-categoria="Postres">Postres</button>
+                <?php foreach ($categorias as $categoria): ?>
+                    <button data-categoria="<?php echo $categoria->getNombre(); ?>" data-categoria-id="<?php echo $categoria->getIdCategoria(); ?>">
+                        <?php echo $categoria->getNombre(); ?>
+                    </button>
+                <?php endforeach; ?>
             </div>
         </div>
 
         <div class="menu-container-productos">
-            <?php
-            // Simulación de la obtención de productos desde una "base de datos"
-            $productos = [
-                ['id' => 1, 'nombre' => 'Hamburguesa Clásica', 'descripcion' => 'Con carne, lechuga, tomate y queso', 'precio' => '85.00', 'imagen' => '../img/productos/hamburguesa.png', 'categoria' => 'Platos principales'],
-                ['id' => 2, 'nombre' => 'Papas Fritas Grandes', 'descripcion' => 'Porción grande y crujiente', 'precio' => '45.00', 'imagen' => '../img/productos/papasFritas.png', 'categoria' => 'Platos principales'],
-                ['id' => 3, 'nombre' => 'Coca-Cola 600ml', 'descripcion' => 'Refrescante bebida gaseosa', 'precio' => '25.00', 'imagen' => '../img/productos/cocaCola.png', 'categoria' => 'Bebidas'],
-                ['id' => 4, 'nombre' => 'Agua Natural 600ml', 'descripcion' => 'Botella de agua purificada', 'precio' => '15.00', 'imagen' => '../img/productos/agua.png', 'categoria' => 'Bebidas'],
-                ['id' => 5, 'nombre' => 'Pastel de Chocolate', 'descripcion' => 'Delicioso pastel de chocolate', 'precio' => '60.00', 'imagen' => '../img/productos/pastelChocolate.png', 'categoria' => 'Postres'],
-            ];
+            <div id="todos-section" class="menu-section">
+                <?php foreach ($categorias as $categoria): ?>
+                    <h2><?php echo $categoria->getNombre(); ?></h2>
+                    <div class="menu-items">
+                        <?php foreach ($todosLosProductos as $producto): ?>
+                            <?php if ($producto->getIdCategoria() == $categoria->getIdCategoria()): ?>
+                                <?php $crudProductos->mostrarProducto($producto); // ¡Ahora se llama como método! ?>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endforeach; ?>
+            </div>
 
-            // Plantilla para mostrar cada producto
-            function mostrarProducto($producto) {
-                echo '<div class="menu-item" data-product-id="' . $producto['id'] . '">';
-                echo '<img src="' . $producto['imagen'] . '" alt="' . $producto['nombre'] . '">';
-                echo '<div class="item-details">';
-                echo '<h3>' . $producto['nombre'] . '</h3>';
-                echo '<p>' . $producto['descripcion'] . '</p>';
-                echo '<p class="item-price">$' . $producto['precio'] . ' MXN</p>';
-                echo '</div>';
-                echo '<button class="add-buttons">+</button>';
-                echo '</div>';
-            }
-
-            // Mostrar todos los productos agrupados por categoría
-            $categorias = array_unique(array_column($productos, 'categoria'));
-
-            echo '<div id="todos-section" class="menu-section">';
-            foreach ($categorias as $categoria) {
-                echo '<h2>' . $categoria . '</h2>';
-                echo '<div class="menu-items">';
-                foreach ($productos as $producto) {
-                    if ($producto['categoria'] === $categoria) {
-                        mostrarProducto($producto);
-                    }
-                }
-                echo '</div>';
-            }
-            echo '</div>';
-
-            echo '<div id="platos-principales-section" class="menu-section" style="display: none;">';
-            echo '<h2>Platos principales</h2>';
-            echo '<div class="menu-items">';
-            foreach ($productos as $producto) {
-                if ($producto['categoria'] === 'Platos principales') {
-                    mostrarProducto($producto);
-                }
-            }
-            echo '</div>';
-            echo '</div>';
-
-            echo '<div id="bebidas-section" class="menu-section" style="display: none;">';
-            echo '<h2>Bebidas</h2>';
-            echo '<div class="menu-items">';
-            foreach ($productos as $producto) {
-                if ($producto['categoria'] === 'Bebidas') {
-                    mostrarProducto($producto);
-                }
-            }
-            echo '</div>';
-            echo '</div>';
-
-            echo '<div id="postres-section" class="menu-section" style="display: none;">';
-            echo '<h2>Postres</h2>';
-            echo '<div class="menu-items">';
-            foreach ($productos as $producto) {
-                if ($producto['categoria'] === 'Postres') {
-                    mostrarProducto($producto);
-                }
-            }
-            echo '</div>';
-            echo '</div>';
-            ?>
+            <?php foreach ($categorias as $categoria): ?>
+                <div id="<?php echo strtolower(str_replace(' ', '-', $categoria->getNombre())); ?>-section" class="menu-section" style="display: none;">
+                    <h2><?php echo $categoria->getNombre(); ?></h2>
+                    <div class="menu-items">
+                        <?php foreach ($todosLosProductos as $producto): ?>
+                            <?php if ($producto->getIdCategoria() == $categoria->getIdCategoria()): ?>
+                                <?php $crudProductos->mostrarProducto($producto); // ¡Ahora se llama como método! ?>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
     </div>
 

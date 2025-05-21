@@ -1,53 +1,135 @@
 <?php
-// incluye la clase Db
 require_once('conexion.php');
 
 	class CrudPedidos{
 		// constructor de la clase
 		public function __construct(){}
 
-		public function obtenerDetallesPedido($idPedido){
-        $db=Db::conectar();
-        $listaDetalles = [];
 
-        // Obtener la información principal del pedido
-        $selectPedido = $db->prepare('SELECT  	p.idPedido,
-												p.estado,
-												p.fechaHora AS horaCreacion,
-												c.nombre AS nombreCliente,
-												c.primerApe AS apellidoCliente,
-												e.nombre AS nombreEmpleado,
-												e.primerApe AS apellidoEmpleado
-												FROM pedido p
-												INNER JOIN cliente c ON p.idCliente = c.idCliente
-												INNER JOIN empleado e ON p.idEmpleado = e.idEmpleado
-												WHERE p.idPedido = :idPedido');
-			$selectPedido->bindValue(':idPedido', $idPedido);
-			$selectPedido->execute();
-			$pedido = $selectPedido->fetch(PDO::FETCH_ASSOC);
 
-			if ($pedido) {
-				$listaDetalles['pedido'] = $pedido;
+        public function mostrarPedidos(){
+			$db=Db::conectar();
+			$listaPedidos=[];
+			$select=$db->query('SELECT  p.idPedido,
+										p.estado,
+										c.nombre AS nombreCliente,
+										c.primerApe AS apellidoCliente
+								FROM pedido p
+								INNER JOIN cliente c ON p.idCliente = c.idCliente;');
 
-				// Obtener los artículos del pedido
-				$selectArticulos = $db->prepare('SELECT
-														dp.cantidad,
-														prod.nombre AS nombreProducto,
-														prod.precio AS precio
-													FROM detalles_pedido dp
-													INNER JOIN producto prod ON dp.idProducto = prod.idProducto
-													WHERE dp.idPedido = :idPedido
-				');
-				$selectArticulos->bindValue(':idPedido', $idPedido);
-				$selectArticulos->execute();
-				$listaDetalles['productos'] = $selectArticulos->fetchAll(PDO::FETCH_ASSOC);
-
-				return $listaDetalles;
-			} else {
-				return null; // Devolver null si no se encuentra el pedido
+			foreach($select->fetchAll() as $pedido){
+				$myPedido= new Pedido();
+				$myPedido->setIdPedido($pedido['idPedido']);
+				$myPedido->setEstado($pedido['estado']);
+				$myPedido->setNombreCliente($pedido['nombreCliente']);
+				$myPedido->setApellidoCliente($pedido['apellidoCliente']);
+				$listaPedidos[]=$myPedido;
 			}
+			return $listaPedidos;
+		}	
+
+		public function mostrarDetalles($idPedido){
+			$db = Db::conectar(); // Obtiene la conexión PDO
+			$select = $db->prepare(' SELECT pedido.idPedido,
+											pedido.estado,
+											cliente.nombre AS nombreCliente,
+											cliente.primerApe AS apellidoCliente,
+											empleados.nombre AS nombreEmpleado,
+											empleados.primerApe AS apellidoEmpleado,
+											pedido.fechaHora AS horaCreacion
+											FROM
+												pedido
+											INNER JOIN cliente ON pedido.idCliente = cliente.idCliente
+											INNER JOIN empleados ON pedido.idEmpleado = empleados.idEmpleado
+											WHERE
+												pedido.idPedido = :idPedido;' );
+			$select->bindValue(':idPedido', $idPedido);
+			$select->execute();
+
+			$detallePedido = $select->fetch();
+
+			// Si no se encontró ningún pedido, $detallePedido será false
+			if (!$detallePedido) {
+				return null; // O false, o lanza una excepción, según tu manejo de errores
+			}
+
+			// 6. Crea y popula el objeto DetallesPedido
+			$myPedido = new DetallesPedido();
+			$myPedido->setIdPedido($detallePedido['idPedido']);
+			$myPedido->setEstado($detallePedido['estado']);
+			$myPedido->setNombreCliente($detallePedido['nombreCliente']);
+			$myPedido->setApellidoCliente($detallePedido['apellidoCliente']);
+			$myPedido->setNombreEmpleado($detallePedido['nombreEmpleado']);
+			$myPedido->setApellidoEmpleado($detallePedido['apellidoEmpleado']);
+			$myPedido->setHoraCreacion($detallePedido['horaCreacion']);
+			
+			return $myPedido;
 		}
-        // Search
+
+		public function obtenerProductosDePedido($idPedido){
+				$db = Db::conectar();
+				$listaArticulos = []; // Aquí almacenaremos los objetos ArticuloPedido
+				$select = $db->prepare('SELECT
+													prod.nombre AS nombreProducto,
+													prod.precio AS precioProducto,
+													dp.cantidad AS cantidadProducto
+												FROM
+													detalles_pedido dp
+												INNER JOIN producto prod ON dp.idProducto = prod.idProducto
+												WHERE
+													dp.idPedido = :idPedido;');
+				$select->bindValue(':idPedido', $idPedido, PDO::PARAM_INT);
+				$select->execute();
+
+				foreach ($select->fetchAll() as $articuloData) {
+					$myArticulo = new Producto();
+					$myArticulo->setNombreProducto($articuloData['nombreProducto']);
+					$myArticulo->setPrecioProducto($articuloData['precioProducto']);
+					$myArticulo->setCantidadProducto($articuloData['cantidadProducto']);
+					$listaArticulos[] = $myArticulo; // Añadimos el objeto a la lista
+				}
+
+				return $listaArticulos; // Retornamos el array de objetos ArticuloPedido
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		// Read
+		public function mostrarProducto(){ 
+			$db=Db::conectar();
+			$listaProductos=[];
+			$select=$db->query('SELECT * FROM producto');
+
+			foreach($select->fetchAll() as $producto){
+				$myProducto= new Producto();
+				$myProducto->setIdProducto($producto['idProducto']);
+				$myProducto->setNombre($producto['nombre']);
+				$myProducto->setDescripcion($producto['descripcion']);
+                $myProducto->setIdCategoria($producto['idCategoria']);
+				$myProducto->setPrecio($producto['precio']);
+                $myProducto->setImagen($producto['imagen']);
+				$listaProductos[]=$myProducto;
+			}
+			return $listaProductos;
+		}
+
+
+
+		        // Search
 		public function obtenerArticulo($idProducto){
 			$db=Db::conectar();
 			$select=$db->prepare('SELECT * FROM producto WHERE idProducto=:idProducto');
@@ -77,72 +159,6 @@ require_once('conexion.php');
 			$insert->bindValue('imagen',$producto->getImagen());
 			$insert->execute();
 		}
-
-        public function mostrarPedidos(){
-		$db=Db::conectar();
-		$listaPedidos=[];
-		$select=$db->query('SELECT  p.idPedido,
-									p.estado,
-									c.nombre AS nombreCliente,
-									c.primerApe AS apellidoCliente
-							FROM pedido p
-							INNER JOIN cliente c ON p.idCliente = c.idCliente;');
-
-		foreach($select->fetchAll() as $pedido){
-			$myPedido= new Pedido();
-			$myPedido->setIdPedido($pedido['idPedido']);
-			$myPedido->setEstado($pedido['estado']);
-			$myPedido->setNombreCliente($pedido['nombreCliente']);
-			$myPedido->setApellidoCliente($pedido['apellidoCliente']);
-			$listaPedidos[]=$myPedido;
-		}
-		return $listaPedidos;
-	}
-
-		public function mostrarDetalles(){ 
-			$db=Db::conectar();
-			$listaPedidos=[];
-			$select=$db->query('SELECT 	p.idPedido,
-										p.estado,
-										c.nombre AS nombreCliente,
-										c.primerApe AS apellidoCliente
-										FROM pedido p
-										INNER JOIN cliente c ON p.idCliente = c.idCliente;');
-
-			foreach($select->fetchAll() as $detallePedido){
-				$myPedido= new DetallesPedido();
-				$myPedido->setIdPedido($detallePedido['idPedido']);
-                $myPedido->setEstado($detallePedido['estado']);
-                $myPedido->setNombreCliente($detallePedido['nombreCliente']);
-                $myPedido->setApellidoCliente($detallePedido['apellidoCliente']);
-				$listaPedidos[]=$myPedido;
-			}
-			return $listaPedidos;
-		}
-
-
-		// Read
-		public function mostrarProducto(){ 
-			$db=Db::conectar();
-			$listaProductos=[];
-			$select=$db->query('SELECT * FROM producto');
-
-			foreach($select->fetchAll() as $producto){
-				$myProducto= new Producto();
-				$myProducto->setIdProducto($producto['idProducto']);
-				$myProducto->setNombre($producto['nombre']);
-				$myProducto->setDescripcion($producto['descripcion']);
-                $myProducto->setIdCategoria($producto['idCategoria']);
-				$myProducto->setPrecio($producto['precio']);
-                $myProducto->setImagen($producto['imagen']);
-				$listaProductos[]=$myProducto;
-			}
-			return $listaProductos;
-		}
-
-
-
-
 
 
 
