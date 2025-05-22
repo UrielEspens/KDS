@@ -9,7 +9,7 @@ $usuario= new Empleado();
 	// si el elemento insertar no viene nulo llama al crud e inserta un articulo
 	if (isset($_POST['insertar'])) {
         $usuario->setUsuario($_POST['nombreUsuario']);  
-        $usuario->setContraseña($_POST['contraseña']);
+        $usuario->setContrasena($_POST['contrasena']);
         $usuario->setNombre($_POST['nombre']);
         $usuario->setPrimerApe($_POST['primerApe']);
         $usuario->setSegundoApe($_POST['segundoApe']);
@@ -31,7 +31,7 @@ $usuario= new Empleado();
         $crud->actualizar($usuario);
         header('Location: agregarUsuario.php');
     }
-    
+
     else if(isset($_POST['listar'])){
         $usuarios=$crud->obtenerListaUsuarios();
         header('Location: agregarUsuario.php');

@@ -13,7 +13,7 @@
 		}
 
         public function getIdEmpleado(){
-            return $this->getIdEmpleado;
+            return $this->IdEmpleado;
         }
         public function setIdEmpleado($idEmpleado){
             $this->idEmpleado = $idEmpleado;
@@ -26,11 +26,11 @@
             $this->usuario = $usuario;
         }
 
-        public function getContraseña(){
-            return $this->contraseña;
+        public function getContrasena(){
+            return $this->contrasena;
         }
-        public function setContraseña($contraseña){
-            $this->contraseña = $contraseña;
+        public function setContrasena($contrasena){
+            $this->contrasena = $contrasena;
         }
 
         public function getNombre(){
