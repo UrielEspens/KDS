@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+$idEmpleado = $_SESSION['idEmpleado'];
+$usuarioEmpleado = $_SESSION['usuario'];
+$nombreEmpleado = $_SESSION['nombre'];
+$primerApeEmpleado = $_SESSION['primerApe'];
+$puestoEmpleado = $_SESSION['puesto'];
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,35 +36,36 @@
     <div class = "container">
         <div class = "containerInfoPerfil">
             <div class = "idUsuario">
-                <div class = "labelTittle">ID DEL USUARIO:</div><div class = "labelConfiguracion">@idUsuario</div>
+                <div class = "labelTittle">ID DEL USUARIO:</div><div class = "labelConfiguracion"><?php echo $idEmpleado; ?></div>
             </div>
             <div class = "nombreUsuario">
                 <img src="../img/general/usuario.png" alt="usuario" height = "75" width = "75" class = "iconoUsuario">
                 <div>
                     <div class = "nombreApellido">
-                        <div class = "labelTittle">Nombre:</div><div class = "labelConfiguracion">@nomUsuario</div>
+                        <div class = "labelTittle">Nombre:</div><div class = "labelConfiguracion"><?php echo $nombreEmpleado; ?></div>
                     </div>
                     <div class = "nombreApellido">
-                        <div class = "labelTittle">Apellido:</div><div class = "labelConfiguracion">@apeUsuario</div>
+                        <div class = "labelTittle">Apellido:</div><div class = "labelConfiguracion"><?php echo $primerApeEmpleado; ?></div>
                     </div>
                 </div>
             </div>
         </div>
        <hr class = "linea">
-       <div class = "container-perfil">
+       <div class = "container-info">
              <div class = "nombreApellido">
-                 <div class = "labelTittle">Nombre:</div><div class = "labelConfiguracion">@nomUsuario</div>
+                 <div class = "labelTittle">Nombre:</div><div class = "labelConfiguracion"><?php echo $usuarioEmpleado; ?></div>
              </div>
              <div class = "nombreApellido">
-                 <div class = "labelTittle">Contraseña:</div><div class = "labelConfiguracion">@contraseña</div>
+                 <div class = "labelTittle">Contraseña:</div><div class = "labelConfiguracion"><?php echo '********'; ?></div>
              </div>
              <div class = "nombreApellido">
-                 <div class = "labelTittle">Rol:</div><div class = "labelConfiguracion">@rolUsuario</div>
+                 <div class = "labelTittle">Rol:</div><div class = "labelConfiguracion"><?php echo $puestoEmpleado; ?></div>
              </div>
        </div>
        <hr class = "linea">
        <div class = "container-perfil">
-            <a href="gestionUsuarios.php"></a><button class = "buttonConfiguracion"> Cerrar sesion</button>
+            <a href="configuracion.php"><button class = "buttonConfiguracion"> VOLVER</button></a>
+            <a href="procedimientos/cerrarSesion.php"><button class = "buttonConfiguracion"> Cerrar sesion</button></a>
        </div>
     <script src="../js/menuOpciones.js"></script>
 </body>

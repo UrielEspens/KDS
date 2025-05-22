@@ -36,17 +36,6 @@ h1 {
     text-align: center;
 }
 
-.btnRegistrar {
-    width: 100%;
-    padding: 10px;
-    margin: 5px;
-    border-radius: 5px;
-    border-radius: 10px;
-    border: none;    
-    outline: none;    
-    background-color: rgb(203, 233, 255);
-}
-
 .btnRegistrar:hover {
     background-color: rgb(164, 208, 255);
 }
@@ -64,18 +53,8 @@ h1 {
     padding: 4px 50px;
     text-align: center;
     font-size: 14px;
-    margin: 4px 20px;
     cursor: pointer;
     
-}
-
-.input{
-    background-color: #c7c6c6;
-    border: black 1px solid;
-    padding: 2px 6px;
-    text-align: center;
-    font-size: 14px;
-    margin: 3px 1px;
 }
 
 .labelTittle{
