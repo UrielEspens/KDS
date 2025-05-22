@@ -1,0 +1,76 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column;
+    margin: 200px 200px;
+    
+}
+
+.containerBusquedaP{
+    display: flex;
+    width: 530px;
+    gap: 40px;  
+    margin: 10px 0;
+}
+
+.containerBusqueda {
+    display: flex;
+}
+
+.containerPerfiles{
+    display: flex;
+    background-color: #c7c6c6;
+    width: 530px;;
+    border-radius: 5px;
+    flex-flow: column;
+    border: #000000 1px solid;
+}
+
+.buttonConfiguracion {
+    background-color: #ffffff;
+    border-top-color: #000000;
+    padding: 3px 10px;
+    text-align: center;
+    font-size: 10px;
+    margin: 2px 1%;
+    cursor: pointer;
+}
+
+.iconoPerfil{
+    margin: 10px;
+}
+
+.containerInfo{
+    display: flex;
+}
+
+.labelTittle
+{
+    font-weight: bold; /* Texto en negritas */
+    
+}
+
+.labelConfiguracion {
+    font-size: 13px;
+    color: #000000;
+}
+
+.infoPerfil{
+    display: flex;
+    flex-flow: column;
+    margin-top: 8px;
+}
+
+.containerBotones{
+    display: flex;
+    margin-top: 18px;
+    gap: 10px;
+    margin-left: auto;
+    margin-right: 18px;
+}
+.linea {
+    border: none;
+    background: none; /* Elimina el fondo */
+    border-top: 2px dotted #000000; /* Línea punteada */
+}

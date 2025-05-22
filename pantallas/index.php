@@ -20,13 +20,13 @@
 
         <form action="inicio.php" method="post">
 
-        <label for="usuario">Usuario:</label>
-        <input type="text" name="usuario" id="usuario"><br><br>
+        <label for="usuario" class = "labelTittle" >Usuario:</label><br>
+        <input type="text" name="usuario" id="usuario" class = "input"><br><br>
 
-        <label for="contraseña">Contraseña:</label>
-        <input type="text" name="contraseña" id="contraseña"><br><br>
+        <label for="contraseña" class = "labelTittle">Contraseña:</label><br>
+        <input type="text" name="contraseña" id="contraseña" class = "input"><br><br>
 
-        <a href="inicio.php"><input type="submit" value="Ingresar"></a>
+        <input type="submit" class = "btnRegistrar" value="Ingresar">
     </form>
         
     </div>

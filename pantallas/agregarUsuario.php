@@ -29,36 +29,45 @@
             <img src="../img/general/puntos.png" alt="puntos" height="30px">
         </div>
         <div class="container2">
-            <form action="../php/agregarUsuario.php" method="POST">
-                <div>
-                    <label for="nombre" class = "labelTittle">Usuario:</label><br>
-                    <input type="text" id="nombre" name="nombre"  class = "input" required>
-                </div>
-                <div>
-                    <label for="correo" class = "labelTittle">Nombre:</label><br>
-                    <input type="email" id="correo" name="correo" class = "input" required>
-                </div>
-                <div>
-                    <label for="telefono" class = "labelTittle">Apellido:</label><br>
-                    <input type="tel" id="telefono" name="telefono" class = "input" required>
-                </div>
-                <div>
-                    <label for="puesto" class = "labelTittle">Puesto:</label><br>
-                    <select id="puesto" name="puesto"  class = "input"required>
-                        <option value="mesero">Mesero</option>
-                        <option value="cocinero">Chef</option>
-                        <option value="admin">Cajero</option>
-                        <option value="admin">Gerente</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="telefono" class = "labelTittle">Contraseña:</label><br>
-                    <input type="tel" id="telefono" class = "input" name="telefono" required>
-                </div>
+            <form action="../pantallas/procedimientos/admin_Usuario.php" method="POST">
+                    <div>
+                        <label for="nombreUsuario" class = "labelTittle">Nombre usuario:</label><br>
+                        <input type="text" id="nombre" name="nombreUsuario"  class = "input" required>
+                    </div>
+                    <div>
+                        <label for="nombre" class = "labelTittle">Nombre:</label><br>
+                        <input type="text" id="nombre" name="nombre" class = "input" required>
+                    </div>
+                    <div>
+                        <label for="PrimerApe" class = "labelTittle">Primer apellido:</label><br>
+                        <input type="text" id="PrimerApe" name="primerApe" class = "input" required>
+                    </div>
+                    <div>
+                        <label for="telefono" class = "labelTittle">Segundo apellido:</label><br>
+                        <input type="text" id="segundoApe" name="segundoApe" class = "input">
+                    </div>
+                    <div>
+                        <label for="puesto" class = "labelTittle">Puesto:</label><br>
+                        <select id="text" name="puesto"  class = "input"required>
+                            <option value="mesero">Mesero</option>
+                            <option value="cocinero">Chef</option>
+                            <option value="admin">Cajero</option>
+                            <option value="admin">Gerente</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="contraseña" class = "labelTittle">Contraseña:</label><br>
+                        <input type="text" id="contraseña" class = "input" name="contraseña" required>
+                    </div>
+                    <div>
+                        <label for="imagen" class = "labelTittle">Imagen::</label><br>
+                        <input type="text" id="imagen" class = "input" name="imagen" required>
+                    </div>
+                <input type='hidden' name='insertar' value='insertar'>
+		        <input class = "btnRegistrar" type='submit' value='Registrar'>
             </form>
             <div class = "containerPerfil">
                 <img src="../img/general/Usuario.png" alt="Perfil" height="100px"><br><br>
-                <button class = "btnRegistrar"type="submit">Agregar Usuario</button>
             </div>
             </div>
         </div>
