@@ -32,7 +32,7 @@
             <form action="../pantallas/procedimientos/admin_Usuario.php" method="POST">
                     <div>
                         <label for="nombreUsuario" class = "labelTittle">Nombre usuario:</label><br>
-                        <input type="text" id="nombre" name="nombreUsuario"  class = "input" required>
+                        <input type="text" id="nombreUsuario" name="nombreUsuario"  class = "input" required>
                     </div>
                     <div>
                         <label for="nombre" class = "labelTittle">Nombre:</label><br>
@@ -49,15 +49,15 @@
                     <div>
                         <label for="puesto" class = "labelTittle">Puesto:</label><br>
                         <select id="text" name="puesto"  class = "input"required>
-                            <option value="mesero">Mesero</option>
+                            <option  value="mesero">Mesero</option>
                             <option value="cocinero">Chef</option>
                             <option value="admin">Cajero</option>
                             <option value="admin">Gerente</option>
                         </select>
                     </div>
                     <div>
-                        <label for="contraseña" class = "labelTittle">Contraseña:</label><br>
-                        <input type="text" id="contraseña" class = "input" name="contraseña" required>
+                        <label for="contrasena" class = "labelTittle">Contraseña:</label><br>
+                        <input type="text" id="contrasena" class = "input" name="contrasena" required>
                     </div>
                     <div>
                         <label for="imagen" class = "labelTittle">Imagen::</label><br>

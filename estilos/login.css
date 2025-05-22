@@ -56,3 +56,29 @@ h1 {
     padding: 10px;
     font-size: small;
 }
+
+.btnRegistrar{
+    border: black 1px solid;
+    color: rgb(0, 0, 0);
+    background-color:#5c5858 ;
+    padding: 4px 50px;
+    text-align: center;
+    font-size: 14px;
+    margin: 4px 20px;
+    cursor: pointer;
+    
+}
+
+.input{
+    background-color: #c7c6c6;
+    border: black 1px solid;
+    padding: 2px 6px;
+    text-align: center;
+    font-size: 14px;
+    margin: 3px 1px;
+}
+
+.labelTittle{
+    font-size: 14px;
+    font-weight: bold;
+}
