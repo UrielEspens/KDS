@@ -35,7 +35,7 @@
                     Mesero
                 </div></a>
            </div>
-            <a href="login.php"></a><button class = "buttonConfiguracion"> Cerrar sesion</button>
+            <a href="procedimientos/cerrarSesion.php"><button class = "btn-perfil">CERRAR SESIÓN</button></a>
        </div>
        <hr class = "linea">
        <div class = "container-perfil">

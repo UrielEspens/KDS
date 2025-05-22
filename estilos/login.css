@@ -7,11 +7,52 @@
     max-width: 400px;
     max-height: 600px;
     padding: 15px;
-    margin: 8%;
-    margin-left: 40%;
+    margin: 2%;
     border-radius: 3%;
+    width: -webkit-fill-available;
 }
 
-.labelSesion {
-    display: ;
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+}
+
+h1 {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 30px;
+    margin: 15px;
+    text-align: center;
+}
+
+.btnRegistrar {
+    width: 100%;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    border-radius: 10px;
+    border: none;    
+    outline: none;    
+    background-color: rgb(203, 233, 255);
+}
+
+.btnRegistrar:hover {
+    background-color: rgb(164, 208, 255);
+}
+
+.error {
+    color: rgb(255, 0, 0);
+    padding: 10px;
+    font-size: small;
 }

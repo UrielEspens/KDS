@@ -5,9 +5,29 @@
     max-height: 600px;
     padding: 15px;
     margin: 10%;
-    border-radius: 3%;
+    border-radius: 20px;
     flex-flow: column;
-    margin-left: 32%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-perfil {
+    background-color: #e1e1e1;
+    color: rgb(0, 0, 0);
+    border: 1px solid #000000;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
 }
 
 .infoPerfil {
@@ -15,9 +35,15 @@
     align-items: center;
 }
 
+.infoPerfil a {
+    text-decoration: none;
+    padding: 10px;
+}
+
 .container-perfil
 {
     display: flex;
+    align-items: center;
     margin: 0%;
     justify-content: space-between;
 }

@@ -6,6 +6,12 @@ require_once('procedimientos/crudProductos.php'); // Crud para la tabla producto
 require_once('procedimientos/claseInfoProducto.php'); // Clase para los objetos InfoProducto
 require_once('procedimientos/claseCategoria.php'); // Clase para los objetos Categoria
 
+require_once('procedimientos/crudPedidos.php');
+require_once('procedimientos/clasePedido.php');
+
+$crud = new CrudPedidos();
+$pedido = new Producto();
+$listaPedidos = $crud->mostrarPedidos();
 $crudProductos = new CrudProductos();
 
 $resultadosBusqueda = [];
@@ -37,7 +43,7 @@ function mostrarProducto(InfoProducto $producto) {
     echo '<p class="item-price">$' . number_format($producto->getPrecio(), 2) . ' MXN</p>';
     echo '</div>';
     
-    echo '<form action="carrito.php" method="post" style="display: inline-block;">';
+    echo '<form action="carrito.php?idProducto=<?php echo $pedido->getIdPedido(); ?>" method="GET" style="display: inline-block;">';
     echo '<input type="hidden" name="accionCarrito" value="add">';
     echo '<input type="hidden" name="idProducto" value="' . ($producto->getIdProducto()) . '">';
     echo '<button type="submit" class="add-buttons">+</button>';

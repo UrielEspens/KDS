@@ -2,6 +2,7 @@
 require_once('conexion.php');
 require_once('claseProducto.php');
 require_once('claseCategoria.php');
+require_once('claseInfoProducto.php');
 
 class CrudProductos {
 

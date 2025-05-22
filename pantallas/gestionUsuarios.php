@@ -59,7 +59,7 @@
                 </div>
                 <div class = "containerBotones">  
                     <a href=""><img src="../img/inicio/lapiz.png" alt="editar" height="20px" wight="20px" class="iconoEditar"></a>
-                    <a href=""><img src="../img/inicio/basurero.png" alt="borrar" height="20px" wight="20px" class="iconoEliminar"></a>
+                    <a href="eliminarUsuario.php"><img src="../img/inicio/basurero.png" alt="borrar" height="20px" wight="20px" class="iconoEliminar"></a>
                 </div>
               </div>
         </div>
