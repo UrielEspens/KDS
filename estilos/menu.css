@@ -54,6 +54,10 @@
     justify-content: space-between;
 }
 
+.menu-categories a {
+    text-decoration: none;
+}
+
 .menu-categories button{
     display: flex;
     border: rgb(0, 0, 0) .1px solid;

@@ -2,9 +2,8 @@
 .fondoDifuminado {
     display: flex;
     justify-content: space-around;
-    backdrop-filter: blur(10px);
-    z-index: 999;
-    position: fixed;
+    /* backdrop-filter: blur(10px); */
+    /* position: fixed; */
     top: 0;
     left: 0;
     width: 100%;
@@ -12,7 +11,7 @@
 }
 
 #contenedorDetallesPedido {
-    margin-top: 5%;
+    margin-top: 2%;
     border: #0c0c0c solid 1px;
     max-height: 75%;
     background-color: #ffffff;
@@ -67,6 +66,19 @@
     display: flex;
     justify-content: left;
     height: 80px;
+    background-color: white;
+    
+}
+
+.order-card a {
+    display: contents;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.order-card a:hover {
+    background-color:  rgb(232, 232, 232);
     
 }
 
@@ -113,22 +125,22 @@
     transition: all;
 }
 
-.status-red {
+.status-pendiente {
     background-color: #ff4d4d;
 }
-.status-res:hover {
+.status-pendiente:hover {
     border: .5px solid #222;
 }
-.status-yellow {
+.status-preparacion {
     background-color: #ffdd59;
 }
-.status-yellow:hover {
+.status-preparacion:hover {
     border: .5px solid #222;
 }
-.status-green {
+.status-listo {
     background-color: #4cd137;
 }
-.status-green:hover {
+.status-listo:hover {
     border: .5px solid #222;
 }
 
@@ -150,12 +162,12 @@
     background-color: #ff4d4d;
 }
 
-.header-yellow {
+.header-preparacion {
     background-color: #ffdd59;
     color: #333;
 }
 
-.header-green {
+.header-listo {
     background-color: #4cd137;
 }
 

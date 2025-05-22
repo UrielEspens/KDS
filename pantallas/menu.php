@@ -1,3 +1,51 @@
+<?php
+session_start();
+
+require_once('procedimientos/conexion.php'); //Conexión
+require_once('procedimientos/crudProductos.php'); // Crud para la tabla producto
+require_once('procedimientos/claseInfoProducto.php'); // Clase para los objetos InfoProducto
+require_once('procedimientos/claseCategoria.php'); // Clase para los objetos Categoria
+
+$crudProductos = new CrudProductos();
+
+$resultadosBusqueda = [];
+$mostrarResultadosBusqueda = false; // Para saber si se hizo una búsqueda
+
+// Lógica de búsqueda
+if (isset($_GET['buscar']) && !empty($_GET['buscar'])) {
+    $textoBusqueda = $_GET['buscar'];
+    $tipoBusqueda = 'inicio'; // Fijo a 'inicio'
+    
+    // Llama al método de búsqueda del CrudProductos
+    $resultadosBusqueda = $crudProductos->buscarProductos($textoBusqueda, $tipoBusqueda);
+    $mostrarResultadosBusqueda = true;
+}
+
+// Obtener todas las categorías y productos si no hay búsqueda activa o para la vista inicial
+if (!$mostrarResultadosBusqueda) {
+    $categorias = $crudProductos->obtenerCategorias();
+    $todosLosProductos = $crudProductos->obtenerTodosLosProductos();
+}
+
+
+function mostrarProducto(InfoProducto $producto) {
+    echo '<div class="menu-item" data-product-id="' . ($producto->getIdProducto()) . '" data-categoria-id="' . ($producto->getIdCategoria()) . '">';
+    echo '<img src="' . ($producto->getImagen()) . '" alt="' . ($producto->getNombre()) . '">';
+    echo '<div class="item-details">';
+    echo '<h3>' . ($producto->getNombre()) . '</h3>';
+    echo '<p>' . ($producto->getDescripcion()) . '</p>';
+    echo '<p class="item-price">$' . number_format($producto->getPrecio(), 2) . ' MXN</p>';
+    echo '</div>';
+    
+    echo '<form action="carrito.php" method="post" style="display: inline-block;">';
+    echo '<input type="hidden" name="accionCarrito" value="add">';
+    echo '<input type="hidden" name="idProducto" value="' . ($producto->getIdProducto()) . '">';
+    echo '<button type="submit" class="add-buttons">+</button>';
+    echo '</form>';
+    echo '</div>';
+}
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,15 +59,14 @@
             <a href="inicio.php"><img src="../img/general/hogar.png" alt="Home" height="30px"></a>
             <div class="title">MENÚ</div>
         </div>
-
         <div class="menu-container">
-            <a href=carrito.php id="carrito"><img src="../img/menu/carritoPedido.png" alt="Opciones" height="30px"></a>
+            <a href="carrito.php" id="carrito"><img src="../img/menu/carritoPedido.png" alt="Opciones" height="30px"></a>
             <button id="toggleMenu">
                 <img src="../img/general/menuOpciones.png" alt="Opciones" height="30px">
             </button>
             <div id="menu">
                 <ul>
-                    <li><a href="menu.php"><img src="../img/general/menuRestaurante.png" alt="menuComida" class="icono-menu">  Ver menú</a></li>
+                    <li><a href="menu.php"><img src="../img/general/menuRestaurante.png" alt="menuComida" class="icono-menu"> Ver menú</a></li>
                     <hr>
                     <li><a href="historialPedidos.html"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
                     <hr>
@@ -32,103 +79,68 @@
     <div class="menu-body">
         <div class="menu-options">
             <div class="menu-search-container">
-                <input type="text" placeholder="Buscar productos">
-                <button>Buscar</button>
+                <form action="menu.php" method="get"> <input type="text" name="buscar" placeholder="Buscar productos" value="">
+                    <button type="submit" value="inicio">Buscar</button>
+                </form>
             </div>
             <div class="menu-categories">
-                <button class="active" data-categoria="todos">Todos</button>
-                <button data-categoria="Platos principales">Platos principales</button>
-                <button data-categoria="Bebidas">Bebidas</button>
-                <button data-categoria="Postres">Postres</button>
+                <?php if (!$mostrarResultadosBusqueda): ?>
+                    <button class="active" data-categoria="todos">Todos</button>
+                    <?php foreach ($categorias as $categoria): ?>
+                        <button data-categoria="<?php echo $categoria->getNombre(); ?>" data-categoria-id="<?php echo $categoria->getIdCategoria(); ?>">
+                            <?php echo $categoria->getNombre(); ?>
+                        </button>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <a href="menu.php" class="menu-categorias"><button>Todos</button></a>
+                <?php endif; ?>
             </div>
         </div>
 
         <div class="menu-container-productos">
-            <?php
-            // Simulación de la obtención de productos desde una "base de datos"
-            $productos = [
-                ['id' => 1, 'nombre' => 'Hamburguesa Clásica', 'descripcion' => 'Con carne, lechuga, tomate y queso', 'precio' => '85.00', 'imagen' => '../img/productos/hamburguesa.png', 'categoria' => 'Platos principales'],
-                ['id' => 2, 'nombre' => 'Papas Fritas Grandes', 'descripcion' => 'Porción grande y crujiente', 'precio' => '45.00', 'imagen' => '../img/productos/papasFritas.png', 'categoria' => 'Platos principales'],
-                ['id' => 3, 'nombre' => 'Coca-Cola 600ml', 'descripcion' => 'Refrescante bebida gaseosa', 'precio' => '25.00', 'imagen' => '../img/productos/cocaCola.png', 'categoria' => 'Bebidas'],
-                ['id' => 4, 'nombre' => 'Agua Natural 600ml', 'descripcion' => 'Botella de agua purificada', 'precio' => '15.00', 'imagen' => '../img/productos/agua.png', 'categoria' => 'Bebidas'],
-                ['id' => 5, 'nombre' => 'Pastel de Chocolate', 'descripcion' => 'Delicioso pastel de chocolate', 'precio' => '60.00', 'imagen' => '../img/productos/pastelChocolate.png', 'categoria' => 'Postres'],
-            ];
+            <?php if ($mostrarResultadosBusqueda): ?>
+                <div id="resultados-busqueda-section" class="menu-section active-section">
+                    <h2>Resultados de Búsqueda para "<?php echo ($textoBusqueda); ?>"</h2>
+                    <div class="menu-items">
+                        <?php if (!empty($resultadosBusqueda)): ?>
+                            <?php foreach ($resultadosBusqueda as $producto): ?>
+                                <?php mostrarProducto($producto); ?>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <p>No se encontraron productos que coincidan con su búsqueda.</p>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            <?php else: ?>
+                <div id="todos-section" class="menu-section active-section">
+                    <?php foreach ($categorias as $categoria): ?>
+                        <h2><?php echo ($categoria->getNombre()); ?></h2>
+                        <div class="menu-items">
+                            <?php foreach ($todosLosProductos as $producto): ?>
+                                <?php if ($producto->getIdCategoria() == $categoria->getIdCategoria()): ?>
+                                    <?php mostrarProducto($producto); ?>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
 
-            // Plantilla para mostrar cada producto
-            function mostrarProducto($producto) {
-                echo '<div class="menu-item" data-product-id="' . $producto['id'] . '">';
-                echo '<img src="' . $producto['imagen'] . '" alt="' . $producto['nombre'] . '">';
-                echo '<div class="item-details">';
-                echo '<h3>' . $producto['nombre'] . '</h3>';
-                echo '<p>' . $producto['descripcion'] . '</p>';
-                echo '<p class="item-price">$' . $producto['precio'] . ' MXN</p>';
-                echo '</div>';
-                echo '<button class="add-buttons">+</button>';
-                echo '</div>';
-            }
-
-            // Mostrar todos los productos agrupados por categoría
-            $categorias = array_unique(array_column($productos, 'categoria'));
-
-            echo '<div id="todos-section" class="menu-section">';
-            foreach ($categorias as $categoria) {
-                echo '<h2>' . $categoria . '</h2>';
-                echo '<div class="menu-items">';
-                foreach ($productos as $producto) {
-                    if ($producto['categoria'] === $categoria) {
-                        mostrarProducto($producto);
-                    }
-                }
-                echo '</div>';
-            }
-            echo '</div>';
-
-            echo '<div id="platos-principales-section" class="menu-section" style="display: none;">';
-            echo '<h2>Platos principales</h2>';
-            echo '<div class="menu-items">';
-            foreach ($productos as $producto) {
-                if ($producto['categoria'] === 'Platos principales') {
-                    mostrarProducto($producto);
-                }
-            }
-            echo '</div>';
-            echo '</div>';
-
-            echo '<div id="bebidas-section" class="menu-section" style="display: none;">';
-            echo '<h2>Bebidas</h2>';
-            echo '<div class="menu-items">';
-            foreach ($productos as $producto) {
-                if ($producto['categoria'] === 'Bebidas') {
-                    mostrarProducto($producto);
-                }
-            }
-            echo '</div>';
-            echo '</div>';
-
-            echo '<div id="postres-section" class="menu-section" style="display: none;">';
-            echo '<h2>Postres</h2>';
-            echo '<div class="menu-items">';
-            foreach ($productos as $producto) {
-                if ($producto['categoria'] === 'Postres') {
-                    mostrarProducto($producto);
-                }
-            }
-            echo '</div>';
-            echo '</div>';
-            ?>
+                <?php foreach ($categorias as $categoria): ?>
+                    <div id="<?php echo strtolower(str_replace(' ', '-', $categoria->getNombre())); ?>-section" class="menu-section" style="display: none;">
+                        <h2><?php echo ($categoria->getNombre()); ?></h2>
+                        <div class="menu-items">
+                            <?php foreach ($todosLosProductos as $producto): ?>
+                                <?php if ($producto->getIdCategoria() == $categoria->getIdCategoria()): ?>
+                                    <?php mostrarProducto($producto); ?>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </div>
     </div>
 
-    <div id="modalDetallesProducto" class="modal" style="display: none;">
-        <div class="modal-content">
-            <span class="close-button">&times;</span>
-            <h2 id="nombre-producto-detalle"></h2>
-            <img id="imagen-producto-detalle" src="" alt="" style="max-width: 20%; height: auto;">
-            <p id="descripcion-producto-detalle"></p>
-            <p class="item-price" id="precio-producto-detalle"></p>
-            <button class="add-to-cart">Añadir al carrito</button>
-        </div>
-    </div>
     <script src="../js/menuOpciones.js"></script>
     <script src="../js/menu.js"></script>
 </body>

@@ -7,7 +7,8 @@
 		private $apellidoCliente;
         private $nombreEmpleado;
         private $apellidoEmpleado;
-        private $articulos;
+        private $articulos = [];
+        private $total;
 
 		function __construct(){
 		}
@@ -68,12 +69,24 @@
             $this->horaCreacion = $horaCreacion;
         }   
 
-        public function getArticulos(){
-            return $this->articulos;
+        public function getArticulos(){ 
+            return $this->articulos; 
+        }
+    
+        public function setArticulos(array $articulos){ 
+            $this->articulos = $articulos; 
+        }
+    
+        public function addArticulo(array $articulo){ 
+            $this->articulos[] = $articulo; 
+        }
+	
+        public function getTotal(){ 
+            return $this->total; 
         }
 
-        public function setArticulos($articulos){
-            $this->articulos = $articulos;
-        } 
-	}
+        public function setTotal($total){ 
+            $this->total = $total; 
+        }
+    }
 ?>
