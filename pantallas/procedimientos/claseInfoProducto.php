@@ -7,6 +7,9 @@ class InfoProducto {
     private $precio;
     private $imagen; // Ruta de la imagen o nombre del archivo
 
+    function __construct(){
+    }
+
     public function getIdProducto(){
         return $this->idProducto;
     }

@@ -3,6 +3,9 @@ class Categoria {
     private $idCategoria;
     private $nombre;
 
+    function __construct(){
+    }
+
     public function getIdCategoria(){
         return $this->idCategoria;
     }

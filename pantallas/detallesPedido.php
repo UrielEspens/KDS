@@ -23,13 +23,11 @@ if (isset($_GET['idPedido']) && is_numeric($_GET['idPedido'])) {
     // Verifica si se encontró el objeto DetallesPedido
     if (!$pedido) { // Si $pedido es null (no se encontró en DB)
         echo "<p>El pedido con ID <strong>" . htmlspecialchars($idPedido) . "</strong> no fue encontrado.</p>";
-        // O redirigir: header('Location: error.php'); exit();
     }
 
 } else {
     // ID no proporcionado o inválido, manejar el error
     echo "<p>ID de pedido no proporcionado o inválido.</p>";
-    // O redirigir: header('Location: error.php'); exit();
 }
 
 ?>
@@ -69,7 +67,7 @@ if (isset($_GET['idPedido']) && is_numeric($_GET['idPedido'])) {
             <?php if ($pedido): // Solo muestra el contenido si se encontró el pedido ?>
                 <div class="detalles-header header-<?php echo strtolower($pedido->getEstado()); ?>" id="estado-header">
                     <h3 id="pedido-estado-detalle"><?php echo strtoupper($pedido->getEstado()); ?></h3>
-                    <div id="pedido-hora-detalle"><?php echo $pedido->getHoraCreacion(); ?></div>
+                    <div id="pedido-hora-detalle"><?php echo (new DateTime($pedido->getHoraCreacion()))->format('H:i'); ?></div>
                 </div>
 
                 <div class="info-pedido">

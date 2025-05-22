@@ -7,18 +7,6 @@ class CrudProductos {
 
     public function __construct(){}
 
-    public function mostrarProducto(InfoProducto $producto) { // Asegúrate de que el tipo sea Producto, no InfoProducto si esa es la clase.
-        echo '<div class="menu-item" data-product-id="' . $producto->getIdProducto() . '" data-categoria-id="' . $producto->getIdCategoria() . '">';
-        echo '<img src="' . $producto->getImagen() . '" alt="' . $producto->getNombre() . '">';
-        echo '<div class="item-details">';
-        echo '<h3>' . $producto->getNombre() . '</h3>';
-        echo '<p>' . $producto->getDescripcion() . '</p>';
-        echo '<p class="item-price">$' . number_format($producto->getPrecio(), 2) . ' MXN</p>';
-        echo '</div>';
-        echo '<button class="add-buttons">+</button>';
-        echo '</div>';
-    }
-
     // Método para obtener todas las categorías
     public function obtenerCategorias(){
         $db = Db::conectar();
@@ -56,14 +44,40 @@ class CrudProductos {
             $myProducto->setDescripcion($productoData['descripcion']);
             $myProducto->setPrecio($productoData['precio']);
             $myProducto->setImagen($productoData['imagen']);
-            $myProducto->setIdCategoria($productoData['idCategoria']); // Asignar el ID de la categoría
+            $myProducto->setIdCategoria($productoData['idCategoria']); 
             $listaProductos[] = $myProducto;
         }
         return $listaProductos;
       
     }
 
-    // Método para obtener productos por categoría (si lo necesitas para la búsqueda/filtro)
+    public function obtenerProductoPorId(int $idProducto) {
+            $db = Db::conectar();
+            // CAMBIO CLAVE: Usar prepare() en lugar de query() para consultas con parámetros
+            $select = $db->prepare('SELECT idProducto, nombre, precio, descripcion, imagen, idCategoria
+                                    FROM producto
+                                    WHERE idProducto = :idProducto;');
+            $select->bindValue(':idProducto', $idProducto);
+            $select->execute(); 
+
+            $fila = $select->fetch(); 
+
+            if ($fila) {
+                $producto = new InfoProducto(
+                    $fila['idProducto'],
+                    $fila['nombre'],
+                    $fila['descripcion'],
+                    $fila['precio'],
+                    $fila['imagen'],
+                    $fila['idCategoria']
+                );
+                return $producto;
+            } else {
+                return null; // Producto no encontrado
+            }
+    }
+
+    // Método para obtener productos por categoría
     public function obtenerProductosPorCategoria($idCategoria){
         $db = Db::conectar();
         $listaProductos = [];
@@ -92,6 +106,32 @@ class CrudProductos {
                 $listaProductos[] = $myProducto;
             }
             return $listaProductos;
+    }
+
+    public function buscarProductos($textoBusqueda, $tipoBusqueda = 'inicio') {
+        $db = Db::conectar();
+        $resultados = [];
+        $textoBusquedaUpper = strtoupper($textoBusqueda);
+        // La consulta SQL ahora es fija para "inicio"
+        $buscandoProducto = 'SELECT * FROM producto WHERE ';
+        $buscandoProducto .= 'UPPER(nombre) LIKE :textoBusqueda OR UPPER(descripcion) LIKE :textoBusqueda';
+        $param = $textoBusquedaUpper . '%';
+        $buscandoProducto .= ' ORDER BY nombre ASC'; 
+        $select = $db->prepare($buscandoProducto);
+        $select->bindValue(':textoBusqueda', $param);
+        $select->execute();
+
+        foreach ($select->fetchAll() as $productoData) {
+            $producto = new InfoProducto();
+            $producto->setIdProducto($productoData['idProducto']);
+            $producto->setNombre($productoData['nombre']);
+            $producto->setDescripcion($productoData['descripcion']);
+            $producto->setIdCategoria($productoData['idCategoria']);
+            $producto->setPrecio($productoData['precio']);
+            $producto->setImagen($productoData['imagen']);
+            $resultados[] = $producto;
+        }
+        return $resultados;
     }
 }
 ?>

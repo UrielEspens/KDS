@@ -35,7 +35,7 @@ $listaPedidos = $crud->mostrarPedidos();
             </ul>
             </div>
         </div>
-        <script src="../js/menuOpciones.js"></script>
+        
     </div>
 
     <div class="orders-container">
@@ -59,5 +59,6 @@ $listaPedidos = $crud->mostrarPedidos();
             </div>
         <?php endforeach; ?>
     </div>
+    <script src="../js/menuOpciones.js"></script>
 </body>
 </html>

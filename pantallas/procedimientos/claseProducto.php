@@ -4,6 +4,9 @@ class Producto {
     private $precioProducto;
     private $cantidadProducto;
 
+    function __construct() {
+    }
+
     public function getNombreProducto() {
         return $this->nombreProducto;
     }

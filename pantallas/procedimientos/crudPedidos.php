@@ -5,8 +5,6 @@ require_once('conexion.php');
 		// constructor de la clase
 		public function __construct(){}
 
-
-
         public function mostrarPedidos(){
 			$db=Db::conectar();
 			$listaPedidos=[];
@@ -99,6 +97,8 @@ require_once('conexion.php');
 
 
 
+
+		
 
 
 
