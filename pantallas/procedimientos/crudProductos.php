@@ -52,31 +52,27 @@ class CrudProductos {
       
     }
 
-    public function obtenerProductoPorId(int $idProducto) {
+    public function obtenerProductoPorId($idProducto) {
             $db = Db::conectar();
             // CAMBIO CLAVE: Usar prepare() en lugar de query() para consultas con parámetros
-            $select = $db->prepare('SELECT idProducto, nombre, precio, descripcion, imagen, idCategoria
+            $select = $db->prepare('SELECT *
                                     FROM producto
                                     WHERE idProducto = :idProducto;');
-            $select->bindValue(':idProducto', $idProducto);
-            $select->execute(); 
+            $select->bindValue('idProducto',$idProducto);
+			$select->execute();
 
-            $fila = $select->fetch(); 
-
-            if ($fila) {
-                $producto = new InfoProducto(
-                    $fila['idProducto'],
-                    $fila['nombre'],
-                    $fila['descripcion'],
-                    $fila['precio'],
-                    $fila['imagen'],
-                    $fila['idCategoria']
-                );
-                return $producto;
-            } else {
-                return null; // Producto no encontrado
-            }
+			$producto=$select->fetch();
+			$myProducto= new InfoProducto();
+			$myProducto->setIdProducto($producto['idProducto']);
+			$myProducto->setNombre($producto['nombre']);
+			$myProducto->setDescripcion($producto['descripcion']);
+			$myProducto->setIdCategoria($producto['idCategoria']);
+			$myProducto->setPrecio($producto['precio']);
+			$myProducto->setImagen($producto['imagen']);
+			return $myProducto;
     }
+
+
 
     // Método para obtener productos por categoría
     public function obtenerProductosPorCategoria($idCategoria){
