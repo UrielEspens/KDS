@@ -5,7 +5,12 @@ require_once('procedimientos/conexion.php'); //Conexión
 require_once('procedimientos/crudProductos.php'); // Crud para la tabla producto
 require_once('procedimientos/claseInfoProducto.php'); // Clase para los objetos InfoProducto
 require_once('procedimientos/claseCategoria.php'); // Clase para los objetos Categoria
+require_once('procedimientos/crudPedidos.php');
+require_once('procedimientos/clasePedido.php');
 
+$crud = new CrudPedidos();
+$pedido = new Producto();
+$listaPedidos = $crud->mostrarPedidos();
 $crudProductos = new CrudProductos();
 
 $resultadosBusqueda = [];
@@ -29,17 +34,18 @@ if (!$mostrarResultadosBusqueda) {
 
 
 function mostrarProducto(InfoProducto $producto) {
-    echo '<div class="menu-item" data-product-id="' . ($producto->getIdProducto()) . '" data-categoria-id="' . ($producto->getIdCategoria()) . '">';
-    echo '<img src="' . ($producto->getImagen()) . '" alt="' . ($producto->getNombre()) . '">';
+    echo '<div class="menu-item" data-product-id="' . $producto->getIdProducto() . '" data-categoria-id="' . $producto->getIdCategoria() . '">';
+    echo '<img src="' . $producto->getImagen() . '" alt="' . ($producto->getNombre()) . '">';
     echo '<div class="item-details">';
-    echo '<h3>' . ($producto->getNombre()) . '</h3>';
-    echo '<p>' . ($producto->getDescripcion()) . '</p>';
+    echo '<h3>' . $producto->getNombre() . '</h3>';
+    echo '<p>' . $producto->getDescripcion() . '</p>';
     echo '<p class="item-price">$' . number_format($producto->getPrecio(), 2) . ' MXN</p>';
     echo '</div>';
-    
-    echo '<form action="carrito.php" method="post" style="display: inline-block;">';
+
+    // ¡CAMBIO AQUÍ! El formulario ahora apunta a adminCarrito.php
+    echo '<form action="procedimientos/adminCarrito.php" method="post" style="display: inline-block;">';
     echo '<input type="hidden" name="accionCarrito" value="add">';
-    echo '<input type="hidden" name="idProducto" value="' . ($producto->getIdProducto()) . '">';
+    echo '<input type="hidden" name="idProducto" value="' . $producto->getIdProducto() . '">';
     echo '<button type="submit" class="add-buttons">+</button>';
     echo '</form>';
     echo '</div>';

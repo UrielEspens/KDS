@@ -1,5 +1,5 @@
 <?php
-// inicio.php
+session_start();
 require_once('procedimientos/crudPedidos.php');
 require_once('procedimientos/clasePedido.php');
 

@@ -1,227 +1,108 @@
-.header {
-    background-color: #0c0c0c; /* Mismo color de encabezado */
-    color: white;
-    padding: 10px 20px;
+body {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    height: 80px; /* Misma altura de encabezado */
-    position: static;
-    width: 100%;
 }
 
-.header .logo-title {
+.carrito-cuerpo {
     display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.header .logo-title a img {
-    height: 30px; /* Misma altura del logo */
-}
-
-.header .logo-title .title {
-    font-size: 32px; /* Mismo tamaño del título */
-    font-weight: bold;
-}
-
-.header .menu-container {
-    position: relative;
-    display: inline-block;
-}
-
-.header .menu-container button#toggleMenu {
-    background: none;
-    border: none;
-    padding: 0;
-    margin: 0;
-    outline: none;
-    box-shadow: none;
-    cursor: pointer;
-}
-
-.header .menu-container button#toggleMenu img {
-    height: 30px; /* Misma altura del icono de menú */
-}
-
-.header .menu-container #menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
-    padding: 10px;
-    width: 220px;
-    z-index: 9999;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.header .menu-container #menu ul {
-    list-style: none;
-    padding: 0;
-}
-
-.header .menu-container #menu ul li {
-    margin: 8px 0;
-}
-
-.header .menu-container #menu ul li a {
-    display: flex;
-    align-items: center;
-    font-size: 15px;
-    gap: 8px;
-    color: #333;
-    text-decoration: none;
-    padding: 5px;
-    transition: background 0.2s;
-}
-
-.header .menu-container #menu ul li a:hover {
-    background-color: #eaeaea;
-    border-radius: 5px;
-}
-
-.header .menu-container #menu ul li a .icono-menu {
-    width: 25px;
-    height: 25px;
-    vertical-align: middle;
-    margin-right: 8px;
-}
-
-.carrito-container {
-    background-color: #f0f0f0; /* Mismo color de fondo del cuerpo del menú */
+    flex-direction: column;
+    margin-top: 3%;
+    margin-bottom: 3%;
+    background-color: snow;
     padding: 20px;
-}
-
-.carrito-container h2 {
-    color: #333; /* Mismo color de los títulos de sección del menú */
-    border-bottom: 2px solid #ccc; /* Misma línea inferior */
-    padding-bottom: 10px;
-    margin-bottom: 15px;
-}
-
-.volver-menu {
-    display: inline-block;
-    color: #00bbff; /* Mismo color de los botones activos del menú */
-    text-decoration: none;
-    margin-bottom: 10px;
-}
-
-.volver-menu:hover {
-    text-decoration: underline;
-}
-
-.separador {
-    height: 1px;
-    background: #ccc;
+    border-radius: 10px;
 }
 
 .carrito-vacio {
-    color: #666; /* Mismo color de la descripción de los productos */
-}
-
-.carrito-table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: white; /* Mismo fondo que las secciones del menú */
-    border-radius: 10px; /* Mismos bordes redondeados */
-    overflow: hidden; /* Para que el border-radius funcione con la tabla */
-    margin-bottom: 20px;
-}
-
-.carrito-table th, .carrito-table td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid #eee; /* Misma línea divisoria */
-}
-
-.carrito-table th {
-    background-color: #f9f9f9; /* Fondo similar al menú desplegable */
-    font-weight: bold;
-    color: #333; /* Mismo color de texto */
-}
-
-.carrito-table tbody tr:last-child td {
-    border-bottom: none;
-}
-
-.producto-nombre {
-    font-weight: bold;
-    color: #333; /* Mismo color del nombre del producto */
-}
-
-.producto-precio {
-    color: #28a745; /* Mismo color del precio */
-}
-
-.producto-cantidad {
-    text-align: center;
-}
-
-.cantidad-control {
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    gap: 5px;
+}
+.carrito-cuerpo h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
 }
 
-.cantidad-control a {
-    display: inline-block;
-    background-color: #ddd;
-    color: #333;
-    text-decoration: none;
-    padding: 5px 8px;
-    border-radius: 3px;
-    font-size: 14px;
-}
-
-.cantidad-control span.cantidad {
-    display: inline-block;
-    min-width: 20px;
-    text-align: center;
-}
-
-.producto-subtotal {
-    font-weight: bold;
-}
-
-.producto-acciones a.boton-eliminar {
-    background-color: #dc3545; /* Color de botón de eliminar */
+.carrito-cuerpo button {
+    background-color: #6a6a6a;
     color: white;
     border: none;
     padding: 8px 12px;
     border-radius: 3px;
     cursor: pointer;
-    text-decoration: none;
-    font-size: 14px;
+    margin: 2px;
 }
 
-.producto-acciones a.boton-eliminar:hover {
-    background-color: #c82333;
+.carrito-cuerpo button:hover {
+    background-color: #323232;
 }
 
-.total-row td {
-    font-weight: bold;
-    font-size: 1.1em;
-    padding-top: 15px;
-}
-
-.finalizar-pedido {
-    padding-top: 20px;
-    text-align: right;
-}
-
-.finalizar-pedido button.boton-finalizar {
-    background-color: #00bbff; /* Mismo color de los botones de agregar del menú */
-    color: white;
-    border: none;
+.carrito-cuerpo input {
+    padding: 8px;
+    border: 1px solid #ccc;
     border-radius: 5px;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
+    margin-left: 2px;
 }
 
-.finalizar-pedido button.boton-finalizar:hover {
-    background-color: #0079a5; /* Mismo color de hover de los botones activos */
+.buscar-cliente {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
 }
+
+.carrito-item {
+    display: flex;
+    align-items: center;
+    margin: 20px;
+    justify-content: space-between;
+}
+
+hr {
+    border: none;
+    height: 1px;
+    background: #ccc;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.item-cantidad {
+    font-weight: bold;
+    font-size: 20px;
+    margin-right: 10px;
+    margin-left: 10px;
+    text-align: center;
+}
+
+.carrito-item    {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: white;
+    cursor: pointer;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}    
+
+.carrito-item .item-nombre {
+    font-size: 20px;
+    margin-right: 10px;
+    margin-left: 10px;
+}    
+
+.item-contenedor-izq {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}       
+
+h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}    

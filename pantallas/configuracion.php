@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+require_once('procedimientos/conexion.php'); //Conexión
+
+$nombreEmpleado = $_SESSION['nombre'];
+$apellidoEmpleado = $_SESSION['primerApe'];
+$puestoEmpleado = $_SESSION['puesto'];
+$usuarioEmpleado = $_SESSION['usuario'];
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,11 +41,11 @@
            <div class="infoPerfil">
                 <img src="../img/general/usuario.png" alt="usuario" height = "45" width = "45">
                 <a href="verPerfil.php"><div class = "labelConfiguracion">
-                    Armando Solis <br>
-                    Mesero
+                    <?php echo $nombreEmpleado . ' ' . $apellidoEmpleado; ?> <br>
+                    <?php echo $puestoEmpleado; ?>
                 </div></a>
            </div>
-            <a href="login.php"></a><button class = "buttonConfiguracion"> Cerrar sesion</button>
+            <a href="procedimientos/cerrarSesion.php"><button class ="btn-perfil">CERRAR SESIÓN</button></a>
        </div>
        <hr class = "linea">
        <div class = "container-perfil">

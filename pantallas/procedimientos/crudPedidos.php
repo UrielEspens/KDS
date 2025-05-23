@@ -46,9 +46,8 @@ require_once('conexion.php');
 
 			$detallePedido = $select->fetch();
 
-			// Si no se encontró ningún pedido, $detallePedido será false
 			if (!$detallePedido) {
-				return null; // O false, o lanza una excepción, según tu manejo de errores
+				return null;
 			}
 
 			// 6. Crea y popula el objeto DetallesPedido

@@ -3,9 +3,9 @@ class InfoProducto {
     private $idProducto;
     private $nombre;
     private $descripcion;
-    private $idCategoria; // Para almacenar el ID de la categoría a la que pertenece
+    private $idCategoria; 
     private $precio;
-    private $imagen; // Ruta de la imagen o nombre del archivo
+    private $imagen; 
 
     function __construct(){
     }
