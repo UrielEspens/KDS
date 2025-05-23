@@ -3,8 +3,7 @@
     align-items: center;
     justify-content: center;
     flex-flow: column;
-    margin: 200px 200px;
-    
+    margin: 200px 200px;   
 }
 
 .containerBusquedaP{
@@ -18,13 +17,15 @@
     display: flex;
 }
 
-.containerPerfiles{
+.containerPerfiles {
     display: flex;
     background-color: #c7c6c6;
-    width: 530px;;
+    width: 530px;
     border-radius: 5px;
     flex-flow: column;
     border: #000000 1px solid;
+    max-height: 350px;     /* Altura máxima visible */
+    overflow-y: auto;      /* Scroll vertical si es necesario */
 }
 
 .buttonConfiguracion {
