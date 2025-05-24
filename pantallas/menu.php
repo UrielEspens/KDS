@@ -33,23 +33,6 @@ if (!$mostrarResultadosBusqueda) {
 }
 
 
-function mostrarProducto(InfoProducto $producto) {
-    echo '<div class="menu-item" data-product-id="' . $producto->getIdProducto() . '" data-categoria-id="' . $producto->getIdCategoria() . '">';
-    echo '<img src="' . $producto->getImagen() . '" alt="' . ($producto->getNombre()) . '">';
-    echo '<div class="item-details">';
-    echo '<h3>' . $producto->getNombre() . '</h3>';
-    echo '<p>' . $producto->getDescripcion() . '</p>';
-    echo '<p class="item-price">$' . number_format($producto->getPrecio(), 2) . ' MXN</p>';
-    echo '</div>';
-
-    // ¡CAMBIO AQUÍ! El formulario ahora apunta a adminCarrito.php
-    echo '<form action="procedimientos/adminCarrito.php" method="post" style="display: inline-block;">';
-    echo '<input type="hidden" name="accionCarrito" value="add">';
-    echo '<input type="hidden" name="idProducto" value="' . $producto->getIdProducto() . '">';
-    echo '<button type="submit" class="add-buttons">+</button>';
-    echo '</form>';
-    echo '</div>';
-}
 ?>
 
 <!DOCTYPE html>
@@ -86,14 +69,14 @@ function mostrarProducto(InfoProducto $producto) {
         <div class="menu-options">
             <div class="menu-search-container">
                 <form action="menu.php" method="get"> <input type="text" name="buscar" placeholder="Buscar productos" value="">
-                    <button type="submit" value="inicio">Buscar</button>
+                    <button class="btn" type="submit" value="inicio">Buscar</button>
                 </form>
             </div>
             <div class="menu-categories">
                 <?php if (!$mostrarResultadosBusqueda): ?>
-                    <button class="active" data-categoria="todos">Todos</button>
+                    <button class="btn active" data-categoria="todos">Todos</button>
                     <?php foreach ($categorias as $categoria): ?>
-                        <button data-categoria="<?php echo $categoria->getNombre(); ?>" data-categoria-id="<?php echo $categoria->getIdCategoria(); ?>">
+                        <button class="btn" data-categoria="<?php echo $categoria->getNombre(); ?>" data-categoria-id="<?php echo $categoria->getIdCategoria(); ?>">
                             <?php echo $categoria->getNombre(); ?>
                         </button>
                     <?php endforeach; ?>
@@ -110,7 +93,7 @@ function mostrarProducto(InfoProducto $producto) {
                     <div class="menu-items">
                         <?php if (!empty($resultadosBusqueda)): ?>
                             <?php foreach ($resultadosBusqueda as $producto): ?>
-                                <?php mostrarProducto($producto); ?>
+                                <?php $crudProductos->mostrarProducto($producto); ?>
                             <?php endforeach; ?>
                         <?php else: ?>
                             <p>No se encontraron productos que coincidan con su búsqueda.</p>
@@ -124,7 +107,7 @@ function mostrarProducto(InfoProducto $producto) {
                         <div class="menu-items">
                             <?php foreach ($todosLosProductos as $producto): ?>
                                 <?php if ($producto->getIdCategoria() == $categoria->getIdCategoria()): ?>
-                                    <?php mostrarProducto($producto); ?>
+                                    <?php $crudProductos->mostrarProducto($producto); ?>
                                 <?php endif; ?>
                             <?php endforeach; ?>
                         </div>
@@ -137,7 +120,7 @@ function mostrarProducto(InfoProducto $producto) {
                         <div class="menu-items">
                             <?php foreach ($todosLosProductos as $producto): ?>
                                 <?php if ($producto->getIdCategoria() == $categoria->getIdCategoria()): ?>
-                                    <?php mostrarProducto($producto); ?>
+                                    <?php $crudProductos->mostrarProducto($producto); ?>
                                 <?php endif; ?>
                             <?php endforeach; ?>
                         </div>

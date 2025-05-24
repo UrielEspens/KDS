@@ -89,6 +89,26 @@ require_once('conexion.php');
 				return $listaArticulos; // Retornamos el array de objetos ArticuloPedido
 		}
 
+		public function insertarPedido($idCliente, $idEmpleado) {
+			$db = Db::conectar();
+			$insert = $db->prepare('INSERT INTO pedido (idCliente, idEmpleado) VALUES (:idCliente, :idEmpleado)');
+			$insert->bindValue('idCliente', $idCliente);
+			$insert->bindValue('idEmpleado', $idEmpleado);
+			$insert->execute();
+
+			// Retornamos el id generado automáticamente
+			return $db->lastInsertId();
+		}
+
+		public function insertarDetalleIndividual($idPedido, $idProducto, $cantidad) {
+			$db = Db::conectar();
+			$insert = $db->prepare('INSERT INTO detalles_pedido (idPedido, idProducto, cantidad) VALUES (:idPedido, :idProducto, :cantidad)');
+			$insert->bindValue('idPedido', $idPedido);
+			$insert->bindValue('idProducto', $idProducto);
+			$insert->bindValue('cantidad', $cantidad);
+			$insert->execute();
+		}
+
 
 
 
