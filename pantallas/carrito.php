@@ -98,10 +98,10 @@ if (!empty($clienteIdActual) && empty($_SESSION['clienteSeleccionado_nombre']) &
                     <?php endif; ?>
                 </select>
                 <input class="btn" type="submit" value="Seleccionar Cliente"> </form>
-            <button class="btn"><a href="nuevoCliente.html">Nuevo Cliente</a></button>
+            <button class="btn"><a href="nuevoCliente.php">Nuevo Cliente</a></button>
         </div>
-        <div>Mesero: <?php echo $nombreEmpleado . ' ' . $apellidoEmpleado; ?></div>
-        <p class="clienteSeleccionado">Cliente Seleccionado: <?php echo $clienteNombreParaMostrar; ?></p>
+        <div class="clienteSeleccionado"><strong>Mesero: </strong> <?php echo $nombreEmpleado . ' ' . $apellidoEmpleado; ?></div>
+        <p class="clienteSeleccionado"><strong>Cliente Seleccionado: </strong><?php echo $clienteNombreParaMostrar; ?></p>
         <hr class="linea">
         <?php if (!empty($_SESSION['carrito'])): ?>
             <div class="carrito-items-container">
@@ -149,7 +149,7 @@ if (!empty($clienteIdActual) && empty($_SESSION['clienteSeleccionado_nombre']) &
             </div>
             <hr class="linea">
             <div class="carrito-resumen">
-                <h3>Total del Carrito: $<?php echo number_format($totalCarrito, 2); ?></h3>
+                <p class="totalPedido"><strong>Total del pedido: </strong> $<?php echo number_format($totalCarrito, 2); ?></p>
                 <form action="procedimientos/adminCarrito.php" method="post" style="display: inline-block;">
                     <input type="hidden" name="accionCarrito" value="guardar_pedido">
                     <input type="hidden" name="idCliente" value="<?php echo $clienteIdActual; ?>">
@@ -167,7 +167,7 @@ if (!empty($clienteIdActual) && empty($_SESSION['clienteSeleccionado_nombre']) &
                 <a href="menu.php"><button class="btn">Añadir producto</button></a>
             </div>
         <?php else: ?>
-            <p class="carrito-vacio">Tu carrito está vacío.<a href="menu.php"><button class="btn">Añadir producto</button></a></p>
+            <p class="carrito-vacio">Tu pedido está vacío.<a href="menu.php"><button class="btn">Añadir producto</button></a></p>
         <?php endif; ?>
     </div>
 </body>

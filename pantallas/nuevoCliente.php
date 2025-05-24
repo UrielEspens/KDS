@@ -75,7 +75,7 @@
             <div class="buttons">
                 <input type="hidden" name="insertar" value="insertar">
                 <input type="submit" class="btn btn-save" value='GUARDAR'>
-                <a href="inicio.php" class="btn btn-cancel">CANCELAR</a>
+                <a href="carrito.php" class="btn btn-cancel">CANCELAR</a>
             </div>
         </form>
     </div>

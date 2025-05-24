@@ -19,6 +19,8 @@ if (isset($_POST['insertar'])) {
 
     // Se llama al método insertar del CrudCliente para guardar el nuevo cliente
     $crud->insertar($cliente);
+    header('Location: ../pantallas/nuevoCliente.php?mensaje=ClienteAgregado');
+    exit();
 }
 // Si no es una acción de insertar, redirigir a la página principal
 else {
