@@ -8,6 +8,23 @@ class CrudProductos {
 
     public function __construct(){}
 
+    public function mostrarProducto(InfoProducto $producto) {
+        echo '<div class="menu-item" data-product-id="' . $producto->getIdProducto() . '" data-categoria-id="' . $producto->getIdCategoria() . '">';
+        echo '<img src="' . $producto->getImagen() . '" alt="' . ($producto->getNombre()) . '">';
+        echo '<div class="item-details">';
+        echo '<h3>' . $producto->getNombre() . '</h3>';
+        echo '<p>' . $producto->getDescripcion() . '</p>';
+        echo '<p class="item-price">$' . number_format($producto->getPrecio(), 2) . ' MXN</p>';
+        echo '</div>';
+
+        // ¡CAMBIO AQUÍ! El formulario ahora apunta a adminCarrito.php
+        echo '<form action="procedimientos/adminCarrito.php" method="post" style="display: inline-block;">';
+        echo '<input type="hidden" name="accionCarrito" value="añadir">';
+        echo '<input type="hidden" name="idProducto" value="' . $producto->getIdProducto() . '">';
+        echo '<button type="submit" class="add-buttons btn">+</button>';
+        echo '</form>';
+        echo '</div>';
+    }
     // Método para obtener todas las categorías
     public function obtenerCategorias(){
         $db = Db::conectar();

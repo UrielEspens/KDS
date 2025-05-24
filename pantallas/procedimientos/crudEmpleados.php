@@ -19,8 +19,8 @@ class CrudEmpleados {
         $db = Db::conectar();
         $sql = 'SELECT idEmpleado, nombre, primerApe, segundoApe, usuario, contrasena, puesto FROM empleados WHERE usuario = :usuario AND contrasena = :contrasena LIMIT 1';
         $stmt = $db->prepare($sql);
-        $stmt->bindParam(':usuario', $usuario, PDO::PARAM_STR);
-        $stmt->bindParam(':contrasena', $contrasena, PDO::PARAM_STR); // ¡ADVERTENCIA: Contraseña en texto plano!
+        $stmt->bindParam(':usuario', $usuario);
+        $stmt->bindParam(':contrasena', $contrasena); // ¡ADVERTENCIA: Contraseña en texto plano!
         $stmt->execute();
 
         if ($empleadoData = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -46,10 +46,10 @@ class CrudEmpleados {
         $db = Db::conectar();
         $sql = 'SELECT idEmpleado, nombre, primerApe, segundoApe, usuario, contrasena, puesto FROM empleados WHERE idEmpleado = :idEmpleado LIMIT 1';
         $stmt = $db->prepare($sql);
-        $stmt->bindParam(':idEmpleado', $idEmpleado, PDO::PARAM_INT);
+        $stmt->bindParam(':idEmpleado', $idEmpleado);
         $stmt->execute();
 
-        if ($empleadoData = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        if ($empleadoData = $stmt->fetch()) {
             $empleado = new Empleado();
             $empleado->setIdEmpleado($empleadoData['idEmpleado']);
             $empleado->setNombre($empleadoData['nombre']);

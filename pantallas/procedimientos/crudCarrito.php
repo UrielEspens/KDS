@@ -7,6 +7,7 @@ class CrudCarrito {
     // Constructor de la clase (vacío según tu preferencia)
     public function __construct(){}
 
+
     /**
      * Obtiene el ID del carrito activo para un empleado.
      * Si no existe, devuelve null.
@@ -132,12 +133,57 @@ class CrudCarrito {
         return $stmt->fetchAll();
     }
 
-    /**
-     * Marca un carrito como 'finalizado' en la base de datos.
-     * Esto se usa cuando el carrito se convierte en un pedido real y ya no es un carrito 'activo'.
-     * @param int $idCarrito El ID del carrito a finalizar.
-     * @return bool True en éxito, false en fallo.
-     */
+    public function obtenerItemsDeCarrito($idEmpleado) {
+        $db = Db::conectar();
+        $listaItems = []; // Inicializamos un array vacío para los ítems
+
+        // PASO 1: Obtener el idCarrito activo para el idEmpleado
+        // Esta consulta busca el idCarrito de la sesión activa del empleado.
+        $sql_id_carrito = 'SELECT idCarrito FROM carrito_sesion WHERE idEmpleado = :idEmpleado AND estado = \'activo\' LIMIT 1';
+        $stmt_id_carrito = $db->prepare($sql_id_carrito);
+        $stmt_id_carrito->bindParam(':idEmpleado', $idEmpleado, PDO::PARAM_INT);
+        $stmt_id_carrito->execute();
+        $resultado_id_carrito = $stmt_id_carrito->fetch(PDO::FETCH_ASSOC);
+
+        // Si no se encuentra un carrito activo para este empleado, retornamos un array vacío.
+        if (!$resultado_id_carrito) {
+            return $listaItems;
+        }
+
+        $idCarrito = $resultado_id_carrito['idCarrito'];
+
+        // PASO 2: Obtener los detalles de los items para el idCarrito encontrado
+        // Esta consulta obtiene los productos del carrito_items usando el idCarrito.
+        $sql_items = 'SELECT p.idProducto AS id, p.nombre, ci.precioUnitario AS precio, ci.cantidad
+                      FROM carrito_items ci
+                      INNER JOIN producto p ON ci.idProducto = p.idProducto
+                      WHERE ci.idCarrito = :idCarrito';
+
+        $stmt_items = $db->prepare($sql_items);
+        $stmt_items->bindParam(':idCarrito', $idCarrito, PDO::PARAM_INT); // Usamos el idCarrito obtenido
+        $stmt_items->execute();
+
+        // Recorremos los resultados y los añadimos a listaItems.
+        // Asumiendo que quieres un array de arrays asociativos para compatibilidad con $_SESSION['carrito'].
+        // Si realmente necesitas objetos 'ItemsCarrito', el código de abajo muestra cómo hacerlo.
+        foreach ($stmt_items->fetchAll(PDO::FETCH_ASSOC) as $item) {
+            // Si no usas una clase 'ItemsCarrito' y quieres solo un array asociativo, simplemente:
+            $listaItems[] = $item; // Esto es lo que se espera para $_SESSION['carrito']
+
+            /*
+            // Si sí usas una clase 'ItemsCarrito' (descomenta y ajusta si es tu caso):
+            $myItem = new ItemsCarrito();
+            $myItem->setIdItem($item['id']); // Asumiendo que ItemsCarrito tiene setIdItem
+            $myItem->setNombreItem($item['nombre']);
+            $myItem->setPrecioItem($item['precio']);
+            $myItem->setCantidadItem($item['cantidad']);
+            $listaItems[] = $myItem;
+            */
+        }
+
+        return $listaItems;
+    }
+
     public function finalizarCarrito($idCarrito) {
         $db = Db::conectar();
         $sql = "UPDATE carrito_sesion SET estado = 'finalizado' WHERE idCarrito = :idCarrito";
