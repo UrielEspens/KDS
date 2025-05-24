@@ -1,7 +1,16 @@
-<!DOCTYPE html>
+<?php
+ require_once('../pantallas/procedimientos/conexion.php');
+ require_once('../pantallas/procedimientos/claseUsuario.php');
+ require_once('../pantallas/procedimientos/crudUsuarios.php');
+
+ $crud= new CrudUsuarios();
+ $usuario= new Empleado();
+ $listaUsuarios=$crud->obtenerListaUsuarios();
+ 
+ ?>
 <html>
 <head>
-    <title>nombrePantalla</title>
+    <title>GestionUsuarios</title>
     <link rel="stylesheet" href="../estilos/estilos.css">
     <link rel="stylesheet" href="../estilos/gestionUsuarios.css">
 </head>
@@ -9,7 +18,7 @@
     <div class="header">
         <div class="logo-title">
             <a href="inicio.php"><img src="../img/general/hogar.png" alt="Home" height="30px"></a>
-            <div class="title">nombrePantalla</div>
+            <div class="title">GESTION DE USUARIOS</div>
         </div>
         <div class="menu-container">
             <button id="toggleMenu">
@@ -26,42 +35,34 @@
     </div>
     <div class = "container">
         <div class = "containerBusquedaP">
-            <div class = "containerBusqueda">
-                <img src="../img/general/lupa.png" alt="busquedaLupa" height="20px" wight="20px" >
-                <input type="text" placeholder="Buscar usuario" class="busqueda">
-                <button class="buttonConfiguracion">Buscar</button>
-            </div>
+            <form method="GET" action="admin_Usuarios.php" class="containerBusqueda">
+                <img src="../img/general/lupa.png" alt="busquedaLupa" height="20px" width="20px">
+                <input type="text" name="busqueda" placeholder="Buscar usuario">
+                <input type='hidden' name='busqueda' value='busqueda'>
+                <button type="submit" class="buttonConfiguracion">Buscar</button>
+            </form>
             <div class = "containerBusqueda">
                 <button class="buttonConfiguracion">Chef</button>
                 <button class="buttonConfiguracion">Mesero</button>
                 <button class="buttonConfiguracion">Gerente</button>
-                <button class="buttonConfiguracion">AGREGAR</button>
+                <a href="agregarUsuario.php"><button class="buttonConfiguracion">AGREGAR</button></a>
             </div>
         </div>
         <div class = "containerPerfiles">
-              <div class = "containerInfo">
-                <img src="../img/general/usuario.png" alt="usuario" height="40px" wight="40px" class="iconoPerfil">
-                <div class = "infoPerfil">
-                    <div class = "labelTittle">@nombrePerfil</div>
-                    <div class = "labelConfiguracion">@puestoPerfil</div>
+            <?php foreach ($listaUsuarios as $usuario){ ?>
+                <div class = "containerInfo">
+                    <img src="../img/general/usuario.png" alt="usuario" height="40px" wight="40px" class="iconoPerfil">
+                    <div class = "infoPerfil">
+                        <div class = "labelTittle"><?php echo $usuario->getUsuario(); ?></div>
+                        <div class = "labelConfiguracion"><?php echo $usuario->getPuesto(); ?></div>
+                    </div>
+                    <div class = "containerBotones">
+                    <a href="../pantallas/modificarUsuario.php?idEmpleado=<?php echo $usuario->getIdEmpleado()?>&accion=actualizar">actualizar</a>
+                    <a href="../pantallas/procedimientos/admin_Usuario.php?idEmpleado=<?php echo $usuario->getIdEmpleado()?>&accion=eliminar">eliminar</a>
+                    </div>
                 </div>
-                <div class = "containerBotones">  
-                    <img src="../img/inicio/lapiz.png" alt="editar" height="20px" wight="20px" class="iconoEditar">
-                    <img src="../img/inicio/basurero.png" alt="borrar" height="20px" wight="20px" class="iconoEliminar">
-                </div>
-              </div>
-              <hr class = "linea">
-              <div class = "containerInfo">
-                <img src="../img/general/usuario.png" alt="usuario" height="40px" wight="40px" class="iconoPerfil">
-                <div class = "infoPerfil">
-                    <div class = "labelTittle">@nombrePerfil</div>
-                    <div class = "labelConfiguracion">@puestoPerfil</div>
-                </div>
-                <div class = "containerBotones">  
-                    <a href=""><img src="../img/inicio/lapiz.png" alt="editar" height="20px" wight="20px" class="iconoEditar"></a>
-                    <a href="eliminarUsuario.php"><img src="../img/inicio/basurero.png" alt="borrar" height="20px" wight="20px" class="iconoEliminar"></a>
-                </div>
-              </div>
+                <hr class = "linea">
+            <?php }?>
         </div>
 
     </div>

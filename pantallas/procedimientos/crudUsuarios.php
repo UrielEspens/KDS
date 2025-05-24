@@ -19,20 +19,7 @@ require_once('ClaseUsuario.php');
 			$insert->bindValue(':segundoApe',$usuario->getSegundoApe());
 			$insert->bindValue(':puesto',$usuario->getPuesto());
 			$insert->bindValue(':imagen',$usuario->getImagen());
-			/*
-			echo "<pre>";
-				var_dump([
-					':usuario' => $usuario->getUsuario(),
-					':contraseña' => $usuario->getContraseña(),
-					':nombre' => $usuario->getNombre(),
-					':primerApe' => $usuario->getPrimerApe(),
-					':segundoApe' => $usuario->getSegundoApe(),
-					':puesto' => $usuario->getPuesto(),	
-					':imagen' => $usuario->getImagen()
-				]);
-			echo "</pre>";
-			exit;
-			*/
+			
 			$insert->execute();
 		}
 
@@ -84,11 +71,11 @@ require_once('ClaseUsuario.php');
 			$listaUsuarios = [];
 			$select=$db->query('SELECT * FROM empleados');
 
-			foreach(select ->fetchAll() as $usuario){
+			foreach($select ->fetchAll() as $usuario){
 				$myUsuario= new Empleado();
 				$myUsuario->setIdEmpleado($usuario['idEmpleado']);
 				$myUsuario->setUsuario($usuario['usuario']);
-				$myUsuario->setContraseña($usuario['contraseña']);
+				$myUsuario->setContrasena($usuario['contrasena']);
 				$myUsuario->setNombre($usuario['nombre']);
 				$myUsuario->setPrimerApe($usuario['primerApe']);
 				$myUsuario->setSegundoApe($usuario['segundoApe']);
@@ -98,6 +85,29 @@ require_once('ClaseUsuario.php');
 			}
 			return $listaUsuarios;
 		}
+/*
+		// Funcion para buscar usuarios por nombre 
+		public function buscarUsuario($nombreUsuario){
+			$db=Db::conectar();
+			$listaUsuarios = [];
+			$select=$db->prepare('SELECT * FROM empleados WHERE nombre LIKE :nombreUsuario');
+			$select->bindValue(':nombreUsuario', '%'.$nombreUsuario.'%');
+			$select->execute();
+
+			foreach($select ->fetchAll() as $usuario){
+				$myUsuario= new Empleado();
+				$myUsuario->setIdEmpleado($usuario['idEmpleado']);
+				$myUsuario->setUsuario($usuario['usuario']);
+				$myUsuario->setContrasena($usuario['contrasena']);
+				$myUsuario->setNombre($usuario['nombre']);
+				$myUsuario->setPrimerApe($usuario['primerApe']);
+				$myUsuario->setSegundoApe($usuario['segundoApe']);
+				$myUsuario->setPuesto($usuario['puesto']);
+				$myUsuario->setImagen($usuario['imagen']);
+				$listaUsuarios[]=$myUsuario;
+			}
+			return $listaUsuarios;
+		}*/
 	}	
 
 ?>

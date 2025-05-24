@@ -17,7 +17,7 @@ $usuario= new Empleado();
         $usuario->setImagen($_POST['imagen']);
 
 		$crud->insertar($usuario);
-		header('Location: agregarUsuario.php');
+		header('Location: ../pantallas/agregarUsuario.php');
 	
     }else if (ISSET($_POST['actualizar'])){
         $usuario->setUsuario($_POST['nombreUsuario']);  
@@ -36,7 +36,8 @@ $usuario= new Empleado();
         $usuarios=$crud->obtenerListaUsuarios();
         header('Location: agregarUsuario.php');
 
-    }else if(isset($_POST['buscar'])){
+    }
+    else if(isset($_POST['buscar'])){
         $idEmpleado=$_POST['idEmpleado'];
         $usuario=$crud->obtenerUsuario($idEmpleado);
         header('Location: agregarUsuario.php');
@@ -45,12 +46,8 @@ $usuario= new Empleado();
     else if ($_GET['accion'] == 'eliminar') {
         $idEmpleado = $_GET['idEmpleado'];
         $crud->eliminar($idEmpleado);
-        header('Location: agregarUsuario.php');
-    }
-    //actualiazr usuario desde administrar usuario y manda el id del usuario
-    else if ($_GET['accion'] == 'a') {
-        $idEmpleado = $_GET['idEmpleado'];
-        header('Location: actualizarUsuario.php');
+        header('Location: ../pantallas/gestionUsuarios.php');
+        exit();
     }
     //Muestra los datos del empleado a traves del id 
     else if($_GET['accion'] == 'b'){
