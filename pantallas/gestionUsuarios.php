@@ -1,4 +1,9 @@
 <?php
+session_start();
+if (!isset($_SESSION['idEmpleado'])) {
+    header('Location: index.php');
+    exit();
+}
  require_once('../pantallas/procedimientos/conexion.php');
  require_once('../pantallas/procedimientos/claseUsuario.php');
  require_once('../pantallas/procedimientos/crudUsuarios.php');

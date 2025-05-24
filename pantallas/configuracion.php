@@ -1,6 +1,9 @@
 <?php
 session_start();
-
+if (!isset($_SESSION['idEmpleado'])) {
+    header('Location: index.php');
+    exit();
+}
 require_once('procedimientos/conexion.php'); //Conexión
 
 $nombreEmpleado = $_SESSION['nombre'];

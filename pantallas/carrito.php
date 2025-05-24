@@ -1,15 +1,16 @@
 <?php
 session_start();
+if (!isset($_SESSION['idEmpleado'])) {
+    header('Location: index.php');
+    exit();
+}
 $nombreEmpleado = $_SESSION['nombre'] ?? '';
 $apellidoEmpleado = $_SESSION['primerApe'] ?? '';
 $puestoEmpleado = $_SESSION['puesto'] ?? '';
 $usuarioEmpleado = $_SESSION['usuario'] ?? '';
 
 
-if (!isset($_SESSION['idEmpleado'])) {
-    header('Location: index.php');
-    exit();
-}
+
 if (!isset($_SESSION['carrito'])) {
     $_SESSION['carrito'] = [];
 }

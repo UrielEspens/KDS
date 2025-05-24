@@ -1,6 +1,9 @@
 <?php
 session_start();
-
+if (!isset($_SESSION['idEmpleado'])) {
+    header('Location: index.php');
+    exit();
+}
 require_once('procedimientos/conexion.php'); //Conexión
 require_once('procedimientos/crudProductos.php'); // Crud para la tabla producto
 require_once('procedimientos/claseInfoProducto.php'); // Clase para los objetos InfoProducto
