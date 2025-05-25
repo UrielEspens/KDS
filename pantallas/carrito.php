@@ -4,44 +4,9 @@ if (!isset($_SESSION['idEmpleado'])) {
     header('Location: index.php');
     exit();
 }
-$nombreEmpleado = $_SESSION['nombre'] ?? '';
-$apellidoEmpleado = $_SESSION['primerApe'] ?? '';
-$puestoEmpleado = $_SESSION['puesto'] ?? '';
-$usuarioEmpleado = $_SESSION['usuario'] ?? '';
 
-
-
-if (!isset($_SESSION['carrito'])) {
-    $_SESSION['carrito'] = [];
-}
-
-require_once('procedimientos/claseCliente.php');
-require_once('procedimientos/crudClientes.php');
-
-
-$crudClientes = new CrudClientes();
-$listaClientes = [];
-
-if (method_exists($crudClientes, 'obtenerTodosLosClientes')) {
-    $listaClientes = $crudClientes->obtenerTodosLosClientes();
-} else {
-    error_log("ERROR: El método 'obtenerTodosLosClientes' no existe en CrudClientes.");
-}
-
-$clienteIdActual = $_SESSION['clienteSeleccionado_id'] ?? '';
-$clienteNombreParaMostrar = $_SESSION['clienteSeleccionado_nombre'] ?? 'No hay cliente seleccionado.';
-
-if (!empty($clienteIdActual) && empty($_SESSION['clienteSeleccionado_nombre']) && !empty($listaClientes)) {
-    foreach ($listaClientes as $cliente) {
-        if ((int)$cliente->getIdCliente() === (int)$clienteIdActual) {
-            $clienteNombreParaMostrar = $cliente->getNombre() . ' ' . $cliente->getPrimerApe() . ' ' . $cliente->getSegundoApe();
-            // Actualizar la sesión también
-            $_SESSION['clienteSeleccionado_nombre'] = $clienteNombreParaMostrar;
-            break;
-        }
-    }
-}
-
+require_once('procedimientos/conexion.php');
+require_once('procedimientos/cargarCarrito.php');
 ?>
 
 <!DOCTYPE html>

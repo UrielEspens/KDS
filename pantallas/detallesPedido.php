@@ -11,7 +11,7 @@ $idPedido = null;
 
 // Validar si el ID existe y es un número entero
 if (isset($_GET['idPedido']) && is_numeric($_GET['idPedido'])) {
-    $idPedido = (int)$_GET['idPedido']; // Convertir a entero para mayor seguridad
+    $idPedido = $_GET['idPedido']; 
 
     // Obtener los detalles del pedido DE LA BASE DE DATOS
     // El método mostrarDetalles ahora devuelve un objeto DetallesPedido (o null/false)
@@ -110,10 +110,12 @@ if (isset($_GET['idPedido']) && is_numeric($_GET['idPedido'])) {
                     <div class="botones-iconos">
                         <button class="editarDetalles">
                             <img src="../img/inicio/lapiz.png" alt="Editar" width="24px">
-                        </button>
-                        <button class="eliminarDetalles">
-                            <img src="../img/inicio/basurero.png" alt="Eliminar" width="24px">
-                        </button>
+                        </button> 
+                        <a href="confirmarEliminarPedido.php?idPedido=<?php echo $idPedido; ?>&total=<?php echo number_format($pedido->getTotal(), 2); ?>">
+                            <button class="eliminarDetalles">
+                                <img src="../img/inicio/basurero.png" alt="Eliminar" width="24px">
+                            </button>
+                        </a>
                     </div>
                 </div>
             <?php endif; ?>

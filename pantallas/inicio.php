@@ -45,9 +45,13 @@ $listaPedidos = $crud->mostrarPedidos();
     <div class="orders-container">
         <?php foreach ($listaPedidos as $pedido): ?>
             <div class="order-card">
-                <button class="botonStatus" id="<?php echo $pedido->getIdPedido(); ?>">
-                    <div class="status-indicator status-<?php echo $pedido->getEstado(); ?>"></div>
-                </button>
+                <form action="procedimientos/cambioEstado.php" method="post">
+                    <input type="hidden" name="idPedido" value="<?php echo $pedido->getIdPedido(); ?>">
+                    <input type="hidden" name="estado" value="<?php echo $pedido->getEstado(); ?>">
+                    <button type="submit" class="indicador-estado estado-<?php echo $pedido->getEstado(); ?>">
+                        <p></p>
+                    </button>
+                </form>
                 <a href="detallesPedido.php?idPedido=<?php echo $pedido->getIdPedido(); ?>" class="botonDetalles">
                 <button class="botonDetalles" id="<?php echo $pedido->getIdPedido(); ?>">
                     <div class="order-details">

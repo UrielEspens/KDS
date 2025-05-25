@@ -27,9 +27,11 @@ $crudPedidos = new CrudPedidos();
 
 $idEmpleado = $_SESSION['idEmpleado'];
 
+$idCarritoDB = $crudCarrito->obtenerIdCarritoActivoPorEmpleado($idEmpleado);
+
 // --- Lógica de Manejo del Carrito Persistente en DB (Inicio o Continuación) ---
 if (!isset($_SESSION['idCarritoDB'])) {
-    $idCarritoDB = $crudCarrito->obtenerIdCarritoActivoPorEmpleado($idEmpleado);
+    
     if (!$idCarritoDB) {
         $idCarritoDB = $crudCarrito->crearCarritoParaEmpleado($idEmpleado);
     }
@@ -47,20 +49,10 @@ $idProducto = isset($_POST['idProducto']) ? (int)$_POST['idProducto'] : 0; // Pa
 // PARA GUARDAR LOS DATOS DEL CLIENTE EN LA SESSION
 if (isset($_POST['idCliente']) && !isset($_POST['accionCarrito'])) {
     $clienteIdSeleccionado = (int)$_POST['idCliente'];
-
-    // Guardamos el ID del cliente seleccionado en la sesión
     $_SESSION['clienteSeleccionado_id'] = $clienteIdSeleccionado;
-
-    // Opcional: También guardar el nombre completo para mostrarlo directamente
     $clienteObjeto = $crudClientes->obtenerClientePorId($clienteIdSeleccionado);
-    if ($clienteObjeto) {
-        $_SESSION['clienteSeleccionado_nombre'] = $clienteObjeto->getNombre() . " " . $clienteObjeto->getPrimerApe() . " " . $clienteObjeto->getSegundoApe();
-    } else {
-        // Si el cliente no existe, limpiamos la sesión para evitar IDs inválidos
-        unset($_SESSION['clienteSeleccionado_id']);
-        unset($_SESSION['clienteSeleccionado_nombre']);
-        // Podrías añadir un mensaje de error aquí si lo deseas
-    }
+    $_SESSION['clienteSeleccionado_nombre'] = $clienteObjeto->getNombre() . " " . $clienteObjeto->getPrimerApe() . " " . $clienteObjeto->getSegundoApe();
+
 
     header('Location: ../carrito.php'); // Redirige de vuelta al carrito
     exit();

@@ -101,14 +101,21 @@
     background-color: rgb(232, 232, 232);
 }
 
-.status-indicator {
+.indicador-estado {
     width: 25px;
     height: 100%;
-
+    cursor: pointer;
 }
 
-.botonStatus:hover {
-    cursor:pointer;
+.indicador-estado:hover {
+    border: .0005px double #222;
+
+}
+.indicador-estado:active {
+    
+    transition: all;
+    transform: scale(1.05);
+
 }
 
 .botonCheck {
@@ -117,7 +124,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
+    cursor: pointer;
 }
 
 .botonCheck:hover {
@@ -125,24 +132,19 @@
     transition: all;
 }
 
-.status-pendiente {
+.estado-pendiente {
     background-color: #ff4d4d;
 }
-.status-pendiente:hover {
-    border: .5px solid #222;
-}
-.status-preparacion {
+
+.estado-preparacion {
     background-color: #ffdd59;
 }
-.status-preparacion:hover {
-    border: .5px solid #222;
-}
-.status-listo {
+
+.estado-listo {
     background-color: #4cd137;
 }
-.status-listo:hover {
-    border: .5px solid #222;
-}
+
+
 
 .order-details {
     flex: 1;

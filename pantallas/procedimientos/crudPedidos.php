@@ -1,9 +1,24 @@
 <?php
 require_once('conexion.php');
+require_once('claseDetallesPedido.php');
 
 	class CrudPedidos{
 		// constructor de la clase
 		public function __construct(){}
+
+		public function eliminarPedido($idPedido) {
+			// Primero, eliminar los artículos del pedido
+			$db = Db::conectar();
+			$deleteItems = $db->prepare('DELETE FROM detalles_pedido WHERE idPedido = :idPedido');
+			$deleteItems->bindParam(':idPedido', $idPedido);
+			$deleteItems->execute();
+
+			// Luego, eliminar el pedido principal
+			$deletePedido = $db->prepare('DELETE FROM pedido WHERE idPedido = :idPedido'); // O 'id' si tu columna es 'id'
+			$deletePedido->bindParam(':idPedido', $idPedido);
+			return $deletePedido->execute(); // Devuelve true si se eliminó, false si hubo error
+    	}
+
 
         public function mostrarPedidos(){
 			$db=Db::conectar();
@@ -108,6 +123,49 @@ require_once('conexion.php');
 			$insert->bindValue('cantidad', $cantidad);
 			$insert->execute();
 		}
+
+		
+		public function obtenerPedidoPorId($idPedido) {
+        $db = Db::conectar(); // Asume que Db::conectar() está disponible y devuelve la conexión PDO
+        $select = $db->prepare('SELECT 
+                                    p.idPedido, 
+									p.fechaHora AS horaCreacion,
+									p.estado, 
+									p.idEmpleado, 
+									p.idCliente,
+                                    e.nombre AS nombreEmpleado, 
+									e.primerApe AS apellidoEmpleado,
+                                    c.nombre AS nombreCliente, 
+									c.primerApe AS apellidoCliente
+                                FROM pedido p
+								INNER JOIN detalles_pedido d ON p.idPedido = d.idPedido
+                                INNER JOIN empleados e ON p.idEmpleado = e.idEmpleado
+                                INNER JOIN cliente c ON p.idCliente = c.idCliente
+                                WHERE 
+                                    p.idPedido = :idPedido');
+        $select->bindValue('idPedido', $idPedido);
+        $select->execute();
+        $registro = $select->fetch();
+
+        if ($registro) {
+            // Asegúrate de que esta clase DetallesPedido esté incluida y sus setters funcionen con estos nombres de columna
+            $pedido = new DetallesPedido(); // O la clase que uses para representar un pedido completo
+            $pedido->setIdPedido($registro['idPedido']);
+            $pedido->setHoraCreacion($registro['horaCreacion']);
+            $pedido->setEstado($registro['estado']);
+            $pedido->setIdEmpleado($registro['idEmpleado']);
+            $pedido->setNombreEmpleado($registro['nombreEmpleado']);
+            $pedido->setApellidoEmpleado($registro['apellidoEmpleado']);
+            $pedido->setIdCliente($registro['idCliente']);
+            $pedido->setNombreCliente($registro['nombreCliente']);
+            $pedido->setApellidoCliente($registro['apellidoCliente']);
+            // Nota: Los artículos del pedido no se cargan aquí. Solo la información principal.
+            return $pedido;
+        }
+        return null; // Si no se encontró el pedido
+    }
+
+
 
 
 

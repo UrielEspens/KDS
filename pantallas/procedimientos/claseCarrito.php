@@ -1,12 +1,19 @@
 <?php
 class ItemsCarrito {
+    private $idItem;
     private $nombreItem;
-    private $cantidadItem;
     private $precioItem;
-
+    private $cantidadItem;
+    
     function __construct(){
     }
 
+    public function getIdItem(){
+        return $this->idItem;
+    }
+    public function setIdItem($idItem){
+        $this->idItem = $idItem;
+    }
     public function getNombreItem(){
         return $this->nombreItem;
     }
