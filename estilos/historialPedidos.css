@@ -2,9 +2,12 @@
     display: flex;
     flex-wrap: wrap;
     padding: 20px;
-    gap: 120px;
+    gap: 20px;
     align-items: flex-end;
     justify-content: flex-start;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .filters-container h2 {
@@ -12,13 +15,18 @@
     font-weight: bold;
 }
 
-.filters-container input, select {
+.filters-container input,
+.filters-container select {
     max-height: 40px;
     height: 40px;
 }
 
 .filter-group {
-    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex-grow: 1;
+    min-width: 160px;
 }
 
 .filter-actions {
@@ -31,18 +39,23 @@
 
 .filter-label {
     display: block;
-    font-size: 18px;
+    font-size: 14px;
     font-weight: bold;
-    margin-bottom: 8px;
+    color: #555;
+    margin-bottom: 0;
 }
 
-.filter-input {
+.filter-input,
+.date-input,
+.order-id-input {
     padding: 8px;
-    width: 180px;
-    border: 1px solid #aaa;
+    border: 1px solid #ccc;
+    border-radius: 5px;
     font-size: 14px;
+    width: 100%;
     appearance: none;
-    background-image: url('data:image/svg+xml;utf8,<svg fill="black" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+    background-color: #fff;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="black" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
     background-repeat: no-repeat;
     background-position: right 8px center;
 }
@@ -52,93 +65,143 @@
     gap: 10px;
 }
 
-.btn {
-    padding: 8px 15px;
-    border: 1px solid #aaa;
-    border-radius: 20px;
-    background-color: #f0f0f0;
-    font-size: 14px;
-    cursor: pointer;
-    text-transform: uppercase;
-}
-
-.btn-search {
-    background-color: #e0e0e0;
-}
-
+.btn-export,
+.btn-search,
 .btn-clear {
-    background-color: #e0e0e0;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    text-transform: uppercase;
+    transition: background-color 0.2s;
+    color: white;
 }
 
 .btn-export {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    background-color: #e0e0e0;
-    padding: 8px 15px;
-    border: 1px solid #aaa;
-    border-radius: 20px;
-    font-size: 14px;
-    cursor: pointer;
-    text-transform: uppercase;
+    background-color: #6c757d;
 }
 
-.order-id-input {
-    padding: 8px;
-    width: 180px;
-    border: 1px solid #aaa;
-    font-size: 14px;
+.btn-export:hover {
+    background-color: #5a6268;
 }
 
-.export-icon {
-    font-size: 20px;
+.btn-search {
+    background-color: #007bff;
+}
+
+.btn-search:hover {
+    background-color: #0056b3;
+}
+
+.btn-clear {
+    background-color: #ffc107;
+    color: #333;
+}
+
+.btn-clear:hover {
+    background-color: #e0a800;
 }
 
 .table-container {
-    padding: 0 20px;
+    margin-top: 20px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
 }
 
-table {
+.table-container table {
     width: 100%;
     border-collapse: collapse;
+    font-size: 15px;
 }
 
-thead {
+.table-container thead {
     background-color: #c0c0c0;
 }
 
-th {
-    padding: 15px;
+.table-container th,
+.table-container td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
     text-align: left;
-    font-size: 18px;
+}
+
+.table-container th {
+    background-color: #f2f2f2;
+    color: #333;
     font-weight: bold;
-    border: 1px solid #ccc;
 }
 
-.date-input {
-    padding: 8px;
-    width: 180px;
-    border: 1px solid #aaa;
-    font-size: 14px;
+.table-container tbody tr:nth-child(even) {
+    background-color: #f8f8f8;
+}
+
+.table-container tbody tr:hover {
+    background-color: #e0e0e0;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+}
+
+.action-buttons .btn {
+    padding: 6px 10px;
+    font-size: 13px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
     cursor: pointer;
-    background-color: white;
+    transition: background-color 0.2s;
 }
 
-.date-input::-webkit-calendar-picker-indicator {
-    background-color: transparent;
-    cursor: pointer;
-    width: 20px;
-    height: 20px;
+.action-buttons .btn-delete {
+    background-color: #dc3545;
 }
 
-/* Mostrar "seleccionar fecha" como texto de placeholder */
-.date-input:not(:focus):not(:valid) {
-    color: #757575;
+.action-buttons .btn-delete:hover {
+    background-color: #c82333;
 }
 
-.date-input:not(:focus):not(:valid)::before {
-    content: 'seleccionar fecha';
-    color: #757575;
-    position: absolute;
-    pointer-events: none;
+@media (max-width: 768px) {
+    .filters-container {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 15px;
+    }
+
+    .filter-group {
+        width: 100%;
+        min-width: unset;
+    }
+
+    .filter-actions {
+        flex-direction: column;
+        align-items: stretch;
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .buttons-container {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .btn-export,
+    .btn-search,
+    .btn-clear {
+        width: 100%;
+        text-align: center;
+        padding: 12px 15px;
+    }
+
+    .table-container th,
+    .table-container td {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
 }
