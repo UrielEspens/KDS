@@ -21,6 +21,7 @@
     display: flex;
     align-items: center;
     gap: 15px;
+    justify-content: space-between;
 }
 
 .menu-search-container {
@@ -48,40 +49,40 @@
     background-color: #323232;
 }
 
-.menu-categories {
+.categorias-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-.menu-categories a {
+.categorias-container a {
     text-decoration: none;
 }
 
-.menu-categories button{
+.categorias-container button{
     display: flex;
     border: rgb(0, 0, 0) .1px solid;
     margin-right: 15px;
     padding: 8px 15px;
     border-radius: 3px;
-    background-color: white;
     cursor: pointer;
 }
 
-.menu-categories button.active {
-    background-color: #00bbff;
+
+.categorias-container button.botonCategoria {
+    background-color: #6a6a6a;
     color: white;
-    border-color: #00bbff;
+    border-color: #6a6a6a;
 }
 
-.menu-container-productos .menu-section {
+.categorias-container-productos .menu-section {
     margin-top: 20px;
     margin-bottom: 20px;
     border-bottom: 1px solid #eee;
     padding-bottom: 20px;
 }
 
-.menu-container-productos .menu-section:last-child {
+.categorias-container-productos .menu-section:last-child {
     border-bottom: none;
 }
 
@@ -193,18 +194,51 @@
     cursor: pointer;
 }
 
-/* Final de detalles de cada producto */
-
-.btn {
-    text-align: center;
+.botonEliminar {
+    background-color: #f97d7d;
+    color: white;
+    border-radius: 3px;
+    padding: 8px 1px 6px 9px;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.1s;
+    font-size: 14px;
+    margin-left: auto;
 }
 
-.btn:hover {
-    transform: translateY(-2px);
+.botonEditar {
+    color: black;
+    background-color: #c3c3c3;
+    border-radius: 3px;
+    padding: 8px 1px 6px 9px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: auto;
 }
 
-.btn:active {
-    transform: translateY(1px);
+.botones-accion {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+}
+
+.botones-accion a {
+    text-decoration: none;
+    
+}
+
+.botones-accion img {
+    width: 20px;
+    height: 20px;
+}
+
+.botonAgregar {
+    background-color: #5c5c5c;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 8px 15px;
+    cursor: pointer;
+    margin-left: auto;
 }

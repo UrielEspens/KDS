@@ -64,7 +64,7 @@ if (isset($_GET['idPedido']) && is_numeric($_GET['idPedido'])) {
 
     <div class="fondoDifuminado" id="fondoDifuminado">
         <div id="contenedorDetallesPedido">
-            <?php if ($pedido): // Solo muestra el contenido si se encontró el pedido ?>
+            <?php if ($pedido): ?>
                 <div class="detalles-header header-<?php echo strtolower($pedido->getEstado()); ?>" id="estado-header">
                     <h3 id="pedido-estado-detalle"><?php echo strtoupper($pedido->getEstado()); ?></h3>
                     <div id="pedido-hora-detalle"><?php echo (new DateTime($pedido->getHoraCreacion()))->format('H:i'); ?></div>
@@ -78,7 +78,7 @@ if (isset($_GET['idPedido']) && is_numeric($_GET['idPedido'])) {
 
                 <textarea class="lista-articulos" id="lista-articulos-detalle" rows="10" cols="57" readonly><?php
                     $listaArticulosTexto = "";
-                    $totalCalculadoEnBucle = 0.00; // Inicializamos la variable para el total del pedido AQUI
+                    $totalCalculadoEnBucle = 0.00;
 
                     if (is_array($pedido->getArticulos())) {
                         foreach ($pedido->getArticulos() as $articuloObjeto) {
@@ -87,19 +87,17 @@ if (isset($_GET['idPedido']) && is_numeric($_GET['idPedido'])) {
                             $precio = $articuloObjeto->getPrecioProducto();
 
                             $totalPorArticulo = $cantidad * $precio;
-                            $totalCalculadoEnBucle += $totalPorArticulo; // Acumulamos el total AQUI
+                            $totalCalculadoEnBucle += $totalPorArticulo; 
 
                             $listaArticulosTexto .= $cantidad. '    ' . $nombre . '  -  $' . number_format($totalPorArticulo, 2) . "\n";
                         }
                     } else {
                         $listaArticulosTexto = "No hay artículos en este pedido.";
                     }
-                    echo trim($listaArticulosTexto); // Imprimimos el contenido del textarea
+                    echo trim($listaArticulosTexto);
                 ?></textarea>
 
                 <?php
-                    // Una vez que el bucle ha terminado y $totalCalculadoEnBucle tiene el total final
-                    // lo asignamos al objeto $pedido.
                     $pedido->setTotal($totalCalculadoEnBucle);
                 ?>
 

@@ -127,7 +127,7 @@ require_once('procedimientos/cargarCarrito.php');
                 </form>
                 <form action="procedimientos/adminCarrito.php" method="post" style="display: inline-block;">
                     <input type="hidden" name="accionCarrito" value="vaciar_carrito">
-                    <button type="submit">Vaciar Carrito</button>
+                    <button class="btn" type="submit">Vaciar carrito</button>
                 </form>
                 <a href="menu.php"><button class="btn">Añadir producto</button></a>
             </div>

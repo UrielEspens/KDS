@@ -104,3 +104,17 @@ body {
     vertical-align: middle;
     margin-right: 8px;
 }
+
+.btn {
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn:active {
+    transform: translateY(1px);
+}

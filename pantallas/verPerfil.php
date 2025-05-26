@@ -1,5 +1,9 @@
 <?php
 session_start();
+if (!isset($_SESSION['idEmpleado'])) {
+    header('Location: index.php');
+    exit();
+}
 
 $idEmpleado = $_SESSION['idEmpleado'];
 $usuarioEmpleado = $_SESSION['usuario'];

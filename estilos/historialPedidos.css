@@ -7,6 +7,16 @@
     justify-content: flex-start;
 }
 
+.filters-container h2 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.filters-container input, select {
+    max-height: 40px;
+    height: 40px;
+}
+
 .filter-group {
     margin-bottom: 10px;
 }

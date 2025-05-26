@@ -24,7 +24,7 @@ $listaPedidos = $crud->mostrarPedidos();
             <a href="inicio.php"><img src="../img/general/hogar.png" alt="Home" height="30px"></a>
             <div class="title">CENTRO DE ORDENES</div>
         </div>
-        <a href="menu.php" class="add-button">Añadir pedido</a>
+        <a href="carrito.php" class="anadir-pedido">Añadir pedido</a>
         <div class="menu-container">
             <button id="toggleMenu">
                 <img src="../img/general/menuOpciones.png" alt="Opciones" height="30px">

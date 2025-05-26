@@ -45,13 +45,14 @@ require_once('procedimientos/busquedaMenu.php');
                     <button class="btn" type="submit" value="inicio">Buscar</button>
                 </form>
             </div>
-            <div class="menu-categories">
+            <div class="categorias-container">
                 <?php if (!$mostrarResultadosBusqueda): ?>
-                    <button class="btn active" data-categoria="todos">Todos</button>
                     <?php foreach ($categorias as $categoria): ?>
-                        <button class="btn" data-categoria="<?php echo $categoria->getNombre(); ?>" data-categoria-id="<?php echo $categoria->getIdCategoria(); ?>">
-                            <?php echo $categoria->getNombre(); ?>
-                        </button>
+                        <a href="#<?php echo $categoria->getNombre(); ?>"> 
+                            <button class="btn botonCategoria" data-categoria="<?php echo $categoria->getNombre(); ?>" data-categoria-id="<?php echo $categoria->getIdCategoria(); ?>">
+                                <?php echo $categoria->getNombre(); ?>
+                            </button>
+                        </a>
                     <?php endforeach; ?>
                 <?php else: ?>
                     <a href="menu.php" class="menu-categorias"><button>Todos</button></a>
@@ -59,7 +60,7 @@ require_once('procedimientos/busquedaMenu.php');
             </div>
         </div>
 
-        <div class="menu-container-productos">
+        <div class="categorias-container-productos">
             <?php if ($mostrarResultadosBusqueda): ?>
                 <div id="resultados-busqueda-section" class="menu-section active-section">
                     <h2>Resultados de Búsqueda para "<?php echo ($textoBusqueda); ?>"</h2>
@@ -76,7 +77,8 @@ require_once('procedimientos/busquedaMenu.php');
             <?php else: ?>
                 <div id="todos-section" class="menu-section active-section">
                     <?php foreach ($categorias as $categoria): ?>
-                        <h2><?php echo ($categoria->getNombre()); ?></h2>
+                        <a name="<?php echo $categoria->getNombre(); ?>"></a>
+                        <h2><?php echo $categoria->getNombre(); ?></h2>
                         <div class="menu-items">
                             <?php foreach ($todosLosProductos as $producto): ?>
                                 <?php if ($producto->getIdCategoria() == $categoria->getIdCategoria()): ?>
@@ -87,23 +89,10 @@ require_once('procedimientos/busquedaMenu.php');
                     <?php endforeach; ?>
                 </div>
 
-                <?php foreach ($categorias as $categoria): ?>
-                    <div id="<?php echo strtolower(str_replace(' ', '-', $categoria->getNombre())); ?>-section" class="menu-section" style="display: none;">
-                        <h2><?php echo ($categoria->getNombre()); ?></h2>
-                        <div class="menu-items">
-                            <?php foreach ($todosLosProductos as $producto): ?>
-                                <?php if ($producto->getIdCategoria() == $categoria->getIdCategoria()): ?>
-                                    <?php $crudProductos->mostrarProducto($producto); ?>
-                                <?php endif; ?>
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
             <?php endif; ?>
         </div>
     </div>
 
     <script src="../js/menuOpciones.js"></script>
-    <script src="../js/menu.js"></script>
 </body>
 </html>

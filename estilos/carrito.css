@@ -42,7 +42,7 @@ body {
 .carrito-cuerpo input {
     padding: 8px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 3px;
     margin-left: 2px;
 }
 
@@ -136,7 +136,6 @@ body {
 
 .clienteSeleccion {
     border-radius: 3px;
-    background-color: aliceblue;
     border: .1px solid #ccc;
     padding: 8px 12px;
 }
