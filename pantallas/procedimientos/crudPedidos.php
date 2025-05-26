@@ -56,15 +56,13 @@ class CrudPedidos{
     public function obtenerTodosLosPedidosParaHistorial() {
         $db = Db::conectar();
         $listaPedidos = [];
-        $select = $db->query('
-            SELECT p.idPedido, p.fechaHora,
-                   hp.montoFinal, hp.tipoPago,
-                   c.nombre AS nombreCliente, c.primerApe AS apellidoCliente
-            FROM pedido p
-            INNER JOIN historial_pedidos hp ON p.idPedido = hp.idPedidoFinal -- <-- CAMBIO AQUÍ: hp.idPedidoFinal
-            INNER JOIN cliente c ON p.idCliente = c.idCliente
-            ORDER BY p.idPedido DESC
-        ');
+        $select = $db->query(' SELECT p.idPedido, p.fechaHora,
+                                        hp.montoFinal, hp.tipoPago,
+                                        c.nombre AS nombreCliente, c.primerApe AS apellidoCliente
+                                FROM pedido p
+                                INNER JOIN historial_pedidos hp ON p.idPedido = hp.idPedidoFinal -- <-- CAMBIO AQUÍ: hp.idPedidoFinal
+                                INNER JOIN cliente c ON p.idCliente = c.idCliente
+                                ORDER BY p.idPedido DESC;');
 
         foreach ($select->fetchAll(PDO::FETCH_ASSOC) as $pedidoData) {
             $myPedido = new Pedido();
@@ -83,8 +81,7 @@ class CrudPedidos{
         $db = Db::conectar();
         $listaPedidos = [];
 
-        $query = '
-            SELECT p.idPedido, p.fechaHora,
+        $query = 'SELECT p.idPedido, p.fechaHora,
                    hp.montoFinal, hp.tipoPago,
                    c.nombre AS nombreCliente, c.primerApe AS apellidoCliente
             FROM pedido p
