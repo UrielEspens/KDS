@@ -11,7 +11,7 @@ $idPedido = null;
 
 // Validar si el ID existe y es un número entero
 if (isset($_GET['idPedido']) && is_numeric($_GET['idPedido'])) {
-    $idPedido = (int)$_GET['idPedido']; // Convertir a entero para mayor seguridad
+    $idPedido = $_GET['idPedido']; 
 
     // Obtener los detalles del pedido DE LA BASE DE DATOS
     // El método mostrarDetalles ahora devuelve un objeto DetallesPedido (o null/false)
@@ -53,7 +53,7 @@ if (isset($_GET['idPedido']) && is_numeric($_GET['idPedido'])) {
             <ul>
                 <li><a href="menu.php"><img src="../img/general/menuRestaurante.png" alt="menuComida" class="icono-menu">  Ver menú</a></li>
                 <hr>
-                <li><a href="historialPedidos.html"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
+                <li><a href="historialPedidos.php"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
                 <hr>
                 <li><a href="configuracion.php"><img src="../img/general/configuracion.png" alt="configuracion" class="icono-menu"> Configuración</a></li>
             </ul>
@@ -64,7 +64,7 @@ if (isset($_GET['idPedido']) && is_numeric($_GET['idPedido'])) {
 
     <div class="fondoDifuminado" id="fondoDifuminado">
         <div id="contenedorDetallesPedido">
-            <?php if ($pedido): // Solo muestra el contenido si se encontró el pedido ?>
+            <?php if ($pedido): ?>
                 <div class="detalles-header header-<?php echo strtolower($pedido->getEstado()); ?>" id="estado-header">
                     <h3 id="pedido-estado-detalle"><?php echo strtoupper($pedido->getEstado()); ?></h3>
                     <div id="pedido-hora-detalle"><?php echo (new DateTime($pedido->getHoraCreacion()))->format('H:i'); ?></div>
@@ -78,7 +78,7 @@ if (isset($_GET['idPedido']) && is_numeric($_GET['idPedido'])) {
 
                 <textarea class="lista-articulos" id="lista-articulos-detalle" rows="10" cols="57" readonly><?php
                     $listaArticulosTexto = "";
-                    $totalCalculadoEnBucle = 0.00; // Inicializamos la variable para el total del pedido AQUI
+                    $totalCalculadoEnBucle = 0.00;
 
                     if (is_array($pedido->getArticulos())) {
                         foreach ($pedido->getArticulos() as $articuloObjeto) {
@@ -87,19 +87,17 @@ if (isset($_GET['idPedido']) && is_numeric($_GET['idPedido'])) {
                             $precio = $articuloObjeto->getPrecioProducto();
 
                             $totalPorArticulo = $cantidad * $precio;
-                            $totalCalculadoEnBucle += $totalPorArticulo; // Acumulamos el total AQUI
+                            $totalCalculadoEnBucle += $totalPorArticulo; 
 
                             $listaArticulosTexto .= $cantidad. '    ' . $nombre . '  -  $' . number_format($totalPorArticulo, 2) . "\n";
                         }
                     } else {
                         $listaArticulosTexto = "No hay artículos en este pedido.";
                     }
-                    echo trim($listaArticulosTexto); // Imprimimos el contenido del textarea
+                    echo trim($listaArticulosTexto);
                 ?></textarea>
 
                 <?php
-                    // Una vez que el bucle ha terminado y $totalCalculadoEnBucle tiene el total final
-                    // lo asignamos al objeto $pedido.
                     $pedido->setTotal($totalCalculadoEnBucle);
                 ?>
 
@@ -110,10 +108,12 @@ if (isset($_GET['idPedido']) && is_numeric($_GET['idPedido'])) {
                     <div class="botones-iconos">
                         <button class="editarDetalles">
                             <img src="../img/inicio/lapiz.png" alt="Editar" width="24px">
-                        </button>
-                        <button class="eliminarDetalles">
-                            <img src="../img/inicio/basurero.png" alt="Eliminar" width="24px">
-                        </button>
+                        </button> 
+                        <a href="confirmarEliminarPedido.php?idPedido=<?php echo $idPedido; ?>&total=<?php echo number_format($pedido->getTotal(), 2); ?>">
+                            <button class="eliminarDetalles">
+                                <img src="../img/inicio/basurero.png" alt="Eliminar" width="24px">
+                            </button>
+                        </a>
                     </div>
                 </div>
             <?php endif; ?>

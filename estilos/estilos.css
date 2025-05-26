@@ -21,11 +21,16 @@ body {
     height: 80px;
     position: static;
     width: 100%;
+    transition: background-color 0.3s, transform 0.1s;
 }
 
 .header img:hover {
-    padding: .2px;
     cursor: pointer;
+    transform: translateY(-1px);
+}
+
+.header img:active {
+    transform: translateY(1px);
 }
 
 .logo-title {
@@ -98,4 +103,18 @@ body {
     height: 25px;
     vertical-align: middle;
     margin-right: 8px;
+}
+
+.btn {
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn:active {
+    transform: translateY(1px);
 }

@@ -8,6 +8,41 @@ class CrudProductos {
 
     public function __construct(){}
 
+    public function mostrarProducto(InfoProducto $producto) {
+        echo '<div class="menu-item" data-product-id="' . $producto->getIdProducto() . '" data-categoria-id="' . $producto->getIdCategoria() . '">';
+        echo '<img src="data:image/jpeg;base64, ' . base64_encode($producto->getImagen()) . '" alt="' . ($producto->getNombre()) . '">';
+        echo '<div class="item-details">';
+        echo '<h3>' . $producto->getNombre() . '</h3>';
+        echo '<p>' . $producto->getDescripcion() . '</p>';
+        echo '<p class="item-price">$' . number_format($producto->getPrecio(), 2) . ' MXN</p>';
+        echo '</div>';
+
+        // ¡CAMBIO AQUÍ! El formulario ahora apunta a adminCarrito.php
+        echo '<form action="procedimientos/adminCarrito.php" method="post" style="display: inline-block;">';
+        echo '<input type="hidden" name="accionCarrito" value="añadir">';
+        echo '<input type="hidden" name="idProducto" value="' . $producto->getIdProducto() . '">';
+        echo '<button type="submit" class="add-buttons btn">+</button>';
+        echo '</form>';
+        echo '</div>';
+    }
+
+    public function mostrarProductoEditable(InfoProducto $producto) {
+        echo '<div class="menu-item" data-product-id="' . $producto->getIdProducto() . '" data-categoria-id="' . $producto->getIdCategoria() . '">';
+        echo '<img src="data:image/jpeg;base64, ' . base64_encode($producto->getImagen()) . '" alt="' . ($producto->getNombre()) . '">';
+        echo '<div class="item-details">';
+        echo '<h3>' . $producto->getNombre() . '</h3>';
+        echo '<p>' . $producto->getDescripcion() . '</p>';
+        echo '<p class="item-price">$' . number_format($producto->getPrecio(), 2) . ' MXN</p>';
+        echo '</div>';
+
+        // ¡CAMBIO AQUÍ! El formulario ahora apunta a adminCarrito.php
+        echo '<div class="botones-accion">';
+        echo '<a href="modificarProducto.php?idProducto=' . $producto->getIdProducto() . '" class="btn botonEditar"><img src="../img/inicio/lapiz.png" alt="Editar"></a>';
+        echo '<a href="eliminarProducto.php?idProducto=' . $producto->getIdProducto() . '" class="btn botonEliminar"><img src="../img/inicio/basurero.png" alt="Eliminar"></a>';
+        echo '</div>';
+        
+        echo '</div>';
+    }
     // Método para obtener todas las categorías
     public function obtenerCategorias(){
         $db = Db::conectar();
@@ -129,6 +164,42 @@ class CrudProductos {
             $resultados[] = $producto;
         }
         return $resultados;
+    }
+
+    public function actualizarProducto($idProducto, $nombre, $descripcion, $precio, $idCategoria, $imagen = null) {
+        $db = Db::conectar();
+        if ($imagen !== null) {
+            $stmt = $db->prepare("UPDATE producto SET nombre = :nombre, descripcion = :descripcion, precio = :precio, idCategoria = :idCategoria, imagen = :imagen WHERE idProducto = :idProducto");
+            $stmt->bindValue(':imagen', $imagen, PDO::PARAM_LOB);
+        } else {
+            $stmt = $db->prepare("UPDATE producto SET nombre = :nombre, descripcion = :descripcion, precio = :precio, idCategoria = :idCategoria WHERE idProducto = :idProducto");
+        }
+        $stmt->bindValue(':nombre', $nombre);
+        $stmt->bindValue(':descripcion', $descripcion);
+        $stmt->bindValue(':precio', $precio);
+        $stmt->bindValue(':idCategoria', $idCategoria); 
+        $stmt->bindValue(':idProducto', $idProducto);
+
+        return $stmt->execute();
+        
+    }
+
+    public function eliminarProducto($idProducto) {      
+        $db = Db::conectar();
+        $stmt = $db->prepare("DELETE FROM producto WHERE idProducto = :id");
+        $stmt->bindParam(':id', $idProducto, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+
+    public function agregarProducto($producto) { 
+        $db = Db::conectar();
+        $insert = $db->prepare("INSERT INTO producto (nombre, descripcion, precio, idCategoria, imagen) VALUES (:nombre, :descripcion, :precio, :idCategoria, :imagen)");
+        $insert->bindValue(':nombre', $producto->getNombre());
+        $insert->bindValue(':descripcion', $producto->getDescripcion());
+        $insert->bindValue(':precio', $producto->getPrecio()); 
+        $insert->bindValue(':idCategoria', $producto->getIdCategoria());
+        $insert->bindValue(':imagen', $producto->getImagen()); 
+        return $insert->execute();
     }
 }
 ?>

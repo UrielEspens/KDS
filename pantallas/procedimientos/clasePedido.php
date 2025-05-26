@@ -2,8 +2,13 @@
 	class Pedido{
 		private $idPedido;
 		private $estado;
+		private $fechaHora;
+		private $montoTotal;
+		private $tipoPago;
 		private $nombreCliente;
 		private $apellidoCliente;
+		private $nombreEmpleado;
+		private $apellidoEmpleado;
 
 		function __construct(){
 		}
@@ -22,6 +27,30 @@
 
         public function setEstado($estado){
             $this->estado = $estado;
+        }
+
+        public function getFechaHora(){
+            return $this->fechaHora;
+        }
+
+        public function setFechaHora($fechaHora){
+            $this->fechaHora = $fechaHora;
+        }
+
+        public function getMontoTotal(){
+            return $this->montoTotal;
+        }
+
+        public function setMontoTotal($montoTotal){
+            $this->montoTotal = $montoTotal;
+        }
+
+        public function getTipoPago(){
+            return $this->tipoPago;
+        }
+
+        public function setTipoPago($tipoPago){
+            $this->tipoPago = $tipoPago;
         }
 
         public function getNombreCliente(){
@@ -48,5 +77,12 @@
             $this->nombreEmpleado = $nombreEmpleado;
         }
 
+        public function getApellidoEmpleado(){
+            return $this->apellidoEmpleado;
+        }
+
+        public function setApellidoEmpleado($apellidoEmpleado){
+            $this->apellidoEmpleado = $apellidoEmpleado;
+        }
 	}
 ?>

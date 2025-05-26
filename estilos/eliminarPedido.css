@@ -1,0 +1,64 @@
+/* Tus estilos de modal aquí */
+body {
+    background-color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.overlay {
+    margin-top: 10%;
+}
+
+.modal-confirmacion {
+    background-color: white;
+    padding: 30px;
+    border: black solid 1px;
+    border-radius: 5px;
+    text-align: center;
+    max-width: 600px;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.modal-confirmacion h2 {
+    margin-bottom: 10px;
+    margin-top: 0;
+    color: #d9534f;     
+}
+.modal-confirmacion p {
+    margin-bottom: 20px;
+    font-size: 1.1em;
+}
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+}
+.modal-buttons a {
+    text-decoration: none;
+}
+.modal-buttons .btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+}
+.modal-buttons .btn-cancel {
+    background-color: #ffb759; /* Amarillo */
+    color: white;
+}
+.modal-buttons .btn-cancel:hover {
+    background-color: #914d00;
+}
+.modal-buttons .btn-delete {
+    background-color: #d9534f; /* Rojo */
+    color: white;
+}
+.modal-buttons .btn-delete:hover {
+    background-color: #c9302c;
+}
+/* Opcional: Estilo para oscurecer el fondo */

@@ -1,5 +1,9 @@
 <?php
 session_start();
+if (!isset($_SESSION['idEmpleado'])) {
+    header('Location: index.php');
+    exit();
+}
 require_once('procedimientos/crudPedidos.php');
 require_once('procedimientos/clasePedido.php');
 
@@ -20,7 +24,7 @@ $listaPedidos = $crud->mostrarPedidos();
             <a href="inicio.php"><img src="../img/general/hogar.png" alt="Home" height="30px"></a>
             <div class="title">CENTRO DE ORDENES</div>
         </div>
-        <a href="menu.php" class="add-button">Añadir pedido</a>
+        <a href="carrito.php" class="anadir-pedido">Añadir pedido</a>
         <div class="menu-container">
             <button id="toggleMenu">
                 <img src="../img/general/menuOpciones.png" alt="Opciones" height="30px">
@@ -29,7 +33,7 @@ $listaPedidos = $crud->mostrarPedidos();
             <ul>
                 <li><a href="menu.php"><img src="../img/general/menuRestaurante.png" alt="menuComida" class="icono-menu">  Ver menú</a></li>
                 <hr>
-                <li><a href="historialPedidos.html"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
+                <li><a href="historialPedidos.php"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
                 <hr>
                 <li><a href="configuracion.php"><img src="../img/general/configuracion.png" alt="configuracion" class="icono-menu"> Configuración</a></li>
             </ul>
@@ -41,9 +45,13 @@ $listaPedidos = $crud->mostrarPedidos();
     <div class="orders-container">
         <?php foreach ($listaPedidos as $pedido): ?>
             <div class="order-card">
-                <button class="botonStatus" id="<?php echo $pedido->getIdPedido(); ?>">
-                    <div class="status-indicator status-<?php echo $pedido->getEstado(); ?>"></div>
-                </button>
+                <form action="procedimientos/cambioEstado.php" method="post">
+                    <input type="hidden" name="idPedido" value="<?php echo $pedido->getIdPedido(); ?>">
+                    <input type="hidden" name="estado" value="<?php echo $pedido->getEstado(); ?>">
+                    <button type="submit" class="indicador-estado estado-<?php echo $pedido->getEstado(); ?>">
+                        <p></p>
+                    </button>
+                </form>
                 <a href="detallesPedido.php?idPedido=<?php echo $pedido->getIdPedido(); ?>" class="botonDetalles">
                 <button class="botonDetalles" id="<?php echo $pedido->getIdPedido(); ?>">
                     <div class="order-details">

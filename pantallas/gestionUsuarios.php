@@ -1,4 +1,9 @@
 <?php
+session_start();
+if (!isset($_SESSION['idEmpleado'])) {
+    header('Location: index.php');
+    exit();
+}
  require_once('../pantallas/procedimientos/conexion.php');
  require_once('../pantallas/procedimientos/claseUsuario.php');
  require_once('../pantallas/procedimientos/crudUsuarios.php');
@@ -35,7 +40,7 @@
             <div id="menu">
             <ul>
             <li><a href="menu.php"><img src="../img/general/menuRestaurante.png" alt="menuComida" class="icono-menu">  Ver menú</a></li>
-                <li><a href="historialPedidos.html"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
+                <li><a href="historialPedidos.php"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
                 <li><a href="configuracion.php"><img src="../img/general/configuracion.png" alt="configuracion" class="icono-menu"> Configuración</a></li>
             </ul>
             </div>

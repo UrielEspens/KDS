@@ -42,7 +42,7 @@ body {
 .carrito-cuerpo input {
     padding: 8px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 3px;
     margin-left: 2px;
 }
 
@@ -59,7 +59,7 @@ body {
     justify-content: space-between;
 }
 
-hr {
+.linea {
     border: none;
     height: 1px;
     background: #ccc;
@@ -101,8 +101,67 @@ hr {
     gap: 10px;
 }       
 
-h3 {
-    font-size: 20px;
+.totalPedido {
+    
     margin-bottom: 10px;
     margin-top: 10px;
 }    
+
+.menu-item {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 5px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: white;
+    cursor: pointer;
+}
+
+.btn {
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+.clienteSeleccion {
+    border-radius: 3px;
+    border: .1px solid #ccc;
+    padding: 8px 12px;
+}
+
+.clienteSeleccion option {
+    background-color: white;
+    color: black;
+}
+
+.seleccionar-cliente {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.seleccionar-cliente a {
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 3px;
+    margin: 2px;
+    text-decoration: none;
+}
+
+.clienteSeleccionado {
+    border: none;
+    margin-top: 15px;
+    text-decoration: none;
+}

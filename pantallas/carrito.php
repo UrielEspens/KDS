@@ -1,21 +1,12 @@
 <?php
 session_start();
-
-// Redireccionar si el usuario no está logueado
 if (!isset($_SESSION['idEmpleado'])) {
-    header('Location: index.php'); // Ajusta la ruta a tu página de inicio de sesión
+    header('Location: index.php');
     exit();
 }
-// Inicializa el carrito en la sesión si no existe (esto es seguro repetirlo)
-if (!isset($_SESSION['carrito'])) {
-    $_SESSION['carrito'] = [ ];
-}
 
-$nombreEmpleado = $_SESSION['nombre']; 
-$apellidoEmpleado = $_SESSION['primerApe'] ;
-$puestoEmpleado = $_SESSION['puesto'];
-$usuarioEmpleado = $_SESSION['usuario'];
-
+require_once('procedimientos/conexion.php');
+require_once('procedimientos/cargarCarrito.php');
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +20,7 @@ $usuarioEmpleado = $_SESSION['usuario'];
     <div class="header">
         <div class="logo-title">
             <a href="inicio.php"><img src="../img/general/hogar.png" alt="Home" height="30px"></a>
-            <div class="title">TU CARRITO DE COMPRAS:</div>
+            <div class="title">GENERAR PEDIDO:</div>
         </div>
         <div class="menu-container">
             <button id="toggleMenu">
@@ -39,7 +30,7 @@ $usuarioEmpleado = $_SESSION['usuario'];
                 <ul>
                     <li><a href="menu.php"><img src="../img/general/menuRestaurante.png" alt="menuComida" class="icono-menu"> Ver menú</a></li>
                     <hr>
-                    <li><a href="historialPedidos.html"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
+                    <li><a href="historialPedidos.php"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
                     <hr>
                     <li><a href="configuracion.php"><img src="../img/general/configuracion.png" alt="configuracion" class="icono-menu"> Configuración</a></li>
                 </ul>
@@ -49,16 +40,34 @@ $usuarioEmpleado = $_SESSION['usuario'];
     </div>
 
     <div class="carrito-cuerpo">
-        <h2>Contenido de tu Carrito:</h2>
-        <div class="buscar-cliente">
-            <label for="buscarCliente">Cliente</label>
-            <form action="carrito.php" method="get"> <input type="text" id="buscarCliente" name="buscarCliente" placeholder="Busca cliente" value="">
-                <button type="submit" value="buscarCliente">Buscar</button>
-            </form>
+        <h2>Contenido de tu pedido:</h2>
+        <div class="seleccionar-cliente">
+            <label for="clienteSeleccion" style="margin-right: 8px;">Seleccionar Cliente:</label>
+            <form action="procedimientos/adminCarrito.php" method="post" style="display: inline-block;">
+                <select class="clienteSeleccion" id="clienteSeleccion" name="idCliente" required>
+                    <option value="">selecciona un cliente</option>
+                    <?php if (!empty($listaClientes)): ?>
+                        <?php foreach ($listaClientes as $cliente): ?>
+                            <option value="<?php echo $cliente->getIdCliente(); ?>"
+                                <?php
+                                if ((int)$clienteIdActual === (int)$cliente->getIdCliente()) {
+                                    echo 'selected';
+                                }
+                                ?>
+                            >
+                                <?php echo $cliente->getNombre() . " " . $cliente->getPrimerApe() . " " . $cliente->getSegundoApe(); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <option value="">No hay clientes registrados</option>
+                    <?php endif; ?>
+                </select>
+                <input class="btn" type="submit" value="Seleccionar Cliente"> </form>
+            <button class="btn"><a href="nuevoCliente.php">Nuevo Cliente</a></button>
         </div>
-        
-        <div>Mesero: <?php echo $nombreEmpleado . ' ' . $apellidoEmpleado; ?></div>
-        <hr>
+        <div class="clienteSeleccionado"><strong>Mesero: </strong> <?php echo $nombreEmpleado . ' ' . $apellidoEmpleado; ?></div>
+        <p class="clienteSeleccionado"><strong>Cliente Seleccionado: </strong><?php echo $clienteNombreParaMostrar; ?></p>
+        <hr class="linea">
         <?php if (!empty($_SESSION['carrito'])): ?>
             <div class="carrito-items-container">
                 <?php
@@ -76,51 +85,54 @@ $usuarioEmpleado = $_SESSION['usuario'];
                                 <span class="item-cantidad">&nbsp;<?php echo $cantidad; ?>&nbsp;</span>
                                 <span class="item-nombre"><?php echo $item['nombre'] ?? 'Producto Desconocido'; ?></span>
                             </div>
-                            <span class="item-precio-unitario">$<?php echo number_format($precio, 2); ?> MXN (c/u)</span><br>
+                            <span class="item-precio-unitario">$<?php echo number_format($precio, 2); ?> </span><br>
                         </div>
-                        
+
                         <div class="item-contenedor-der">
-                            <span class="item-subtotal">Subtotal: $<?php echo number_format($subtotalProducto, 2); ?> MXN</span>
+                            <span class="item-subtotal">Subtotal: $<?php echo number_format($subtotalProducto, 2); ?></span>
 
                             <div class="item-botones">
                                 <form action="procedimientos/adminCarrito.php" method="post" style="display: inline-block;">
-                                    <input type="hidden" name="accionCarrito" value="decrease">
+                                    <input type="hidden" name="accionCarrito" value="restar">
                                     <input type="hidden" name="idProducto" value="<?php echo $item['id']; ?>">
-                                    <button type="submit">-</button>
+                                    <button type="submit" class="btn">-</button>
                                 </form>
                                 <form action="procedimientos/adminCarrito.php" method="post" style="display: inline-block;">
-                                    <input type="hidden" name="accionCarrito" value="increase">
+                                    <input type="hidden" name="accionCarrito" value="sumar">
                                     <input type="hidden" name="idProducto" value="<?php echo $item['id']; ?>">
-                                    <button type="submit">+</button>
+                                    <button type="submit" class="btn">+</button>
                                 </form>
                                 <form action="procedimientos/adminCarrito.php" method="post" style="display: inline-block;">
-                                    <input type="hidden" name="accionCarrito" value="remove">
+                                    <input type="hidden" name="accionCarrito" value="borrar">
                                     <input type="hidden" name="idProducto" value="<?php echo $item['id']; ?>">
-                                    <button type="submit" style="background-color: red; color: white;">Eliminar</button>
+                                    <button class="btn" type="submit" style="background-color: red; color: white;">Eliminar</button>
                                 </form>
                             </div>
                         </div>
-                        
-                        
-                        
                     </div>
                 <?php endforeach; ?>
             </div>
-            <hr>
+            <hr class="linea">
             <div class="carrito-resumen">
-                <h3>Total del Carrito: $<?php echo number_format($totalCarrito, 2); ?> MXN</h3>
+                <p class="totalPedido"><strong>Total del pedido: </strong> $<?php echo number_format($totalCarrito, 2); ?></p>
                 <form action="procedimientos/adminCarrito.php" method="post" style="display: inline-block;">
                     <input type="hidden" name="accionCarrito" value="guardar_pedido">
-                    <button type="submit" class="boton-guardar-pedido">Guardar Pedido</button>
+                    <input type="hidden" name="idCliente" value="<?php echo $clienteIdActual; ?>">
+                    <input type="hidden" name="idEmpleado" value="<?php echo $_SESSION['idEmpleado']; ?>">
+                    <?php foreach ($_SESSION['carrito'] as $item): ?>
+                        <input type="hidden" name="articulos[]" value="<?php echo $item['id']; ?>">
+                        <input type="hidden" name="cantidades[]" value="<?php echo $item['cantidad']; ?>">
+                    <?php endforeach; ?>
+                    <button class="btn" type="submit">Guardar Pedido</button>
                 </form>
                 <form action="procedimientos/adminCarrito.php" method="post" style="display: inline-block;">
-                    <input type="hidden" name="accionCarrito" value="clear_cart">
-                    <button type="submit" >Vaciar Carrito</button>
+                    <input type="hidden" name="accionCarrito" value="vaciar_carrito">
+                    <button class="btn" type="submit">Vaciar carrito</button>
                 </form>
-                <a href="menu.php"><button >Añadir producto</button></a>
+                <a href="menu.php"><button class="btn">Añadir producto</button></a>
             </div>
         <?php else: ?>
-            <p class="carrito-vacio">Tu carrito está vacío.<a href="menu.php"><button>Añadir producto</button></a></p>
+            <p class="carrito-vacio">Tu pedido está vacío.<a href="menu.php"><button class="btn">Añadir producto</button></a></p>
         <?php endif; ?>
     </div>
 </body>

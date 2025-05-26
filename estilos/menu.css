@@ -54,10 +54,6 @@
     justify-content: space-between;
 }
 
-.menu-categories a {
-    text-decoration: none;
-}
-
 .menu-categories button{
     display: flex;
     border: rgb(0, 0, 0) .1px solid;
@@ -83,6 +79,8 @@
 
 .menu-container-productos .menu-section:last-child {
     border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
 }
 
 .menu-section {
@@ -192,5 +190,3 @@
     text-decoration: none;
     cursor: pointer;
 }
-
-/* Final de detalles de cada producto */
