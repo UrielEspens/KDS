@@ -26,9 +26,10 @@ require_once('ClaseUsuario.php');
 		// Funcion para actualizar usuarios
 		public function actualizar($usuario){
 			$db=Db::conectar();
-			$update=$db->prepare('UPDATE empleados SET usuario=:usuario, contraseña=:contraseña, nombre=:nombre, primerApe=:primerApe, segundoApe=:segundoApe, puesto=:puesto, imagen=:imagen WHERE idEmpleado=:idEmpleado');
+			$update=$db->prepare('UPDATE empleados SET usuario=:usuario, contrasena=:contrasena, nombre=:nombre, primerApe=:primerApe, segundoApe=:segundoApe, puesto=:puesto, imagen=:imagen WHERE idEmpleado=:idEmpleado');
+			$update->bindValue('idEmpleado',$usuario->getIdEmpleado());
 			$update->bindValue('usuario',$usuario->getUsuario());
-			$update->bindValue('contraseña',$usuario->getContraseña());
+			$update->bindValue('contrasena',$usuario->getContrasena());
 			$update->bindValue('nombre',$usuario->getNombre());
 			$update->bindValue('primerApe',$usuario->getPrimerApe());
 			$update->bindValue('segundoApe',$usuario->getSegundoApe());
@@ -56,7 +57,7 @@ require_once('ClaseUsuario.php');
 			$myUsuario = new Empleado();
 			$myUsuario -> setIdEmpleado($usuario['idEmpleado']);
 			$myUsuario -> setUsuario($usuario['usuario']);
-			$myUsuario -> setContraseña($usuario['contraseña']);
+			$myUsuario -> setContrasena($usuario['contrasena']);
 			$myUsuario -> setNombre($usuario['nombre']);
 			$myUsuario -> setPrimerApe($usuario['primerApe']);
 			$myUsuario -> setSegundoApe($usuario['segundoApe']);
@@ -85,13 +86,13 @@ require_once('ClaseUsuario.php');
 			}
 			return $listaUsuarios;
 		}
-/*
+
 		// Funcion para buscar usuarios por nombre 
-		public function buscarUsuario($nombreUsuario){
+		public function buscarUsuariosBusqueda($busqueda){
 			$db=Db::conectar();
 			$listaUsuarios = [];
-			$select=$db->prepare('SELECT * FROM empleados WHERE nombre LIKE :nombreUsuario');
-			$select->bindValue(':nombreUsuario', '%'.$nombreUsuario.'%');
+			$select=$db->prepare('SELECT * FROM empleados WHERE nombre LIKE :busqueda OR primerApe LIKE :busqueda OR segundoApe LIKE :busqueda OR usuario LIKE :busqueda');
+			$select->bindValue(':busqueda', '%'.$busqueda.'%');
 			$select->execute();
 
 			foreach($select ->fetchAll() as $usuario){
@@ -107,7 +108,30 @@ require_once('ClaseUsuario.php');
 				$listaUsuarios[]=$myUsuario;
 			}
 			return $listaUsuarios;
-		}*/
+		}
+
+		// Funcion para buscar usuarios por su puesto
+		public function buscarUsuariosPorPuesto($puesto){
+			$db=Db::conectar();
+			$listaUsuarios = [];
+			$select=$db->prepare('SELECT * FROM empleados WHERE puesto=:puesto');
+			$select->bindValue(':puesto', $puesto);
+			$select->execute();
+
+			foreach($select ->fetchAll() as $usuario){
+				$myUsuario= new Empleado();
+				$myUsuario->setIdEmpleado($usuario['idEmpleado']);
+				$myUsuario->setUsuario($usuario['usuario']);
+				$myUsuario->setContrasena($usuario['contrasena']);
+				$myUsuario->setNombre($usuario['nombre']);
+				$myUsuario->setPrimerApe($usuario['primerApe']);
+				$myUsuario->setSegundoApe($usuario['segundoApe']);
+				$myUsuario->setPuesto($usuario['puesto']);
+				$myUsuario->setImagen($usuario['imagen']);
+				$listaUsuarios[]=$myUsuario;
+			}
+			return $listaUsuarios;
+		}
 	}	
 
 ?>

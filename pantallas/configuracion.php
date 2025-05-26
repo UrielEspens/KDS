@@ -56,7 +56,11 @@ $usuarioEmpleado = $_SESSION['usuario'];
        </div>
        <hr class = "linea">
        <div class = "container-perfil">
-           <a href="modificarMenu.php"><div class = "labelConfiguracion">MODIFICAR MENÚ</div></a><br>
+           <a href="gestionClientes.php"><div class = "labelConfiguracion">GESTION DE CLIENTES</div> </a><br>
+       </div>
+       <hr class = "linea">
+       <div class = "container-perfil">
+           <a href="menu.php"><div class = "labelConfiguracion">MENU</div></a><br>
        </div>
     <script src="../js/menuOpciones.js"></script>
 </body>

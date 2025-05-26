@@ -1,5 +1,5 @@
 <?php
-class Cliente {
+class Cliente{
     private $idCliente;
     private $nombre;
     private $primerApe;
@@ -8,65 +8,64 @@ class Cliente {
     private $calle;
     private $numeroCasa;
     private $referenciaCasa;
-    
-    function __construct(){
+
+    public function __construct() {
     }
 
-    public function getIdCliente(){
+    public function getIdCliente() {
         return $this->idCliente;
     }
-
-    public function setIdCliente($idCliente){
+    public function setIdCliente($idCliente) {
         $this->idCliente = $idCliente;
     }
 
-    public function getNombre(){
+    public function getNombre() {
         return $this->nombre;
     }
-    public function setNombre($nombre){
+    public function setNombre($nombre) {
         $this->nombre = $nombre;
     }
 
-    public function getPrimerApe(){
+    public function getPrimerApe() {
         return $this->primerApe;
     }
-    public function setPrimerApe($primerApe){
+    public function setPrimerApe($primerApe) {
         $this->primerApe = $primerApe;
     }
 
-    public function getSegundoApe(){
+    public function getSegundoApe() {
         return $this->segundoApe;
     }
-    public function setSegundoApe($segundoApe){
+    public function setSegundoApe($segundoApe) {
         $this->segundoApe = $segundoApe;
     }
 
-    public function getTelefono(){
+    public function getTelefono() {
         return $this->telefono;
     }
-    public function setTelefono($telefono){
+    public function setTelefono($telefono) {
         $this->telefono = $telefono;
     }
 
-    public function getCalle(){
+    public function getCalle() {
         return $this->calle;
     }
-    public function setCalle($calle){
+    public function setCalle($calle) {
         $this->calle = $calle;
     }
 
-    public function getNumeroCasa(){
+    public function getNumeroCasa() {
         return $this->numeroCasa;
     }
-    public function setNumeroCasa($numeroCasa){
+    public function setNumeroCasa($numeroCasa) {
         $this->numeroCasa = $numeroCasa;
     }
 
-    public function getReferenciaCasa(){
+    public function getReferenciaCasa() {
         return $this->referenciaCasa;
     }
-    public function setReferenciaCasa($referenciaCasa){
+    public function setReferenciaCasa($referenciaCasa) {
         $this->referenciaCasa = $referenciaCasa;
     }
-}
+}  
 ?>
