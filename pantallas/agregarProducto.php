@@ -1,26 +1,19 @@
 <?php
-// agregarProducto.php
-
-// Incluir las clases y archivos necesarios.
-// Estas rutas son relativas a la ubicación de 'agregarProducto.php'.
-// Por ejemplo, si 'agregarProducto.php' está en la raíz de tu proyecto
-// y 'procedimientos' es una subcarpeta, estas rutas son correctas.
 require_once 'procedimientos/conexion.php';
-require_once 'procedimientos/claseCategoria.php'; // Asegúrate de que esta clase exista y defina el objeto Categoria
-require_once 'procedimientos/crudProductos.php'; // Tu clase CrudProductos que contiene el método obtenerCategorias()
+require_once 'procedimientos/claseCategoria.php';
+require_once 'procedimientos/crudProductos.php';
 
 // Iniciar sesión para gestionar los mensajes de éxito o error
 session_start();
 
 // Instanciar CrudProductos para obtener la lista de categorías
 $crudProductos = new CrudProductos();
-$categorias = $crudProductos->obtenerCategorias(); // Obtener la lista de objetos Categoria
+$categorias = $crudProductos->obtenerCategorias();
 
 // Inicializar variables para mensajes y datos pre-rellenados del formulario
 $mensajeExito = '';
 $mensajeError = '';
 
-// Verificar si hay mensajes de éxito en la sesión y borrarlos después de mostrarlos
 if (isset($_SESSION['mensaje_exito'])) {
     $mensajeExito = $_SESSION['mensaje_exito'];
     unset($_SESSION['mensaje_exito']);
@@ -30,17 +23,6 @@ if (isset($_SESSION['mensaje_error'])) {
     $mensajeError = $_SESSION['mensaje_error'];
     unset($_SESSION['mensaje_error']);
 }
-
-// Obtener los datos pre-rellenados del formulario desde la sesión (si hubo un error de validación)
-// htmlspecialchars() es crucial para prevenir ataques XSS al mostrar datos en el HTML
-$nombre = isset($_SESSION['form_data']['nombre']) ? htmlspecialchars($_SESSION['form_data']['nombre']) : '';
-$descripcion = isset($_SESSION['form_data']['descripcion']) ? htmlspecialchars($_SESSION['form_data']['descripcion']) : '';
-$precio = isset($_SESSION['form_data']['precio']) ? htmlspecialchars($_SESSION['form_data']['precio']) : '00.00';
-$idCategoriaSeleccionada = isset($_SESSION['form_data']['idCategoria']) ? $_SESSION['form_data']['idCategoria'] : '';
-
-// Limpiar los datos del formulario de la sesión después de usarlos
-unset($_SESSION['form_data']);
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -83,7 +65,7 @@ unset($_SESSION['form_data']);
                 <div class="info-column">
                     <div class="form-item">
                         <label for="nombre">Nombre</label>
-                        <input type="text" id="nombre" name="nombre" placeholder="Escriba el nombre" value="<?php echo $nombre; ?>" required>
+                        <input type="text" id="nombre" name="nombre" placeholder="Escriba el nombre" value="" required>
                     </div>
                     <div class="form-item">
                         <label for="categoria">Categoría</label>
@@ -91,9 +73,9 @@ unset($_SESSION['form_data']);
                             <select id="categoria" name="idCategoria" required>
                                 <option value="">Seleccione una categoría</option>
                                 <?php foreach ($categorias as $cat): ?>
-                                    <option value="<?php echo htmlspecialchars($cat->getIdCategoria()); ?>"
+                                    <option value="<?php echo $cat->getIdCategoria(); ?>"
                                         <?php echo ($idCategoriaSeleccionada == $cat->getIdCategoria()) ? 'selected' : ''; ?>>
-                                        <?php echo htmlspecialchars($cat->getNombre()); ?>
+                                        <?php echo $cat->getNombre(); ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
@@ -113,7 +95,7 @@ unset($_SESSION['form_data']);
             <div class="form-section">
                 <div class="form-item description-item">
                     <label for="descripcion">Descripción</label>
-                    <input type="text" id="descripcion" name="descripcion" placeholder="Escriba la descripción del producto" value="<?php echo $descripcion; ?>" required>
+                    <input type="text" id="descripcion" name="descripcion" placeholder="Escriba la descripción del producto" value="" required>
                 </div>
             </div>
 
@@ -122,7 +104,7 @@ unset($_SESSION['form_data']);
                     <label for="precio">Precio unitario</label>
                     <div class="price-input">
                         <span class="price-symbol">$</span>
-                        <input type="text" id="precio" name="precio" value="<?php echo $precio; ?>" required pattern="^\d+(\.\d{1,2})?$" title="Solo números y hasta dos decimales (ej. 12.34)">
+                        <input type="text" id="precio" name="precio" value="00.00" required>
                     </div>
                 </div>
                 <div class="form-item"></div>

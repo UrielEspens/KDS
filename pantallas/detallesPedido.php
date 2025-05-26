@@ -37,7 +37,7 @@ if (isset($_GET['idPedido']) && is_numeric($_GET['idPedido'])) {
 <head>
     <title>Registro de usuario</title>
     <link rel="stylesheet" href="../estilos/estilos.css">
-    <link rel="stylesheet" href="../estilos/inicio.css">
+    <link rel="stylesheet" href="../estilos/detallesPedido.css">    
 </head>
 <body>
     <div class="header">

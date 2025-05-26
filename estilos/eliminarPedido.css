@@ -1,64 +1,97 @@
-/* Tus estilos de modal aquí */
 body {
-    background-color: #f0f0f0;
+    background-color: #f0f0f0; /* Fondo general, mantenido */
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-}
-
-.overlay {
-    margin-top: 10%;
+    min-height: 100vh; /* Asegura que ocupe toda la altura de la ventana */
+    margin: 0; /* Elimina el margen por defecto del body */
 }
 
 .modal-confirmacion {
-    background-color: white;
+    background-color: #ffffff; /* Fondo blanco para el modal */
     padding: 30px;
-    border: black solid 1px;
-    border-radius: 5px;
+    margin-top: 6%;
+    border: 1px solid #e0e0e0; /* Borde suave */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25); /* Sombra más fuerte para resaltar el modal */
     text-align: center;
-    max-width: 600px;
+    max-width: 500px; /* Un poco más compacto */
     width: 90%;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center; /* Centra el contenido horizontalmente */
+    position: relative; /* Para el z-index */
+    z-index: 1000; /* Asegura que esté encima del overlay */
 }
+
 .modal-confirmacion h2 {
-    margin-bottom: 10px;
+    margin-bottom: 20px; /* Más espacio debajo del título */
     margin-top: 0;
-    color: #d9534f;     
+    color: #333; /* Un color más neutro para el título principal */
+    font-size: 1.8em; /* Un poco más grande para el título */
+    font-weight: 600; /* Un poco menos de negrita que "bold" */
 }
+
+/* Estilos para los párrafos de información del pedido */
 .modal-confirmacion p {
-    margin-bottom: 20px;
+    margin-bottom: 15px; /* Espacio entre párrafos */
     font-size: 1.1em;
+    color: #555; /* Un gris más suave para el texto */
+    width: 100%; /* Asegura que el párrafo ocupe todo el ancho */
+    text-align: center; /* Centra el texto de los párrafos */
 }
+
+/* Estilo específico para la información "Cliente:" y "Total:" */
+.modal-confirmacion p strong {
+    color: #333; /* Resalta el texto en negritas */
+    margin-right: 5px; /* Espacio entre el label y el valor */
+}
+
 .modal-buttons {
     display: flex;
     justify-content: center;
-    gap: 50px;
+    gap: 30px; /* Reducimos un poco el espacio entre botones */
+    margin-top: 20px; /* Espacio encima de los botones */
+    width: 100%; /* Para que los botones se centren mejor */
 }
+
 .modal-buttons a {
     text-decoration: none;
+    display: inline-block; /* Para que el enlace se comporte como un botón */
 }
+
 .modal-buttons .btn {
-    padding: 10px 20px;
+    padding: 12px 25px; /* Un poco más de padding para botones más grandes */
     border: none;
-    border-radius: 5px;
+    border-radius: 8px; /* Bordes más redondeados para los botones */
     cursor: pointer;
-    font-size: 1em;
+    font-size: 1.05em; /* Ligeramente más grande */
+    font-weight: bold; /* Negrita para los botones */
+    transition: all 0.2s ease; /* Transiciones suaves */
+    min-width: 120px; /* Ancho mínimo para que se vean consistentes */
+    text-align: center;
+    text-transform: uppercase; /* Texto en mayúsculas para los botones */
 }
+
 .modal-buttons .btn-cancel {
-    background-color: #ffb759; /* Amarillo */
+    background-color: #f0ad4e; /* Un naranja más suave que el amarillo */
     color: white;
+   
 }
+
 .modal-buttons .btn-cancel:hover {
-    background-color: #914d00;
+    background-color: #ec971f; /* Un naranja más oscuro en hover */
+    transform: translateY(-2px); /* Efecto de levantamiento */
+    box-shadow: 0 4px 8px rgba(240, 173, 78, 0.6);
 }
+
 .modal-buttons .btn-delete {
-    background-color: #d9534f; /* Rojo */
+    background-color: #d9534f; /* Tu rojo existente, que ya es bueno */
     color: white;
 }
+
 .modal-buttons .btn-delete:hover {
-    background-color: #c9302c;
+    background-color: #c9302c; /* Rojo más oscuro en hover */
+    transform: translateY(-2px); /* Efecto de levantamiento */
+    box-shadow: 0 4px 8px rgba(217, 83, 79, 0.6);
 }
-/* Opcional: Estilo para oscurecer el fondo */
