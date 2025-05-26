@@ -106,9 +106,11 @@ if (isset($_GET['idPedido']) && is_numeric($_GET['idPedido'])) {
                 <div class="botones-accion">
                     <a href="inicio.php"><button id="cerrarDetalles" class="boton-volver">VOLVER</button></a>
                     <div class="botones-iconos">
+                        <!-- >
                         <button class="editarDetalles">
                             <img src="../img/inicio/lapiz.png" alt="Editar" width="24px">
                         </button> 
+                        -->
                         <a href="confirmarEliminarPedido.php?idPedido=<?php echo $idPedido; ?>&total=<?php echo number_format($pedido->getTotal(), 2); ?>">
                             <button class="eliminarDetalles">
                                 <img src="../img/inicio/basurero.png" alt="Eliminar" width="24px">

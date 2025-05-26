@@ -1,33 +1,46 @@
 <?php
-require_once('../pantallas/procedimientos/crud.Producto.php');
-require_once('../pantallas/procedimientos/claseInfoProducto.php');
-require_once('../pantallas/procedimientos/crudCategoria.php');
-
-$crudProducto = new CrudProducto();
-$crudCategoria = new CrudCategoria();
-$listaCategorias = $crudCategoria->obtenerListaCategorias();
-
-$productoAActualizar = null;
-$idProducto = null;
-
-if (isset($_GET['idProducto'])) {
-    $idProducto = $_GET['idProducto'];
-    $productoAActualizar = $crudProducto->obtenerProducto($idProducto);
-
-    if (!$productoAActualizar) {
-        header('Location: modificarMenu.php?mensaje=ProductoNoEncontrado'); // Redirige si el ID no existe
-        exit();
-    }
-} else {
-    header('Location: modificarMenu.php?mensaje=IDProductoFaltante'); // Redirige si no hay ID
+session_start();
+if (!isset($_SESSION['idEmpleado'])) {
+    header('Location: index.php');
     exit();
 }
 
+require_once('procedimientos/conexion.php');
+require_once('procedimientos/claseCategoria.php'); 
+require_once('procedimientos/crudProductos.php');
+
+$crudProductos = new CrudProductos();
+
+$idProducto = $_GET['idProducto'] ?? null;
+
+if ($idProducto === null || !is_numeric($idProducto)) {
+    $_SESSION['mensaje_error'] = "ID de producto no válido o no especificado.";
+    header('Location: modificarMenu.php');
+    exit();
+}
+
+$producto = $crudProductos->obtenerProductoPorId($idProducto);
+
+if ($producto === null) {
+    $_SESSION['mensaje_error'] = "El producto solicitado no existe.";
+    header('Location: modificarMenu.php');
+    exit();
+}
+
+$categorias = $crudProductos->obtenerCategorias();
+
+// Recuperar mensajes de sesión si existen
+$mensajeError = $_SESSION['mensaje_error'] ?? '';
+$mensajeExito = $_SESSION['mensaje_exito'] ?? '';
+unset($_SESSION['mensaje_error']); // Limpiar mensaje después de mostrar
+unset($_SESSION['mensaje_exito']); // Limpiar mensaje después de mostrar
+
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Modificar Producto</title>
+    <title>Modificar producto</title>
     <link rel="stylesheet" href="../estilos/estilos.css">
     <link rel="stylesheet" href="../estilos/agregarProducto.css">
 </head>
@@ -53,39 +66,53 @@ if (isset($_GET['idProducto'])) {
         </div>
     </div>
     <div class="form-container">
-        <form action="../pantallas/procedimientos/adminProducto.php" method="post" enctype="multipart/form-data">
+        <?php if (!empty($mensajeError)): ?>
+            <p class="mensaje-error"><?php echo $mensajeError; ?></p>
+        <?php endif; ?>
+        <?php if (!empty($mensajeExito)): ?>
+            <p class="mensaje-exito"><?php echo $mensajeExito; ?></p>
+        <?php endif; ?>
+
+        <form action="procedimientos/actualizarProducto.php" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="idProducto" value="<?php echo $producto->getIdProducto(); ?>">
+            <input type="hidden" name="accion" value="actualizar">
+
             <div class="top-section">
                 <div class="info-column">
                     <div class="form-item">
                         <label for="nombre">Nombre</label>
-                        <input type="text" id="nombre" name="nombre" placeholder="Nombre del producto" required
-                               value="<?php echo htmlspecialchars($productoAActualizar->getNombre()); ?>">
+                        <input type="text" id="nombre" name="nombre" placeholder="Escriba el nombre" value="<?php echo $producto->getNombre(); ?>" required>
                     </div>
                     <div class="form-item">
-                        <label for="idCategoria">Categoría</label>
-                        <select id="idCategoria" name="idCategoria" required>
-                            <?php foreach ($listaCategorias as $categoria): ?>
-                                <option value="<?php echo $categoria->getIdCategoria(); ?>"
-                                    <?php echo ($categoria->getIdCategoria() == $productoAActualizar->getIdCategoria()) ? 'selected' : ''; ?>>
-                                    <?php echo htmlspecialchars($categoria->getNombre()); ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
+                        <label for="categoria">Categoría</label>
+                        <div class="select-container">
+                            <select id="categoria" name="categoria" required>
+                                <?php if (!empty($categorias)): ?>
+                                    <?php foreach ($categorias as $cat): ?>
+                                        <option value="<?php echo $cat->getIdCategoria(); ?>"
+                                            <?php echo ($cat->getIdCategoria() == $producto->getIdCategoria()) ? 'selected' : ''; ?>>
+                                            <?php echo $cat->getNombre(); ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <option value="">No hay categorías disponibles</option>
+                                <?php endif; ?>
+                            </select>
+                        </div>
                     </div>
                 </div>
-
                 <div class="image-column">
-                    <div class="form-item image-upload-item">
-                        <label for="imagen_file">Imagen</label>
-                        <input type="file" id="imagen_file" name="imagen_file" accept="image/png">
-                        <small style="display: block; margin-top: 5px; color: #666;">Dejar vacío si no se desea cambiar la imagen</small>
-                        <div class="current-image-preview" style="margin-top: 10px;">
-                            <?php if ($productoAActualizar->getImagen()): ?>
-                                <p>Imagen actual:</p>
-                                <img src="../pantallas/procedimientos/mostrarImagen.php?idProducto=<?php echo $productoAActualizar->getIdProducto(); ?>" alt="Imagen actual" style="max-width: 150px; height: auto; border: 1px solid #ddd;">
-                            <?php else: ?>
-                                <p>No hay imagen actual.</p>
-                            <?php endif; ?>
+                    <div class="form-item">
+                        <label for="imagen">Imagen Actual</label>
+                        <div class="image-upload-container">
+                            <div class="image-upload">
+                                <img id="preview-image" src="data:image/webp;base64, <?php echo base64_encode($producto->getImagen()); ?>" alt="Imagen <?php echo htmlspecialchars($producto->getNombre()); ?>">
+    
+                            </div>
+                        </div>
+                        
+                        <div class="form-item">
+                            <input class="iconoDeSubirImagen" type="file" name="imagen_nueva" id="imagen_nueva" accept="image/jpeg, image/png, image/gif, image/webp">
                         </div>
                     </div>
                 </div>
@@ -94,8 +121,7 @@ if (isset($_GET['idProducto'])) {
             <div class="form-section">
                 <div class="form-item description-item">
                     <label for="descripcion">Descripción</label>
-                    <input type="text" id="descripcion" name="descripcion" placeholder="Escriba la descripción del producto" required
-                           value="<?php echo htmlspecialchars($productoAActualizar->getDescripcion()); ?>">
+                    <input type="text" id="descripcion" name="descripcion" placeholder="Escriba la descripción del producto" value="<?php echo $producto->getDescripcion(); ?>" required>
                 </div>
             </div>
 
@@ -104,17 +130,16 @@ if (isset($_GET['idProducto'])) {
                     <label for="precio">Precio unitario</label>
                     <div class="price-input">
                         <span class="price-symbol">$</span>
-                        <input type="text" id="precio" name="precio" placeholder="00.00" required
-                               value="<?php echo htmlspecialchars($productoAActualizar->getPrecio()); ?>">
+                        <input type="text" id="precio" name="precio" value="<?php echo number_format($producto->getPrecio(), 2, '.', ''); ?>" required>
                     </div>
                 </div>
+                <div class="form-item"></div>
+                <div class="form-item"></div>
             </div>
 
             <div class="buttons">
-                <input type="hidden" name="idProducto" value="<?php echo $productoAActualizar->getIdProducto(); ?>">
-                <input type="hidden" name="actualizar" value="actualizar">
-                <input type="submit" class="btn btn-save" value="ACTUALIZAR">
-                <a href="modificarMenu.php" class="btn btn-cancel">CANCELAR</a>
+                <button type="submit" class="btn btn-save">Guardar Cambios</button>
+                <a href="modificarMenu.php" class="btn btn-cancel">Volver</a>
             </div>
         </form>
     </div>

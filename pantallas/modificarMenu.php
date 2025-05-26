@@ -5,33 +5,13 @@ if (!isset($_SESSION['idEmpleado'])) {
     exit();
 }
 require_once('procedimientos/conexion.php');
-require_once('procedimientos/claseProducto.php');
-require_once('procedimientos/crud.Producto.php');
-require_once('procedimientos/claseCategoria.php');
-require_once('procedimientos/crudCategoria.php');
-
-$crudProductos = new CrudProducto();
-$crudCategorias = new CrudCategoria();
-
-$categorias = $crudCategorias->obtenerListaCategorias();
-$todosLosProductos = $crudProductos->obtenerTodosLosProductos();
-
-$mostrarResultadosBusqueda = false;
-$textoBusqueda = '';
-$resultadosBusqueda = [];
-
-if (isset($_GET['buscar']) && !empty($_GET['buscar'])) {
-    $textoBusqueda = $_GET['buscar'];
-    $resultadosBusqueda = $crudProductos->buscarProductos($textoBusqueda);
-    $mostrarResultadosBusqueda = true;
-}
-
+require_once('procedimientos/busquedaMenu.php');
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Modificar Menú / Productos</title>
+    <title>Menú / Creación de pedidos</title>
     <link rel="stylesheet" href="../estilos/estilos.css">
     <link rel="stylesheet" href="../estilos/menu.css">
 </head>
@@ -59,74 +39,36 @@ if (isset($_GET['buscar']) && !empty($_GET['buscar'])) {
 
     <div class="menu-body">
         <div class="menu-options">
-            <div class="menu-search-container">
-                <form action="modificarMenu.php" method="get">
-                    <input type="text" name="buscar" placeholder="Buscar productos" value="<?php echo htmlspecialchars($textoBusqueda); ?>">
-                    <button class="btn" type="submit">Buscar</button>
-                </form>
-            </div>
-            <div class="menu-categories">
-                <?php if (!$mostrarResultadosBusqueda): ?>
-                    <button class="btn active" data-categoria="todos">Todos</button>
-                    <?php foreach ($categorias as $categoria): ?>
-                        <button class="btn" data-categoria="<?php echo htmlspecialchars($categoria->getNombre()); ?>" data-categoria-id="<?php echo $categoria->getIdCategoria(); ?>">
-                            <?php echo htmlspecialchars($categoria->getNombre()); ?>
+            <div class="categorias-container">
+                <?php foreach ($categorias as $categoria): ?>
+                    <a href="#<?php echo $categoria->getNombre(); ?>">
+                        <button class="btn botonCategoria" data-categoria="<?php echo $categoria->getNombre(); ?>" data-categoria-id="<?php echo $categoria->getIdCategoria(); ?>">
+                            <?php echo $categoria->getNombre(); ?>
                         </button>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <a href="modificarMenu.php" class="menu-categorias"><button>Todos</button></a>
-                <?php endif; ?>
+                    </a>
+                <?php endforeach; ?>
             </div>
-            <div class="add-product-btn-container">
-                <a href="agregarProducto.php" class="btn btn-add-product">Agregar Producto</a>
-            </div>
+            <a href="agregarProducto.php" class="menu-categorias"><button class="btn botonAgregar">Agregar producto</button></a>
         </div>
 
-        <div class="menu-container-productos">
-            <?php if ($mostrarResultadosBusqueda): ?>
-                <div id="resultados-busqueda-section" class="menu-section active-section">
-                    <h2>Resultados de Búsqueda para "<?php echo htmlspecialchars($textoBusqueda); ?>"</h2>
-                    <div class="menu-items">
-                        <?php if (!empty($resultadosBusqueda)): ?>
-                            <?php foreach ($resultadosBusqueda as $producto): ?>
-                                <?php $crudProductos->mostrarProductoModificar($producto); ?>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <p>No se encontraron productos que coincidan con su búsqueda.</p>
-                        <?php endif; ?>
-                    </div>
-                </div>
-            <?php else: ?>
-                <div id="todos-section" class="menu-section active-section">
-                    <?php foreach ($categorias as $categoria): ?>
-                        <h2><?php echo htmlspecialchars($categoria->getNombre()); ?></h2>
-                        <div class="menu-items">
-                            <?php foreach ($todosLosProductos as $producto): ?>
-                                <?php if ($producto->getIdCategoria() == $categoria->getIdCategoria()): ?>
-                                    <?php $crudProductos->mostrarProductoModificar($producto); ?>
-                                <?php endif; ?>
-                            <?php endforeach; ?>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-
+        <div class="categorias-container-productos">
+            <div id="todos-section" class="menu-section active-section">
                 <?php foreach ($categorias as $categoria): ?>
-                    <div id="<?php echo strtolower(str_replace(' ', '-', $categoria->getNombre())); ?>-section" class="menu-section" style="display: none;">
-                        <h2><?php echo htmlspecialchars($categoria->getNombre()); ?></h2>
-                        <div class="menu-items">
-                            <?php foreach ($todosLosProductos as $producto): ?>
-                                <?php if ($producto->getIdCategoria() == $categoria->getIdCategoria()): ?>
-                                    <?php $crudProductos->mostrarProductoModificar($producto); ?>
-                                <?php endif; ?>
-                            <?php endforeach; ?>
-                        </div>
+                    <a name="<?php echo $categoria->getNombre(); ?>"></a>
+                    <h2><?php echo $categoria->getNombre(); ?></h2>
+                    <div class="menu-items">
+                        <?php foreach ($todosLosProductos as $producto): ?>
+                            <?php if ($producto->getIdCategoria() == $categoria->getIdCategoria()): ?>
+                                <?php $crudProductos->mostrarProductoEditable($producto); ?>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
                     </div>
                 <?php endforeach; ?>
-            <?php endif; ?>
+            </div>
         </div>
     </div>
 
     <script src="../js/menuOpciones.js"></script>
-    <script src="../js/menu.js"></script>
+    <script src="../js/menu.js" defer></script>
 </body>
 </html>

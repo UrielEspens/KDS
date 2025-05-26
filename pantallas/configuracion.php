@@ -4,6 +4,7 @@ if (!isset($_SESSION['idEmpleado'])) {
     header('Location: index.php');
     exit();
 }
+$usuarioPuesto = $_SESSION['puesto'];
 require_once('procedimientos/conexion.php'); //Conexión
 
 $nombreEmpleado = $_SESSION['nombre'];

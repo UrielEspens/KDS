@@ -102,6 +102,23 @@
     background-color: rgb(232, 232, 232);
 }
 
+.indicador-estado-mesero {
+    width: 25px;
+    height: 100%;
+}
+
+.estado-pendiente-mesero {
+    background-color: #ff4d4d;
+}
+
+.estado-preparacion-mesero {
+    background-color: #ffdd59;
+}
+
+.estado-listo-mesero {
+    background-color: #4cd137;
+}
+
 .indicador-estado {
     width: 25px;
     height: 100%;

@@ -4,6 +4,8 @@ if (!isset($_SESSION['idEmpleado'])) {
     header('Location: index.php');
     exit();
 }
+
+$usuarioPuesto = $_SESSION['puesto'];
 require_once('procedimientos/conexion.php');
 require_once('procedimientos/busquedaMenu.php');
 ?>
@@ -23,18 +25,20 @@ require_once('procedimientos/busquedaMenu.php');
         </div>
         <div class="menu-container">
             <a href="carrito.php" id="carrito"><img src="../img/menu/carritoPedido.png" alt="Opciones" height="30px"></a>
-            <button id="toggleMenu">
-                <img src="../img/general/menuOpciones.png" alt="Opciones" height="30px">
-            </button>
-            <div id="menu">
-                <ul>
-                    <li><a href="menu.php"><img src="../img/general/menuRestaurante.png" alt="menuComida" class="icono-menu"> Ver menú</a></li>
-                    <hr>
-                    <li><a href="historialPedidos.php"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
-                    <hr>
-                    <li><a href="configuracion.php"><img src="../img/general/configuracion.png" alt="configuracion" class="icono-menu"> Configuración</a></li>
-                </ul>
-            </div>
+            <?php if ($usuarioPuesto == 'Gerente'): ?>
+                <button id="toggleMenu">
+                    <img src="../img/general/menuOpciones.png" alt="Opciones" height="30px">
+                </button>
+                <div id="menu">
+                    <ul>
+                        <li><a href="menu.php"><img src="../img/general/menuRestaurante.png" alt="menuComida" class="icono-menu"> Ver menú</a></li>
+                        <hr>
+                        <li><a href="historialPedidos.html"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
+                        <hr>
+                        <li><a href="configuracion.php"><img src="../img/general/configuracion.png" alt="configuracion" class="icono-menu"> Configuración</a></li>
+                    </ul>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 
@@ -55,7 +59,7 @@ require_once('procedimientos/busquedaMenu.php');
                         </a>
                     <?php endforeach; ?>
                 <?php else: ?>
-                    <a href="menu.php" class="menu-categorias"><button>Todos</button></a>
+                    <a href="menu.php" class="btn botonCategoria"><button>Todos</button></a>
                 <?php endif; ?>
             </div>
         </div>

@@ -1,31 +1,61 @@
 <?php
-require_once('../pantallas/procedimientos/crud.Producto.php');
-require_once('../pantallas/procedimientos/claseInfoProducto.php');
-require_once('../pantallas/procedimientos/crudCategoria.php');
-
-$crudProducto = new CrudProducto();
-$crudCategoria = new CrudCategoria();
-
-$productoAEliminar = null;
-$idProducto = null;
-
-if (isset($_GET['idProducto'])) {
-    $idProducto = $_GET['idProducto'];
-    $productoAEliminar = $crudProducto->obtenerProducto($idProducto);
-
-    if (!$productoAEliminar) {
-        header('Location: modificarMenu.php?mensaje=ProductoNoEncontrado'); // Redirige si el ID no existe
-        exit();
-    }
-} else {
-    header('Location: modificarMenu.php?mensaje=IDProductoFaltante'); // Redirige si no hay ID
+session_start();
+if (!isset($_SESSION['idEmpleado'])) {
+    header('Location: index.php');
     exit();
 }
 
-// Obtener el nombre de la categoría para mostrarlo
-$categoriaProducto = $crudCategoria->obtenerCategoria($productoAEliminar->getIdCategoria());
-$nombreCategoria = $categoriaProducto ? $categoriaProducto->getNombre() : 'Desconocida';
+require_once ('procedimientos/conexion.php');
+require_once ('procedimientos/claseProducto.php'); 
+require_once ('procedimientos/claseCategoria.php'); 
+require_once ('procedimientos/crudProductos.php'); 
 
+
+// Verificar si se ha proporcionado un ID de producto
+if (!isset($_GET['idProducto']) || !is_numeric($_GET['idProducto'])) {
+    $_SESSION['mensaje_error'] = "ID de producto no válido.";
+    header('Location: modificarMenu.php'); 
+    exit();
+}
+
+$idProducto = $_GET['idProducto'];
+
+$crudProductos = new CrudProductos();
+
+$producto = $crudProductos->obtenerProductoPorId($idProducto);
+
+
+if (!$producto) {
+    $_SESSION['mensaje_error'] = "Producto no encontrado.";
+    header('Location: modificarMenu.php');
+    exit();
+}
+
+// Obtener todas las categorías usando el método de CrudProductos
+$categorias = $crudProductos->obtenerCategorias(); // Llamada al método de CrudProductos
+
+// Variable para el nombre de la categoría del producto actual
+$nombreCategoriaProducto = '';
+foreach ($categorias as $categoria) {
+    
+    if ($categoria->getIdCategoria() == $producto->getIdCategoria()) {
+        $nombreCategoriaProducto = $categoria->getNombre();
+        break;
+    }
+}
+
+// Mensajes de sesión
+$mensajeExito = '';
+$mensajeError = '';
+
+if (isset($_SESSION['mensaje_exito'])) {
+    $mensajeExito = $_SESSION['mensaje_exito'];
+    unset($_SESSION['mensaje_exito']);
+}
+if (isset($_SESSION['mensaje_error'])) {
+    $mensajeError = $_SESSION['mensaje_error'];
+    unset($_SESSION['mensaje_error']);
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -55,29 +85,54 @@ $nombreCategoria = $categoriaProducto ? $categoriaProducto->getNombre() : 'Desco
             </div>
         </div>
     </div>
+    
     <div class="form-container">
-        <h2>¿Estás seguro de que quieres eliminar este producto?</h2><br>
-        <form action="../pantallas/procedimientos/adminProducto.php" method="post">
+        <?php if (!empty($mensajeExito)): ?>
+            <div class="mensaje-exito"><?php echo $mensajeExito; ?></div>
+        <?php endif; ?>
+        <?php if (!empty($mensajeError)): ?>
+            <div class="mensaje-error"><?php echo $mensajeError; ?></div>
+        <?php endif; ?>
+
+        <form action="procedimientos/procesarEliminarProducto.php" method="POST">
+            <input type="hidden" name="idProducto" value="<?php echo $producto->getIdProducto(); ?>">
+
             <div class="top-section">
                 <div class="info-column">
                     <div class="form-item">
                         <label for="nombre">Nombre</label>
-                        <input type="text" id="nombre" value="<?php echo htmlspecialchars($productoAEliminar->getNombre()); ?>" readonly>
+                        <input type="text" id="nombre" value="<?php echo $producto->getNombre(); ?>" readonly>
                     </div>
                     <div class="form-item">
                         <label for="categoria">Categoría</label>
-                        <input type="text" id="categoria" value="<?php echo htmlspecialchars($nombreCategoria); ?>" readonly>
+                        <div class="select-container">
+                            <select id="categoria" disabled>
+                                <?php foreach ($categorias as $categoria): ?>
+                                    <option value="<?php echo $categoria->getIdCategoria(); ?>"
+                                        <?php echo ($categoria->getIdCategoria() == $producto->getIdCategoria()) ? 'selected' : ''; ?>>
+                                        <?php echo $categoria->getNombre(); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
                     </div>
                 </div>
-
                 <div class="image-column">
-                    <div class="current-image-preview">
-                        <?php if ($productoAEliminar->getImagen()): ?>
-                            <p>Imagen del producto:</p>
-                            <img src="../pantallas/procedimientos/mostrarImagen.php?idProducto=<?php echo $productoAEliminar->getIdProducto(); ?>" alt="Imagen del producto" style="max-width: 150px; height: auto; border: 1px solid #ddd;">
-                        <?php else: ?>
-                            <p>No hay imagen para este producto.</p>
-                        <?php endif; ?>
+                    <div class="form-item image-upload-item">
+                        <label for="imagen">Imagen</label>
+                        <div class="image-upload-container">
+                            <div class="image-upload">
+                                <?php if ($producto->getImagen()): ?>
+                                    <img src="data:image/webp;base64, <?php echo base64_encode($producto->getImagen()); ?>" 
+                                         alt="Imagen de <?php echo $producto->getNombre(); ?>" 
+                                         style="display: block;">
+                                    <div class="upload-icon" style="display: none;">+</div> 
+                                <?php else: ?>
+                                    <img src="#" alt="Sin imagen" style="display: none;">
+                                    <div class="upload-icon" style="display: flex;">+</div> 
+                                <?php endif; ?>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -85,7 +140,7 @@ $nombreCategoria = $categoriaProducto ? $categoriaProducto->getNombre() : 'Desco
             <div class="form-section">
                 <div class="form-item description-item">
                     <label for="descripcion">Descripción</label>
-                    <input type="text" id="descripcion" value="<?php echo htmlspecialchars($productoAEliminar->getDescripcion()); ?>" readonly>
+                    <input type="text" id="descripcion" value="<?php echo $producto->getDescripcion(); ?>" readonly>
                 </div>
             </div>
 
@@ -94,19 +149,21 @@ $nombreCategoria = $categoriaProducto ? $categoriaProducto->getNombre() : 'Desco
                     <label for="precio">Precio unitario</label>
                     <div class="price-input">
                         <span class="price-symbol">$</span>
-                        <input type="text" id="precio" value="<?php echo number_format($productoAEliminar->getPrecio(), 2); ?>" readonly>
+                        <input type="text" id="precio" value="<?php echo $producto->getPrecio(); ?>" readonly>
                     </div>
                 </div>
+                <div class="form-item"></div>
+                <div class="form-item"></div>
             </div>
 
             <div class="buttons">
-                <input type="hidden" name="idProducto" value="<?php echo $productoAEliminar->getIdProducto(); ?>">
-                <input type="hidden" name="eliminar" value="eliminar">
                 <button type="submit" class="btn btn-save">ELIMINAR</button>
                 <a href="modificarMenu.php" class="btn btn-cancel">CANCELAR</a>
             </div>
         </form>
     </div>
     <script src="../js/menuOpciones.js"></script>
+    <script>
+    </script>
 </body>
 </html>
