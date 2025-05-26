@@ -28,7 +28,7 @@ if (isset($_POST['insertar'])) {
     $producto->setImagen($imagenContenido);
 
     $crudProducto->insertar($producto);
-    header('Location: ../modificarMenu.php?mensaje=ProductoAgregado');
+    header('Location: ../modificarMenu.php');
     exit();
 }
 // Actualizar

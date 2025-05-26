@@ -28,21 +28,21 @@ class CrudClientes {
         $consulta = "SELECT * FROM cliente WHERE idCliente = :idCliente";
         $db = Db::conectar();
         $select = $db->prepare($consulta);
-        $select->bindValue(':idCliente', $idCliente, PDO::PARAM_INT); // Es buena práctica especificar el tipo
+        $select->bindValue(':idCliente', $idCliente, PDO::PARAM_INT);
         $select->execute();
 
-        // 1. Obtiene los datos del cliente como un array asociativo
+   
         $clienteData = $select->fetch(PDO::FETCH_ASSOC);
 
-        // 2. Si no se encontró ningún cliente, devuelve null
+
         if (!$clienteData) {
             return null;
         }
 
-        // 3. Crea una nueva instancia de la clase Cliente
+
         $cliente = new Cliente();
 
-        // 4. Asigna los valores del array a las propiedades del objeto Cliente
+
         $cliente->setIdCliente($clienteData['idCliente']);
         $cliente->setNombre($clienteData['nombre']);
         $cliente->setPrimerApe($clienteData['primerApe']);
@@ -52,7 +52,6 @@ class CrudClientes {
         $cliente->setNumeroCasa($clienteData['numeroCasa']);
         $cliente->setReferenciaCasa($clienteData['referenciaCasa']);
 
-        // 5. Devuelve el objeto Cliente
         return $cliente;
     }
     

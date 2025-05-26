@@ -108,7 +108,6 @@ if ($idOrden || $desdeFecha || $hastaFecha || ($tipoPago && $tipoPago !== 'todos
                     <th>Monto</th>
                     <th>Tipo de pago</th>
                     <th>Cliente</th>
-                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
