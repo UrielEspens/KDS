@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
     <title>Nuevo Cliente</title>
     <link rel="stylesheet" href="../estilos/estilos.css">
@@ -9,31 +9,23 @@
     <div class="header">
         <div class="logo-title">
             <a href="inicio.php"><img src="../img/general/hogar.png" alt="Home" height="30px"></a>
-            <div class="title">NUEVO CLIENTE</div>
+            <div class="title">AGREGAR CLIENTE</div>
         </div>
         <div class="menu-container">
             <button id="toggleMenu">
                 <img src="../img/general/menuOpciones.png" alt="Opciones" height="30px">
             </button>
             <div id="menu">
-                <ul>
-                    <li><a href="menu.php"><img src="../img/general/menuRestaurante.png" alt="menuComida" class="icono-menu"> Ver menú</a></li>
-                    <hr>
-                    <li><a href="historialPedidos.html"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
-                    <hr>
-                    <li><a href="configuracion.php"><img src="../img/general/configuracion.png" alt="configuracion" class="icono-menu"> Configuración</a></li>
-                </ul>
+            <ul>
+            <li><a href="menu.php"><img src="../img/general/menuRestaurante.png" alt="menuComida" class="icono-menu">  Ver menú</a></li>
+                <li><a href="historialPedidos.html"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
+                <li><a href="configuracion.php"><img src="../img/general/configuracion.png" alt="configuracion" class="icono-menu"> Configuración</a></li>
+            </ul>
             </div>
         </div>
     </div>
 
     <div class="form-container">
-        <?php
-        // Mensajes de éxito o error (opcional)
-        if (isset($_GET['mensaje']) && $_GET['mensaje'] == 'ClienteAgregado') {
-            echo '<p style="color: green; text-align: center; font-weight: bold;">Cliente agregado exitosamente.</p><hr>';
-        }
-        ?>
         <form action="../pantallas/procedimientos/admin_Cliente.php" method="POST">
             <div class="form-row">
                 <div class="form-col">
