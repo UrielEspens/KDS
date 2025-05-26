@@ -5,6 +5,8 @@ if (!isset($_SESSION['idEmpleado'])) {
     exit();
 }
 
+$usuarioPuesto = $_SESSION['puesto'];
+
 require_once('procedimientos/conexion.php');
 require_once('procedimientos/cargarCarrito.php');
 ?>
@@ -23,18 +25,20 @@ require_once('procedimientos/cargarCarrito.php');
             <div class="title">GENERAR PEDIDO:</div>
         </div>
         <div class="menu-container">
-            <button id="toggleMenu">
-                <img src="../img/general/menuOpciones.png" alt="Opciones" height="30px">
-            </button>
-            <div id="menu">
-                <ul>
-                    <li><a href="menu.php"><img src="../img/general/menuRestaurante.png" alt="menuComida" class="icono-menu"> Ver menú</a></li>
-                    <hr>
-                    <li><a href="historialPedidos.html"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
-                    <hr>
-                    <li><a href="configuracion.php"><img src="../img/general/configuracion.png" alt="configuracion" class="icono-menu"> Configuración</a></li>
-                </ul>
-            </div>
+            <?php if ($usuarioPuesto == 'Gerente'): ?>
+                <button id="toggleMenu">
+                    <img src="../img/general/menuOpciones.png" alt="Opciones" height="30px">
+                </button>
+                <div id="menu">
+                    <ul>
+                        <li><a href="menu.php"><img src="../img/general/menuRestaurante.png" alt="menuComida" class="icono-menu"> Ver menú</a></li>
+                        <hr>
+                        <li><a href="historialPedidos.html"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
+                        <hr>
+                        <li><a href="configuracion.php"><img src="../img/general/configuracion.png" alt="configuracion" class="icono-menu"> Configuración</a></li>
+                    </ul>
+                </div>
+            <?php endif; ?>
         </div>
         <script src="../js/menuOpciones.js"></script>
     </div>
@@ -73,12 +77,13 @@ require_once('procedimientos/cargarCarrito.php');
                 <?php
                 $totalCarrito = 0;
                 foreach ($_SESSION['carrito'] as $item):
-                    $precio = is_numeric($item['precio']) ? (float)$item['precio'] : 0.00;
-                    $cantidad = is_numeric($item['cantidad']) ? (int)$item['cantidad'] : 0;
+                    $precio = $item['precio'];
+                    $cantidad = $item['cantidad'];
 
                     $subtotalProducto = $precio * $cantidad;
                     $totalCarrito += $subtotalProducto;
                 ?>
+                
                     <div class="carrito-item">
                         <div class="item-contenedor-izq">
                             <div class="item-info">

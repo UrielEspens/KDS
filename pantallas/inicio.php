@@ -4,6 +4,9 @@ if (!isset($_SESSION['idEmpleado'])) {
     header('Location: index.php');
     exit();
 }
+
+$usuarioPuesto = $_SESSION['puesto'];
+$usuarioNombre = $_SESSION['nombre'];
 require_once('procedimientos/crudPedidos.php');
 require_once('procedimientos/clasePedido.php');
 
@@ -33,8 +36,10 @@ $listaPedidos = $crud->mostrarPedidos();
             <ul>
                 <li><a href="menu.php"><img src="../img/general/menuRestaurante.png" alt="menuComida" class="icono-menu">  Ver menú</a></li>
                 <hr>
+                <?php if ($usuarioPuesto == 'Gerente'): ?>
                 <li><a href="historialPedidos.html"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
                 <hr>
+                <?php endif; ?>
                 <li><a href="configuracion.php"><img src="../img/general/configuracion.png" alt="configuracion" class="icono-menu"> Configuración</a></li>
             </ul>
             </div>
@@ -45,6 +50,7 @@ $listaPedidos = $crud->mostrarPedidos();
     <div class="orders-container">
         <?php foreach ($listaPedidos as $pedido): ?>
             <div class="order-card">
+                <?php if ($usuarioPuesto == 'Chef' || $usuarioPuesto == 'Gerente'): ?>
                 <form action="procedimientos/cambioEstado.php" method="post">
                     <input type="hidden" name="idPedido" value="<?php echo $pedido->getIdPedido(); ?>">
                     <input type="hidden" name="estado" value="<?php echo $pedido->getEstado(); ?>">
@@ -52,6 +58,10 @@ $listaPedidos = $crud->mostrarPedidos();
                         <p></p>
                     </button>
                 </form>
+                <?php endif; ?>
+                <?php if ($usuarioPuesto == 'Mesero'): ?>
+                <div class="indicador-estado-mesero estado-<?php echo $pedido->getEstado(); ?>-mesero"></div>
+                <?php endif; ?>
                 <a href="detallesPedido.php?idPedido=<?php echo $pedido->getIdPedido(); ?>" class="botonDetalles">
                 <button class="botonDetalles" id="<?php echo $pedido->getIdPedido(); ?>">
                     <div class="order-details">
@@ -61,9 +71,11 @@ $listaPedidos = $crud->mostrarPedidos();
                     </div>
                 </button>
                 </a>
-                <button class="botonCheck">
-                    <img src="../img/inicio/controlar.png" alt="Listo" width="25px" height="27px">
-                </button>
+                <?php if ($usuarioPuesto == 'Gerente' || $usuarioPuesto == 'Cajero'): ?>
+                    <button class="botonCheck">
+                        <img src="../img/inicio/controlar.png" alt="Listo" width="25px" height="27px">
+                    </button>
+                <?php endif; ?>
             </div>
         <?php endforeach; ?>
     </div>

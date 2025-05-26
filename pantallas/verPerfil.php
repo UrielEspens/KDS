@@ -9,7 +9,7 @@ $idEmpleado = $_SESSION['idEmpleado'];
 $usuarioEmpleado = $_SESSION['usuario'];
 $nombreEmpleado = $_SESSION['nombre'];
 $primerApeEmpleado = $_SESSION['primerApe'];
-$puestoEmpleado = $_SESSION['puesto'];
+$usuarioPuesto = $_SESSION['puesto'];
 ?>
 <!DOCTYPE html>
 <html>
@@ -25,6 +25,7 @@ $puestoEmpleado = $_SESSION['puesto'];
             <div class="title">VER PERFIL</div>
         </div>
         <div class="menu-container">
+        <?php if ($usuarioPuesto == 'Gerente'): ?>
             <button id="toggleMenu">
                 <img src="../img/general/menuOpciones.png" alt="Opciones" height="30px">
             </button>
@@ -35,6 +36,7 @@ $puestoEmpleado = $_SESSION['puesto'];
                 <li><a href="configuracion.php"><img src="../img/general/configuracion.png" alt="configuracion" class="icono-menu"> Configuración</a></li>
             </ul>
             </div>
+        <?php endif; ?>
         </div>
     </div>
     <div class = "container">
@@ -63,7 +65,7 @@ $puestoEmpleado = $_SESSION['puesto'];
                  <div class = "labelTittle">Contraseña:</div><div class = "labelConfiguracion"><?php echo '********'; ?></div>
              </div>
              <div class = "nombreApellido">
-                 <div class = "labelTittle">Rol:</div><div class = "labelConfiguracion"><?php echo $puestoEmpleado; ?></div>
+                 <div class = "labelTittle">Rol:</div><div class = "labelConfiguracion"><?php echo $usuarioPuesto; ?></div>
              </div>
        </div>
        <hr class = "linea">

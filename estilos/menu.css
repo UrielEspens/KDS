@@ -1,0 +1,243 @@
+#carrito {
+    background: none;
+    border: none;
+    padding: 0;
+    margin-right: 20px;
+    outline: none;
+    box-shadow: none;
+    cursor: pointer;
+}
+
+.menu-body {
+    background-color: #f0f0f0;
+    padding: 20px;
+}
+
+.menu-options {
+    border-radius: 10px;
+    background-color: white;
+    padding: 15px;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    justify-content: space-between;
+}
+
+.menu-search-container {
+    width: 40%; /* Barra de búsqueda más chica */
+    display: flex;
+}
+
+.menu-search-container input[type="text"] {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px 0 0 5px;
+}
+
+.menu-search-container button {
+    background-color: #6a6a6a;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+}
+
+.menu-search-container button:hover {
+    background-color: #323232;
+}
+
+.categorias-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.categorias-container a {
+    text-decoration: none;
+}
+
+.categorias-container button{
+    display: flex;
+    border: rgb(0, 0, 0) .1px solid;
+    margin-right: 15px;
+    padding: 8px 15px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+
+.categorias-container button.botonCategoria {
+    background-color: #6a6a6a;
+    color: white;
+    border-color: #6a6a6a;
+}
+
+.categorias-container-productos .menu-section {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+}
+
+.categorias-container-productos .menu-section:last-child {
+    border-bottom: none;
+}
+
+.menu-section {
+    padding: 10px;
+    background: white;
+    border-radius: 10px;
+}
+
+.menu-section h2 {
+    color: #333;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.menu-items {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+
+}
+
+.menu-item {
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.menu-item img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.item-details {
+    flex-grow: 1;
+}
+
+.item-details h3 {
+    margin-top: 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.item-details p {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.item-price {
+    font-weight: bold;
+    color: #28a745;
+    font-size: 16px;
+}
+
+.add-buttons {
+    background-color: #00bbff;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: auto;
+}
+
+/* Detalles de cada producto */
+.modal {
+    display: none;
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%;
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.4); 
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    border-radius: 5px;
+    position: relative;
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.botonEliminar {
+    background-color: #f97d7d;
+    color: white;
+    border-radius: 3px;
+    padding: 8px 1px 6px 9px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: auto;
+}
+
+.botonEditar {
+    color: black;
+    background-color: #c3c3c3;
+    border-radius: 3px;
+    padding: 8px 1px 6px 9px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: auto;
+}
+
+.botones-accion {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+}
+
+.botones-accion a {
+    text-decoration: none;
+    
+}
+
+.botones-accion img {
+    width: 20px;
+    height: 20px;
+}
+
+.botonAgregar {
+    background-color: #5c5c5c;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 8px 15px;
+    cursor: pointer;
+    margin-left: auto;
+}

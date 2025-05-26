@@ -4,6 +4,7 @@ if (!isset($_SESSION['idEmpleado'])) {
     header('Location: index.php');
     exit();
 }
+$usuarioPuesto = $_SESSION['puesto'];
 require_once('procedimientos/conexion.php'); //Conexión
 
 $nombreEmpleado = $_SESSION['nombre'];
@@ -25,18 +26,20 @@ $usuarioEmpleado = $_SESSION['usuario'];
             <div class="title">CONFIGURACIÓN</div>
         </div>
         <div class="menu-container">
-            <button id="toggleMenu">
-                <img src="../img/general/menuOpciones.png" alt="Opciones" height="30px">
-            </button>
-            <div id="menu">
-            <ul>
-                <li><a href="menu.php"><img src="../img/general/menuRestaurante.png" alt="menuComida" class="icono-menu">  Ver menú</a></li>
-                <hr>
-                <li><a href="historialPedidos.html"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
-                <hr>
-                <li><a href="configuracion.php"><img src="../img/general/configuracion.png" alt="configuracion" class="icono-menu"> Configuración</a></li>
-            </ul>
-            </div>
+            <?php if ($usuarioPuesto == 'Gerente'): ?>
+                <button id="toggleMenu">
+                    <img src="../img/general/menuOpciones.png" alt="Opciones" height="30px">
+                </button>
+                <div id="menu">
+                <ul>
+                    <li><a href="menu.php"><img src="../img/general/menuRestaurante.png" alt="menuComida" class="icono-menu">  Ver menú</a></li>
+                    <hr>
+                    <li><a href="historialPedidos.html"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
+                    <hr>
+                    <li><a href="configuracion.php"><img src="../img/general/configuracion.png" alt="configuracion" class="icono-menu"> Configuración</a></li>
+                </ul>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
     <div class = "container">
@@ -50,14 +53,16 @@ $usuarioEmpleado = $_SESSION['usuario'];
            </div>
             <a href="procedimientos/cerrarSesion.php"><button class ="btn-perfil">CERRAR SESIÓN</button></a>
        </div>
-       <hr class = "linea">
-       <div class = "container-perfil">
-           <a href="gestionUsuarios.php"><div class = "labelConfiguracion">GESTION DE USUARIOS</div> </a><br>
-       </div>
-       <hr class = "linea">
-       <div class = "container-perfil">
-           <a href="modificarMenu.php"><div class = "labelConfiguracion">MODIFICAR MENÚ</div></a><br>
-       </div>
+       <?php if ($usuarioPuesto == 'Gerente'): ?>
+        <hr class = "linea">
+        <div class = "container-perfil">
+            <a href="gestionUsuarios.php"><div class = "labelConfiguracion">GESTION DE USUARIOS</div> </a><br>
+        </div>
+        <hr class = "linea">
+        <div class = "container-perfil">
+            <a href="modificarMenu.php"><div class = "labelConfiguracion">MODIFICAR MENÚ</div></a><br>
+        </div>
+        <?php endif; ?>
     <script src="../js/menuOpciones.js"></script>
 </body>
 </html>
