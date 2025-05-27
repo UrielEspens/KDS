@@ -80,9 +80,12 @@ $listaPedidos = $crud->mostrarPedidos();
                 </button>
                 </a>
                 <?php if ($usuarioPuesto == 'Gerente' || $usuarioPuesto == 'Cajero'): ?>
-                    <button class="botonCheck">
-                        <img src="../img/inicio/controlar.png" alt="Listo" width="25px" height="27px">
-                    </button>
+                    <form action="pago.php" method="get" style="display:inline;">
+                        <input type="hidden" name="idPedido" value="<?php echo htmlspecialchars($pedido->getIdPedido()); ?>">
+                        <button type="submit" class="botonCheck"  <?php echo ($pedido->getEstado() === 'pagado') ? 'disabled' : ''; ?>>
+                            <img src="../img/inicio/controlar.png" alt="Listo" width="25px" height="27px">
+                        </button>
+                    </form>
                 <?php endif; ?>
             </div>
         <?php endforeach; ?>
