@@ -57,8 +57,10 @@ if (!isset($_SESSION['idEmpleado'])) {
                 <button type="submit" class="buttonConfiguracion" name="puesto" value="chef">Chef</button>
                 <button type="submit" class="buttonConfiguracion" name="puesto" value="mesero">Mesero</button>
                 <button type="submit" class="buttonConfiguracion" name="puesto" value="gerente">Gerente</button>
-                <a href="agregarUsuario.php"><button class="buttonConfiguracion">AGREGAR</button></a>
             </form>
+            <div class="containerBusqueda">
+                <a href="agregarUsuario.php"><button class="buttonConfiguracion">AGREGAR</button></a>
+            </div>
         </div>
         <div class = "containerPerfiles">
             <?php foreach ($listaUsuarios as $usuario){ ?>
