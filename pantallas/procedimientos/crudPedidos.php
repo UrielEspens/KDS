@@ -117,7 +117,7 @@ require_once('claseEmpleados.php');
 												e.idEmpleado, e.nombre AS nombreEmpleado, e.primerApe AS apellidoEmpleado
 										FROM pedido p
 										INNER JOIN cliente c ON p.idCliente = c.idCliente
-										INNER JOIN empleado e ON p.idEmpleado = e.idEmpleado
+										INNER JOIN empleados e ON p.idEmpleado = e.idEmpleado
 										WHERE p.idPedido = :idPedido;');
 			$selectPedido->bindParam(':idPedido', $idPedido, PDO::PARAM_INT);
 			$selectPedido->execute();

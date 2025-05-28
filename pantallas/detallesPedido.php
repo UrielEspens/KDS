@@ -1,5 +1,4 @@
 <?php
-// ¡Se recomienda renombrar este archivo a detallesPedido.php!
 require_once('procedimientos/crudPedidos.php');
 require_once('procedimientos/claseDetallesPedido.php');
 require_once('procedimientos/conexion.php');
