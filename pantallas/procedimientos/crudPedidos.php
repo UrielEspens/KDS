@@ -1,6 +1,10 @@
 <?php
 require_once('conexion.php');
+require_once('clasePedido.php');
 require_once('claseDetallesPedido.php');
+require_once('claseProducto.php');
+require_once('claseCliente.php');
+require_once('claseEmpleados.php');
 
 	class CrudPedidos{
 		// constructor de la clase
@@ -103,7 +107,51 @@ require_once('claseDetallesPedido.php');
 
 				return $listaArticulos; // Retornamos el array de objetos ArticuloPedido
 		}
+		
+		public function obtenerPedidoCompletoParaPago($idPedido) {
+			$db = Db::conectar();
 
+			// Consulta principal para obtener datos del pedido, cliente y empleado
+			$selectPedido = $db->prepare('SELECT p.idPedido, p.estado, p.horaCreacion,
+												c.idCliente, c.nombre AS nombreCliente, c.primerApe AS apellidoCliente,
+												e.idEmpleado, e.nombre AS nombreEmpleado, e.primerApe AS apellidoEmpleado
+										FROM pedido p
+										INNER JOIN cliente c ON p.idCliente = c.idCliente
+										INNER JOIN empleado e ON p.idEmpleado = e.idEmpleado
+										WHERE p.idPedido = :idPedido;');
+			$selectPedido->bindParam(':idPedido', $idPedido, PDO::PARAM_INT);
+			$selectPedido->execute();
+			$datosHeader = $selectPedido->fetch(PDO::FETCH_ASSOC);
+
+			if (!$datosHeader) {
+				return null;
+			}
+
+			$detallesPedido = new DetallesPedido();
+			$detallesPedido->setIdPedido($datosHeader['idPedido']);
+			$detallesPedido->setEstado($datosHeader['estado']);
+			$detallesPedido->setHoraCreacion($datosHeader['horaCreacion']);
+			$detallesPedido->setNombreCliente($datosHeader['nombreCliente']);
+			$detallesPedido->setApellidoCliente($datosHeader['apellidoCliente']);
+			$detallesPedido->setIdCliente($datosHeader['idCliente']);
+			$detallesPedido->setNombreEmpleado($datosHeader['nombreEmpleado']);
+			$detallesPedido->setApellidoEmpleado($datosHeader['apellidoEmpleado']);
+			$detallesPedido->setIdEmpleado($datosHeader['idEmpleado']);
+
+			$articulos = $this->obtenerProductosDePedido($idPedido);
+			$detallesPedido->setArticulos($articulos);
+
+			return $detallesPedido;
+		}
+
+		public function actualizarEstadoPedido($idPedido, $estado) {
+			$db = Db::conectar();
+			$update = $db->prepare('UPDATE pedido SET estado = :estado WHERE idPedido = :idPedido');
+			$update->bindParam(':estado', $estado);
+			$update->bindParam(':idPedido', $idPedido);
+			return $update->execute();
+    	}
+	
 		public function insertarPedido($idCliente, $idEmpleado) {
 			$db = Db::conectar();
 			$insert = $db->prepare('INSERT INTO pedido (idCliente, idEmpleado) VALUES (:idCliente, :idEmpleado)');
