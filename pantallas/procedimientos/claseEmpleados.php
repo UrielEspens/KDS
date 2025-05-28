@@ -5,9 +5,9 @@ class Empleado {
     private $idEmpleado;
     private $nombre;
     private $primerApe;
-    private $segundoApe; // Opcional, si lo usas
+    private $segundoApe;
     private $usuario;
-    private $contrasena; // No es buena práctica almacenar la contraseña directamente, pero para fines de ejemplo la incluyo. Deberías usar hashing.
+    private $contrasena; 
     private $puesto;
 
     public function __construct() {

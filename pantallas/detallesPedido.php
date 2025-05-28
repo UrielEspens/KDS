@@ -76,26 +76,40 @@ if (isset($_GET['idPedido']) && is_numeric($_GET['idPedido'])) {
                     <p><strong id="pedido-mesero-detalle">Mesero: </strong><?php echo $pedido->getNombreEmpleado() . ' ' . $pedido->getApellidoEmpleado(); ?></p>
                 </div>
 
-                <textarea class="lista-articulos" id="lista-articulos-detalle" rows="10" cols="57" readonly><?php
-                    $listaArticulosTexto = "";
-                    $totalCalculadoEnBucle = 0.00;
+                <div class="lista-articulos">
+                    <div class="lista-articulos-nombres" id="lista-articulos-nombres">
+                        <?php
+                        $listaArticulosTexto = "";
+                        $listaSubtotalTexto = ""; 
+                        $totalCalculadoEnBucle = 0.00;
 
-                    if (is_array($pedido->getArticulos())) {
-                        foreach ($pedido->getArticulos() as $articuloObjeto) {
-                            $cantidad = $articuloObjeto->getCantidadProducto();
-                            $nombre = $articuloObjeto->getNombreProducto();
-                            $precio = $articuloObjeto->getPrecioProducto();
+                        if (is_array($pedido->getArticulos()) && !empty($pedido->getArticulos())) {
+                            // Un solo bucle para construir ambas listas
+                            foreach ($pedido->getArticulos() as $articuloObjeto) {
+                                $cantidad = $articuloObjeto->getCantidadProducto();
+                                $nombre = $articuloObjeto->getNombreProducto();
+                                $precio = $articuloObjeto->getPrecioProducto();
 
-                            $totalPorArticulo = $cantidad * $precio;
-                            $totalCalculadoEnBucle += $totalPorArticulo; 
+                                $totalPorArticulo = $cantidad * $precio;
+                                $totalCalculadoEnBucle += $totalPorArticulo;
 
-                            $listaArticulosTexto .= $cantidad. '    ' . $nombre . '  -  $' . number_format($totalPorArticulo, 2) . "\n";
+                                $listaArticulosTexto .= '<span>' . $cantidad . '</span> ' . $nombre . ' ' . '<br>'; 
+                                $listaSubtotalTexto .= '<span> $' . number_format($totalPorArticulo, 2) . '</span><br>';
+                            }
+                        } else {
+                            $listaArticulosTexto = "No hay artículos en este pedido.";
+                            $listaSubtotalTexto = ""; 
                         }
-                    } else {
-                        $listaArticulosTexto = "No hay artículos en este pedido.";
-                    }
-                    echo trim($listaArticulosTexto);
-                ?></textarea>
+                        echo $listaArticulosTexto;
+                        ?>
+                    </div>
+
+                    <div class="lista-articulos-subtotales" id="lista-articulos-subtotales">
+                        <?php
+                        echo $listaSubtotalTexto;
+                        ?>
+                    </div>
+                </div>
 
                 <?php
                     $pedido->setTotal($totalCalculadoEnBucle);

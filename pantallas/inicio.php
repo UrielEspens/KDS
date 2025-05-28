@@ -113,7 +113,7 @@ $listaPedidos = $crud->mostrarPedidos();
                         </div>
 
                         <div class="order-items-list">
-                            <h4>Artículos:</h4>
+                            <h4>Productos:</h4>
                             <?php if ($detallesPedido && is_array($detallesPedido->getArticulos()) && !empty($detallesPedido->getArticulos())): ?>
                                 <ul>
                                     <?php foreach ($detallesPedido->getArticulos() as $articuloObjeto): ?>
