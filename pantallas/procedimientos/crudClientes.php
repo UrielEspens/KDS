@@ -80,6 +80,38 @@ class crudClientes{
         }
         return $listaClientes;
     }
+<<<<<<< HEAD
+
+    public function obtenerClientePorId($idCliente) {
+        $consulta = "SELECT * FROM cliente WHERE idCliente = :idCliente";
+        $db = Db::conectar();
+        $select = $db->prepare($consulta);
+        $select->bindValue(':idCliente', $idCliente, PDO::PARAM_INT);
+        $select->execute();
+
+   
+        $clienteData = $select->fetch(PDO::FETCH_ASSOC);
+
+
+        if (!$clienteData) {
+            return null;
+        }
+
+
+        $cliente = new Cliente();
+
+
+        $cliente->setIdCliente($clienteData['idCliente']);
+        $cliente->setNombre($clienteData['nombre']);
+        $cliente->setPrimerApe($clienteData['primerApe']);
+        $cliente->setSegundoApe($clienteData['segundoApe']);
+        $cliente->setTelefono($clienteData['telefono']);
+        $cliente->setCalle($clienteData['calle']);
+        $cliente->setNumeroCasa($clienteData['numeroCasa']);
+        $cliente->setReferenciaCasa($clienteData['referenciaCasa']);
+
+        return $cliente;
+=======
     //Funcion para obtener la lista de clientes a traves de una busqueda en gestion de clientes
     public function buscarClientesBusqueda($busqueda){
         $db=Db::conectar();
@@ -102,6 +134,7 @@ class crudClientes{
             $listaClientes[]=$myCliente;
         }
         return $listaClientes;
+>>>>>>> 11802b61d3cbeac3202d9d03064da8a7de614358
     }
 }
 ?>
