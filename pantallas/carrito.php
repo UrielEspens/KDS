@@ -15,7 +15,6 @@ if (isset($_SESSION['mensaje_error'])) {
     echo '<script>alert("' . htmlspecialchars($_SESSION['mensaje_error']) . '"); </script>';
     unset($_SESSION['mensaje_error']); // Limpiar el mensaje después de mostrarlo
 }
-
 ?>
 
 <!DOCTYPE html>
