@@ -89,7 +89,7 @@ $listaPedidos = $crud->mostrarPedidos();
     </div>
     <?php endif; ?>
 
-    <?php if ($usuarioPuesto == 'Chef' || $usuarioPuesto == 'Gerente'): ?>
+    <?php if ($usuarioPuesto == 'Chef'): ?>
         <div class="orders-container-chef"> <?php foreach ($listaPedidos as $pedido): ?>
                 <?php
                 $detallesPedido = $crud->mostrarDetalles($pedido->getIdPedido());

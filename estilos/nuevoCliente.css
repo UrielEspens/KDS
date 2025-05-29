@@ -89,16 +89,3 @@ input[type="text"]:focus {
 .btn-cancel:hover {
     background-color: #e5352b;
 }
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .form-row {
-        flex-direction: column;
-        gap: 15px;
-    }
-    
-    .form-container {
-        width: 95%;
-        padding: 15px;
-    }
-}

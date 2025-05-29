@@ -71,13 +71,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Intentar agregar el producto a la base de datos
     if ($crudProductos->agregarProducto($nuevoProducto)) {
-        $_SESSION['mensaje_exito'] = "Producto **agregado** correctamente.";
+        $_SESSION['mensaje_exito'] = "Producto agregado correctamente.";
         unset($_SESSION['form_data']); 
     } else {
-        $_SESSION['mensaje_error'] = "Ocurrió un **error** al agregar el producto.";
+        $_SESSION['mensaje_error'] = "Ocurrió un error al agregar el producto.";
     }
 
-    header('Location: ../agregarProducto.php');
+    header('Location: ../modificarMenu.php');
     exit();
 
 } else {
