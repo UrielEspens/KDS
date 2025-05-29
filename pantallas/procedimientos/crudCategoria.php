@@ -17,9 +17,9 @@ class CrudCategoria {
     public function obtenerCategoria($idCategoria){
         $db = Db::conectar();
         $select = $db->prepare('SELECT idCategoria, nombre FROM categorias WHERE idCategoria=:idCategoria');
-        $select->bindValue('idCategoria', $idCategoria, PDO::PARAM_INT);
+        $select->bindValue('idCategoria', $idCategoria);
         $select->execute();
-        $categoriaData = $select->fetch(PDO::FETCH_ASSOC);
+        $categoriaData = $select->fetch();
         
         if ($categoriaData) {
             $myCategoria = new Categoria();
@@ -36,7 +36,7 @@ class CrudCategoria {
         $listaCategorias = [];
         $select = $db->query('SELECT idCategoria, nombre FROM categorias ORDER BY nombre ASC');
 
-        foreach($select->fetchAll(PDO::FETCH_ASSOC) as $categoriaData){
+        foreach($select->fetchAll() as $categoriaData){
             $myCategoria = new Categoria();
             $myCategoria->setIdCategoria($categoriaData['idCategoria']);
             $myCategoria->setNombre($categoriaData['nombre']);
@@ -50,7 +50,7 @@ class CrudCategoria {
         $db = Db::conectar();
         $update = $db->prepare('UPDATE categorias SET nombre=:nombre WHERE idCategoria=:idCategoria');
         $update->bindValue('nombre', $categoria->getNombre());
-        $update->bindValue('idCategoria', $categoria->getIdCategoria(), PDO::PARAM_INT);
+        $update->bindValue('idCategoria', $categoria->getIdCategoria());
         $update->execute();
     }
 
@@ -58,7 +58,7 @@ class CrudCategoria {
     public function eliminar($idCategoria){
         $db = Db::conectar();
         $delete = $db->prepare('DELETE FROM categorias WHERE idCategoria=:idCategoria');
-        $delete->bindValue('idCategoria', $idCategoria, PDO::PARAM_INT);
+        $delete->bindValue('idCategoria', $idCategoria);
         $delete->execute();
     }
 }

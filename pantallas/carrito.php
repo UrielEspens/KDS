@@ -7,8 +7,15 @@ if (!isset($_SESSION['idEmpleado'])) {
 
 $usuarioPuesto = $_SESSION['puesto'];
 
-require_once('procedimientos/conexion.php');
-require_once('procedimientos/cargarCarrito.php');
+require_once('procedimientos/conexion.php'); // Asegúrate de que esta conexión esté disponible para todos
+require_once('procedimientos/cargarCarrito.php'); // Este archivo ahora es el encargado de cargar el carrito
+
+// Mostrar mensaje de error si existe
+if (isset($_SESSION['mensaje_error'])) {
+    echo '<script>alert("' . htmlspecialchars($_SESSION['mensaje_error']) . '"); </script>';
+    unset($_SESSION['mensaje_error']); // Limpiar el mensaje después de mostrarlo
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -52,25 +59,26 @@ require_once('procedimientos/cargarCarrito.php');
                     <option value="">selecciona un cliente</option>
                     <?php if (!empty($listaClientes)): ?>
                         <?php foreach ($listaClientes as $cliente): ?>
-                            <option value="<?php echo $cliente->getIdCliente(); ?>"
+                            <option value="<?php echo htmlspecialchars($cliente->getIdCliente()); ?>"
                                 <?php
                                 if ((int)$clienteIdActual === (int)$cliente->getIdCliente()) {
                                     echo 'selected';
                                 }
                                 ?>
                             >
-                                <?php echo $cliente->getNombre() . " " . $cliente->getPrimerApe() . " " . $cliente->getSegundoApe(); ?>
+                                <?php echo htmlspecialchars($cliente->getNombre() . " " . $cliente->getPrimerApe() . " " . $cliente->getSegundoApe()); ?>
                             </option>
                         <?php endforeach; ?>
                     <?php else: ?>
                         <option value="">No hay clientes registrados</option>
                     <?php endif; ?>
                 </select>
-                <input class="btn" type="submit" value="Seleccionar Cliente"> </form>
+                <input class="btn" type="submit" value="Seleccionar Cliente">
+            </form>
             <button class="btn"><a href="nuevoCliente.php">Nuevo Cliente</a></button>
         </div>
-        <div class="clienteSeleccionado"><strong>Mesero: </strong> <?php echo $nombreEmpleado . ' ' . $apellidoEmpleado; ?></div>
-        <p class="clienteSeleccionado"><strong>Cliente Seleccionado: </strong><?php echo $clienteNombreParaMostrar; ?></p>
+        <div class="clienteSeleccionado"><strong>Mesero: </strong> <?php echo htmlspecialchars($nombreEmpleado . ' ' . $apellidoEmpleado); ?></div>
+        <p class="clienteSeleccionado"><strong>Cliente Seleccionado: </strong><?php echo htmlspecialchars($clienteNombreParaMostrar); ?></p>
         <hr class="linea">
         <?php if (!empty($_SESSION['carrito'])): ?>
             <div class="carrito-items-container">
@@ -83,12 +91,12 @@ require_once('procedimientos/cargarCarrito.php');
                     $subtotalProducto = $precio * $cantidad;
                     $totalCarrito += $subtotalProducto;
                 ?>
-                
+
                     <div class="carrito-item">
                         <div class="item-contenedor-izq">
                             <div class="item-info">
-                                <span class="item-cantidad">&nbsp;<?php echo $cantidad; ?>&nbsp;</span>
-                                <span class="item-nombre"><?php echo $item['nombre'] ?? 'Producto Desconocido'; ?></span>
+                                <span class="item-cantidad">&nbsp;<?php echo htmlspecialchars($cantidad); ?>&nbsp;</span>
+                                <span class="item-nombre"><?php echo htmlspecialchars($item['nombre'] ?? 'Producto Desconocido'); ?></span>
                             </div>
                             <span class="item-precio-unitario">$<?php echo number_format($precio, 2); ?> </span><br>
                         </div>
@@ -99,17 +107,17 @@ require_once('procedimientos/cargarCarrito.php');
                             <div class="item-botones">
                                 <form action="procedimientos/adminCarrito.php" method="post" style="display: inline-block;">
                                     <input type="hidden" name="accionCarrito" value="restar">
-                                    <input type="hidden" name="idProducto" value="<?php echo $item['id']; ?>">
+                                    <input type="hidden" name="idProducto" value="<?php echo htmlspecialchars($item['id']); ?>">
                                     <button type="submit" class="btn">-</button>
                                 </form>
                                 <form action="procedimientos/adminCarrito.php" method="post" style="display: inline-block;">
                                     <input type="hidden" name="accionCarrito" value="sumar">
-                                    <input type="hidden" name="idProducto" value="<?php echo $item['id']; ?>">
+                                    <input type="hidden" name="idProducto" value="<?php echo htmlspecialchars($item['id']); ?>">
                                     <button type="submit" class="btn">+</button>
                                 </form>
                                 <form action="procedimientos/adminCarrito.php" method="post" style="display: inline-block;">
                                     <input type="hidden" name="accionCarrito" value="borrar">
-                                    <input type="hidden" name="idProducto" value="<?php echo $item['id']; ?>">
+                                    <input type="hidden" name="idProducto" value="<?php echo htmlspecialchars($item['id']); ?>">
                                     <button class="btn" type="submit" style="background-color: red; color: white;">Eliminar</button>
                                 </form>
                             </div>
@@ -122,13 +130,13 @@ require_once('procedimientos/cargarCarrito.php');
                 <p class="totalPedido"><strong>Total del pedido: </strong> $<?php echo number_format($totalCarrito, 2); ?></p>
                 <form action="procedimientos/adminCarrito.php" method="post" style="display: inline-block;">
                     <input type="hidden" name="accionCarrito" value="guardar_pedido">
-                    <input type="hidden" name="idCliente" value="<?php echo $clienteIdActual; ?>">
-                    <input type="hidden" name="idEmpleado" value="<?php echo $_SESSION['idEmpleado']; ?>">
+                    <input type="hidden" name="idCliente" value="<?php echo htmlspecialchars($clienteIdActual); ?>">
+                    <input type="hidden" name="idEmpleado" value="<?php echo htmlspecialchars($_SESSION['idEmpleado']); ?>">
                     <?php foreach ($_SESSION['carrito'] as $item): ?>
-                        <input type="hidden" name="articulos[]" value="<?php echo $item['id']; ?>">
-                        <input type="hidden" name="cantidades[]" value="<?php echo $item['cantidad']; ?>">
+                        <input type="hidden" name="articulos[]" value="<?php echo htmlspecialchars($item['id']); ?>">
+                        <input type="hidden" name="cantidades[]" value="<?php echo htmlspecialchars($item['cantidad']); ?>">
                     <?php endforeach; ?>
-                    <button class="btn" type="submit">Guardar Pedido</button>
+                    <button class="btn" type="submit" <?php echo empty($_SESSION['carrito']) || empty($clienteIdActual) ? 'disabled' : ''; ?>>Guardar Pedido</button>
                 </form>
                 <form action="procedimientos/adminCarrito.php" method="post" style="display: inline-block;">
                     <input type="hidden" name="accionCarrito" value="vaciar_carrito">

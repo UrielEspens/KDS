@@ -1,46 +1,293 @@
-/* Detalles del pedido */
-.fondoDifuminado {
-    display: flex;
-    justify-content: space-around;
-    /* backdrop-filter: blur(10px); */
-    /* position: fixed; */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+/* estilos/inicio.css - Aquí solo van los estilos de tu página principal que YA funcionan */
+
+/* --- Contenedores de Órdenes (Mesero/Gerente) --- */
+.orders-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 15px;
+    padding: 15px;
+    box-sizing: border-box;
 }
 
-#contenedorDetallesPedido {
-    margin-top: 2%;
-    border: #0c0c0c solid 1px;
-    max-height: 75%;
+.order-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
     background-color: #ffffff;
-    border-radius: 0;
-    overflow: auto; /* Permite el scroll si el contenido excede la altura máxima */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-}
-
-.lista-articulos {
-    font-size: 15;
-    border: none;
-    resize: none;
-    padding-top: 3px;
-    padding-left: 20px;
-    margin-top: 25px;
-    margin-bottom: 25px;
-    margin-left: 10px;
-    margin-right: 10px;
-    background-color: white;
-}
-
-.detalles-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: left;
+    height: 80px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.order-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    background-color: rgb(245, 245, 245);
+}
+
+.order-card a {
+    display: flex;
+    flex-grow: 1;
+    justify-content: flex-start;
     align-items: center;
-    padding: 10px 15px;
+    text-decoration: none;
+    color: inherit;
+    padding: 0;
+}
+
+.order-card button {
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    padding: 0;
+}
+
+.botonDetalles {
+    border: none;
+    width: 100%;
+    text-align: left;
+    background-color: transparent;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.botonDetalles:hover {
+    cursor: pointer;
+}
+
+/* Indicadores de estado de mesero */
+.indicador-estado-mesero {
+    width: 25px;
+    height: 100%;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.estado-pendiente-mesero { background-color: #ff4d4d; }
+.estado-preparacion-mesero { background-color: #ffdd59; }
+.estado-listo-mesero { background-color: #4cd137; }
+
+/* Indicadores de estado generales (para el formulario de cambio de estado) */
+.indicador-estado {
+    width: 25px;
+    height: 100%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.indicador-estado p {
+    display: none;
+}
+
+.indicador-estado:hover {
+    filter: brightness(1.1);
+}
+.indicador-estado:active {
+    transform: scale(1.05);
+}
+
+.botonCheck {
+    border: none;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background-color: transparent;
+    transition: background-color 0.2s ease;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.botonCheck:hover {
+    background-color: #e6f7ff;
+}
+
+/* Colores de estado generales (se aplican a botones de estado) */
+/* NOTA: Estas clases se usan para el mesero/gerente. Para el chef, usa las específicas de chef. */
+.estado-pendiente { background-color: #ff4d4d; }
+.estado-preparacion { background-color: #ffdd59; }
+.estado-listo { background-color: #4cd137; }
+
+.order-details {
+    flex: 1;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.customer-name {
+    font-size: 15px;
+    color: #666;
+}
+
+/* --- Estilos del Chef (Solo los del Chef) --- */
+.orders-container-chef {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    margin: 20px auto;
+    box-sizing: border-box;
+}
+
+.order-card-chef {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 380px;
+    position: relative;
+}
+
+.estado-form {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1;
+}
+
+.indicador-estado-chef {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 20px;
     color: white;
     font-weight: bold;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, filter 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 100px;
+    height: auto;
+}
+
+/* Colores específicos para los estados del Chef */
+.estado-pendiente-chef { background-color: #ff1500; }
+.estado-en_preparacion-chef { background-color: #2196f3; }
+.estado-listo-chef { background-color: #4CAF50; }
+
+.order-details-chef {
+    padding: 15px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.order-header-chef {
+    margin-bottom: 10px;
+    border-bottom: 1px dashed #000000;
+    padding-bottom: 10px;
+}
+
+/* NOTA: Las clases .order-number y .customer-name están duplicadas.
+   Si ambas versiones son idénticas, usa una sola. Si son diferentes,
+   deberías hacerlas más específicas (ej. .order-card-chef .order-number).
+   Por ahora, mantengo las que ya tenías, pero es un punto a revisar en tu HTML. */
+.order-number {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.customer-name {
+    font-size: 0.95em;
+    color: #555;
+}
+
+.order-items-list {
+    margin-top: 10px;
+    flex-grow: 1;
+    overflow-y: auto;
+    height: 200px;
+    padding-right: 5px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    padding: 10px;
+    font-family: monospace;
+    font-size: 20px;
+}
+
+.order-items-list h4 {
+    margin-top: 0;
+    margin-bottom: 8px;
+    color: #444;
+    font-size: 1em;
+    border-bottom: 1px dotted #ccc;
+    padding-bottom: 5px;
+}
+
+.order-items-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.order-items-list li {
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: baseline;
+    padding: 3px 0;
+    border-bottom: 1px dotted #f0f0f0;
+}
+
+.order-items-list li:last-child {
+    border-bottom: none;
+}
+
+.item-quantity {
+    font-weight: bold;
+    color: #000;
+    margin-right: 8px;
+    min-width: 20px;
+    text-align: right;
+}
+
+.item-name {
+    flex-grow: 1;
+}
+
+.no-items-message {
+    font-style: italic;
+    color: #888;
+    text-align: center;
+    padding: 20px;
+}
+
+.order-items-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.order-items-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.order-items-list::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+}
+
+.order-items-list::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }
 
 .anadir-pedido {
@@ -52,191 +299,6 @@
     font-size: 14px;
     cursor: pointer;
     text-decoration: none;
-}
-
-
-.orders-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    padding: 15px;
-}
-
-.order-card {
-    border: 1px solid #ccc;
-    display: flex;
-    justify-content: left;
-    height: 80px;
-    background-color: white;
-    
-}
-
-.order-card a {
-    display: contents;
-    justify-content: center;
-    align-items: center;
-
-}
-
-.order-card a:hover {
-    background-color:  rgb(232, 232, 232);
-    
-}
-
-.order-card button{
-    border: none;
-    text-align: left;
-}
-
-.botonDetalles {
-    border: none;
-    width: 100%;
-    text-align: left;
-}
-
-.botonDetalles:hover {
-    border: none;
-    width: 100%;
-    text-align: left;
-    cursor:pointer;
-    background-color: rgb(232, 232, 232);
-}
-
-.indicador-estado-mesero {
-    width: 25px;
-    height: 100%;
-}
-
-.estado-pendiente-mesero {
-    background-color: #ff4d4d;
-}
-
-.estado-preparacion-mesero {
-    background-color: #ffdd59;
-}
-
-.estado-listo-mesero {
-    background-color: #4cd137;
-}
-
-.indicador-estado {
-    width: 25px;
-    height: 100%;
-    cursor: pointer;
-}
-
-.indicador-estado:hover {
-    border: .0005px double #222;
-
-}
-.indicador-estado:active {
-    
-    transition: all;
-    transform: scale(1.05);
-
-}
-
-
-.botonCheck {
-    border: none;
-    width: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-}
-
-.botonCheck:hover {
-    background-color: #b5dbdc;
-    transition: all;
-}
-
-.estado-pendiente {
-    background-color: #ff4d4d;
-}
-
-.estado-preparacion {
-    background-color: #ffdd59;
-}
-
-.estado-listo {
-    background-color: #4cd137;
-}
-
-
-
-.order-details {
-    flex: 1;
-    padding: 10px;
-}
-
-.customer-name {
-    font-size: 16px;
-}
-
-.order-number {
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.header-pendiente {
-    background-color: #ff4d4d;
-}
-
-.header-preparacion {
-    background-color: #ffdd59;
-    color: #333;
-}
-
-.header-listo {
-    background-color: #4cd137;
-}
-
-.info-pedido {
-    background-color: white;
-    padding: 15px;
-    border-bottom: 1px solid #ddd;
-}
-
-.info-pedido p {
-    margin: 5px 0;
-}
-
-
-.total-pedido {
-    background-color: white;
-    padding: 10px 15px;
-    text-align: right;
-    font-weight: bold;
-    border-top: 1px solid #ddd;
-}
-
-.botones-accion {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 15px;
-    background-color: white;
-    border-top: 1px solid #ddd;
-}
-
-.boton-volver {
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    padding: 8px 20px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 14px;
-    text-transform: uppercase;
-}
-
-.botones-iconos {
-    display: flex;
-    gap: 10px;
-}
-
-.editarDetalles, .eliminarDetalles {
-    background: none;
-    border: none;
-    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
 }
