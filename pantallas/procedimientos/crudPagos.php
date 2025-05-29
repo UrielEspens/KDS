@@ -7,10 +7,11 @@ class CrudPago {
 
     public function insertarPago(Pago $pago) {
         $db = Db::conectar();
-        $insert = $db->prepare('INSERT INTO pago (idPedido, metodoPago, montoPagado, fechaPago) VALUES (:idPedido, :metodoPago, :montoPagado, NOW())');
+        $insert = $db->prepare('INSERT INTO pago (idPedido, metodoPago, montoPagado, fechaPago, idEmpleado) VALUES (:idPedido, :metodoPago, :montoPagado, NOW(), :idEmpleado)');
         $insert->bindValue(':idPedido', $pago->getIdPedido());
         $insert->bindValue(':metodoPago', $pago->getMetodoPago());
         $insert->bindValue(':montoPagado', $pago->getMontoPagado()); // Usar montoPagado para el total final
+        $insert->bindValue(':idEmpleado', $pago->getIdEmpleado());
         return $insert->execute();
     }
 
@@ -27,7 +28,8 @@ class CrudPago {
             $pago->setIdPedido($registro['idPedido']);
             $pago->setMetodoPago($registro['metodoPago']);
             $pago->setMontoPagado($registro['montoPagado']);
-            $pago->setFechaHoraPago($registro['fechaHoraPago']);
+            $pago->setFechaHoraPago($registro['fechaPago']);
+            $pago->setIdEmpleado($registro['idEmpleado']);
             return $pago;
         }
         return null;

@@ -2,6 +2,7 @@
 class Pago {
     private $idPago;
     private $idPedido;
+    private $idEmpleado;
     private $metodoPago;
     private $montoPagado;
     private $fechaHoraPago;
@@ -15,6 +16,10 @@ class Pago {
 
     public function getIdPedido() {
         return $this->idPedido;
+    }
+
+    public function getIdEmpleado() {
+        return $this->idEmpleado;
     }
 
     public function getMetodoPago() {
@@ -36,6 +41,10 @@ class Pago {
 
     public function setIdPedido($idPedido) {
         $this->idPedido = $idPedido;
+    }
+
+    public function setIdEmpleado($idEmpleado) {
+        $this->idEmpleado = $idEmpleado;
     }
 
     public function setMetodoPago($metodoPago) {

@@ -15,6 +15,9 @@ if (isset($_POST['accion']) && $_POST['accion'] === 'registrar_pago') {
     $idPedido = $_POST['idPedido'] ?? null;
     $metodoPago = $_POST['metodoPago'] ?? null;
     $subtotalForm = $_POST['subtotal'] ?? null;
+    
+    // Obtener el idEmpleado de la sesión
+    $idEmpleado = $_SESSION['idEmpleado'];
 
     $propinaAplicadaCheckbox = $_POST['propinaToggle'] ?? null;    
 
@@ -48,6 +51,7 @@ if (isset($_POST['accion']) && $_POST['accion'] === 'registrar_pago') {
     // Crear objeto Pago e insertar
     $pago = new Pago();
     $pago->setIdPedido($idPedido);
+    $pago->setIdEmpleado($idEmpleado);
     $pago->setMetodoPago($metodoPago);
     $pago->setMontoPagado($totalFinalCalculado); // Almacenar el total final calculado en montoPagado
 
