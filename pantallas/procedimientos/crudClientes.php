@@ -7,14 +7,14 @@ class crudClientes{
     // Funcion para insertar clientes
     public function insertar($cliente){
         $db=Db::conectar();
-        $insert=$db->prepare('INSERT INTO cliente(nombre,primerApe,segundoApe,telefono,calle,numeroCasa,referencia) values(:nombre,:primerApe,:segundoApe,:telefono,:calle,:numeroCasa,:referencia)');
+        $insert=$db->prepare('INSERT INTO cliente(nombre,primerApe,segundoApe,telefono,calle,numeroCasa,referenciaCasa) values(:nombre,:primerApe,:segundoApe,:telefono,:calle,:numeroCasa,:referenciaCasa)');
         $insert->bindValue(':nombre',$cliente->getNombre());
         $insert->bindValue(':primerApe',$cliente->getPrimerApe());
         $insert->bindValue(':segundoApe',$cliente->getSegundoApe());
         $insert->bindValue(':telefono',$cliente->getTelefono());
         $insert->bindValue(':calle',$cliente->getCalle());
-        $insert->bindValue(':numCasa',$cliente->getNumeroCasa());
-        $insert->bindValue(':referencia',$cliente->getReferencia());
+        $insert->bindValue(':numeroCasa',$cliente->getNumeroCasa());
+        $insert->bindValue(':referenciaCasa',$cliente->getReferenciaCasa());
 
         $insert->execute();
     }
@@ -28,8 +28,8 @@ class crudClientes{
         $update->bindValue(':segundoApe',$cliente->getSegundoApe());
         $update->bindValue(':telefono',$cliente->getTelefono());
         $update->bindValue(':calle',$cliente->getCalle());
-        $update->bindValue(':numCasa',$cliente->getNumeroCasa());
-        $update->bindValue(':referencia',$cliente->getReferencia());
+        $update->bindValue(':numeroCasa',$cliente->getNumeroCasa());
+        $update->bindValue(':referenciaCasa',$cliente->getReferenciaCasa());
 
         $update->execute();
     }
@@ -80,38 +80,6 @@ class crudClientes{
         }
         return $listaClientes;
     }
-<<<<<<< HEAD
-
-    public function obtenerClientePorId($idCliente) {
-        $consulta = "SELECT * FROM cliente WHERE idCliente = :idCliente";
-        $db = Db::conectar();
-        $select = $db->prepare($consulta);
-        $select->bindValue(':idCliente', $idCliente, PDO::PARAM_INT);
-        $select->execute();
-
-   
-        $clienteData = $select->fetch(PDO::FETCH_ASSOC);
-
-
-        if (!$clienteData) {
-            return null;
-        }
-
-
-        $cliente = new Cliente();
-
-
-        $cliente->setIdCliente($clienteData['idCliente']);
-        $cliente->setNombre($clienteData['nombre']);
-        $cliente->setPrimerApe($clienteData['primerApe']);
-        $cliente->setSegundoApe($clienteData['segundoApe']);
-        $cliente->setTelefono($clienteData['telefono']);
-        $cliente->setCalle($clienteData['calle']);
-        $cliente->setNumeroCasa($clienteData['numeroCasa']);
-        $cliente->setReferenciaCasa($clienteData['referenciaCasa']);
-
-        return $cliente;
-=======
     //Funcion para obtener la lista de clientes a traves de una busqueda en gestion de clientes
     public function buscarClientesBusqueda($busqueda){
         $db=Db::conectar();
@@ -134,7 +102,6 @@ class crudClientes{
             $listaClientes[]=$myCliente;
         }
         return $listaClientes;
->>>>>>> 11802b61d3cbeac3202d9d03064da8a7de614358
     }
 }
 ?>

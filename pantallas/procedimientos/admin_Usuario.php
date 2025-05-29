@@ -14,10 +14,11 @@ $usuario= new Empleado();
         $usuario->setPrimerApe($_POST['primerApe']);
         $usuario->setSegundoApe($_POST['segundoApe']);
         $usuario->setPuesto($_POST['puesto']);
-        $usuario->setImagen($_POST['imagen']);
+        $usuario->setImagen(file_get_contents($_FILES['imagen']['tmp_name']));
 
 		$crud->insertar($usuario);
-		header('Location: ../pantallas/agregarUsuario.php');
+        header('Location: ../gestionUsuarios.php');
+        exit();
 	
     }else if (ISSET($_POST['actualizar'])){
         $usuario->setUsuario($_POST['usuario']);  
@@ -26,17 +27,17 @@ $usuario= new Empleado();
         $usuario->setPrimerApe($_POST['primerApe']);
         $usuario->setSegundoApe($_POST['segundoApe']);
         $usuario->setPuesto($_POST['puesto']);
-        $usuario->setImagen($_POST['imagen']);
+        $usuario->setImagen(file_get_contents($_FILES['imagen']['tmp_name']));
         $usuario->setIdEmpleado($_POST['idEmpleado']);
 
         $crud->actualizar($usuario);
-        header('Location: ../pantallas/agregarUsuario.php');
+        header('Location: ../gestionUsuarios.php');
     }
 
     else if ($_GET['accion'] == 'eliminar') {
         $idEmpleado = $_GET['idEmpleado'];
         $crud->eliminar($idEmpleado);
-        header('Location: ../pantallas/gestionUsuarios.php');
+        header('Location: ../gestionUsuarios.php');
         exit();
     }
     

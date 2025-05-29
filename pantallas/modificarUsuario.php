@@ -32,7 +32,7 @@ $usuario = $crud->obtenerUsuario($_GET['idEmpleado']);
         </div>
     </div>
     <div class = "container">
-        <form action="../pantallas/procedimientos/admin_Usuario.php" method="POST">
+        <form action="../pantallas/procedimientos/admin_Usuario.php" method="POST" enctype="multipart/form-data">
             <div class = "containerInfoPerfil">
                 <div class = "idUsuario">
                     <div>
@@ -41,7 +41,9 @@ $usuario = $crud->obtenerUsuario($_GET['idEmpleado']);
                     </div>
                 </div>
                 <div class = "nombreUsuario">
-                    <img src="../img/general/usuario.png" alt="usuario" height = "75" width = "75" class = "iconoUsuario">
+                    <div class = "iconUsuario">
+                        <img src="data:image/png;base64,<?php echo base64_encode($usuario->getImagen()); ?>" alt="Imagen de usuario" class="imagenUsuario">
+                    </div>
                     <div>
                         <label class = "labelTittle" for="nombre">Nombre:</label>
                         <input class = "labelConfiguracion" id= "nombre" name= "nombre" class= "input" type="text" value='<?php echo $usuario ->getNombre()?>'><br><br>
@@ -67,7 +69,7 @@ $usuario = $crud->obtenerUsuario($_GET['idEmpleado']);
                             <option value="admin">Gerente</option>
                         </select><br><br>
                     <label class = "labelTittle" for="imagen">imagen:</label>
-                    <input class = "labelConfiguracion" id= "imagen" name= "imagen" class= "input" type="text" value='<?php echo $usuario ->getImagen()?>'>
+                    <input class = "labelConfiguracion" id= "imagen" name= "imagen" class= "input" type="file"><br><br>
                     
                 </div>
             </div>

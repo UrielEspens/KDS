@@ -72,7 +72,7 @@ if (!isset($_SESSION['idEmpleado'])) {
                     </div>
                     <div class = "containerBotones">
                         <a href="../pantallas/modificarUsuario.php?idEmpleado=<?php echo $usuario->getIdEmpleado()?>&accion=actualizar"><img src="../img/inicio/lapiz.png" alt="actualizar" height= "20"></a>
-                        <a href="../pantallas/procedimientos/admin_Usuario.php?idEmpleado=<?php echo $usuario->getIdEmpleado()?>&accion=eliminar"><img src="../img/inicio/basurero.png" alt="eliminar "height= "20"></a>
+                        <a href="../pantallas/eliminarUsuario.php?idEmpleado=<?php echo $usuario->getIdEmpleado()?>&accion=eliminar"><img src="../img/inicio/basurero.png" alt="eliminar "height= "20"></a>
                     </div>
                 </div>
                 <hr class = "linea">

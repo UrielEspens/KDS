@@ -45,7 +45,7 @@
                 <button type="submit" class="buttonConfiguracion">Buscar</button>
             </form>
             <div class = "containerBusqueda">
-                <a href="agregarCliente.php"><button class="buttonConfiguracion">AGREGAR</button></a>
+                <a href="nuevoCliente.php"><button class="buttonConfiguracion">AGREGAR</button></a>
             </div>
         </div>
         <div class = "containerPerfiles">
@@ -58,7 +58,6 @@
                     <div class = "labelConfiguracion"><?php echo $cliente->getCalle(); ?></div>
                 </div>
                 <div class = "containerBotones">
-                    <a href="../pantallas/modificarCliente.php?idCliente=<?php echo $cliente->getIdCliente()?>&accion=actualizar"><img src="../img/inicio/lapiz.png" alt="actualizar" height= "20"></a>
                     <a href="../pantallas/procedimientos/admin_Cliente.php?idCliente=<?php echo $cliente->getIdCliente()?>&accion=eliminar"><img src="../img/inicio/basurero.png" alt="eliminar "height= "20"></a>
                 </div>
               </div>
