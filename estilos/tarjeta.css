@@ -1,0 +1,286 @@
+/* ESTILOS PARA TARJETA.PHP - MEJORADOS PARA COINCIDIR CON LA IMAGEN */
+
+.container-tarjeta {
+    display: flex;
+    max-width: 1200px;
+    margin: 20px auto;
+    gap: 40px;
+    padding: 0 20px;
+}
+
+.left-column-tarjeta {
+    flex: 1;
+    max-width: 600px;
+}
+
+.right-column-tarjeta {
+    flex: 0 0 350px;
+}
+
+/* CAMBIO: Estilos mejorados para el formulario de tarjeta */
+.card-form {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+/* CAMBIO: Mejorar el hint text */
+.hint {
+    font-size: 12px;
+    color: #6c757d;
+    margin-top: 4px;
+    margin-bottom: 0;
+}
+
+/* CAMBIO: Mejorar el layout de fecha de vencimiento y CVV */
+.form-row {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.expiration-group {
+    flex: 1;
+}
+
+.cvv-group {
+    flex: 0 0 150px;
+}
+
+.expiry-inputs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.short-input {
+    width: 60px !important;
+    text-align: center;
+}
+
+.separator {
+    font-size: 18px;
+    font-weight: bold;
+    color: #6c757d;
+}
+
+/* CAMBIO: Crear visualización de tarjeta más realista */
+.card-visual {
+    margin: 30px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.card-placeholder {
+    width: 300px;
+    height: 180px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    padding: 20px;
+    color: white;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.card-chip {
+    width: 40px;
+    height: 30px;
+    background: #f0f0f0;
+    border-radius: 4px;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.card-chip::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30px;
+    height: 20px;
+    background: linear-gradient(45deg, #ddd, #fff);
+    border-radius: 2px;
+}
+
+.card-number-display {
+    display: flex;
+    gap: 15px;
+    font-family: 'Courier New', monospace;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-top: 20px;
+}
+
+.card-number-display span {
+    opacity: 0.9;
+}
+
+/* CAMBIO: Botones mejorados */
+.buttons-container-tarjeta {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.btn-volver {
+    flex: 0 0 120px;
+    padding: 12px 24px;
+    background: #6c757d;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-volver:hover {
+    background: #5a6268;
+}
+
+.btn-registrar {
+    flex: 1;
+    padding: 12px 24px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-registrar:hover {
+    background: #218838;
+}
+
+/* CAMBIO: Estilos mejorados para el resumen de compra */
+.resumen-compra-tarjeta {
+    background: #f8f9fa;
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #e9ecef;
+}
+
+.resumen-compra-tarjeta h3 {
+    margin: 0 0 20px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+}
+
+.resumen-items {
+    margin-bottom: 20px;
+}
+
+.resumen-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #e9ecef;
+    font-size: 14px;
+}
+
+.resumen-line:last-child {
+    border-bottom: none;
+}
+
+.resumen-line span:first-child {
+    color: #6c757d;
+}
+
+.resumen-line span:last-child {
+    font-weight: 600;
+    color: #333;
+}
+
+/* CAMBIO: Total destacado */
+.total-section {
+    border-top: 2px solid #dee2e6;
+    padding-top: 15px;
+    margin-top: 15px;
+}
+
+.total-line-tarjeta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: #333;
+}
+
+.total-line-tarjeta span:last-child {
+    color: #28a745;
+}
+
+/* CAMBIO: Responsive design */
+@media (max-width: 768px) {
+    .container-tarjeta {
+        flex-direction: column;
+        padding: 0 15px;
+        gap: 20px;
+    }
+    
+    .right-column-tarjeta {
+        flex: none;
+        order: -1;
+    }
+    
+    .form-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .cvv-group {
+        flex: none;
+    }
+    
+    .card-placeholder {
+        width: 100%;
+        max-width: 280px;
+    }
+    
+    .buttons-container-tarjeta {
+        flex-direction: column;
+    }
+    
+    .btn-volver {
+        flex: none;
+    }
+}
