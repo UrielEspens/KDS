@@ -56,7 +56,7 @@ class CrudPedidos{
     }
 
 		public function mostrarDetalles($idPedido){
-			$db = Db::conectar(); // Obtiene la conexión PDO
+			$db = Db::conectar();
 			$select = $db->prepare(' SELECT pedido.idPedido,
 											pedido.estado,
 											cliente.nombre AS nombreCliente,
@@ -79,7 +79,7 @@ class CrudPedidos{
 				return null;
 			}
 
-			// 6. Crea y popula el objeto DetallesPedido
+			// Crea y popula el objeto DetallesPedido
 			$myPedido = new DetallesPedido();
 			$myPedido->setIdPedido($detallePedido['idPedido']);
 			$myPedido->setEstado($detallePedido['estado']);

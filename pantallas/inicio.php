@@ -44,7 +44,7 @@ $listaPedidos = $crud->mostrarPedidos();
                 <hr>
                 <?php endif; ?>
                 <?php if ($usuarioPuesto == 'Gerente'): ?>
-                <li><a href="historialPedidos.html"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
+                <li><a href="historialPedidos.php"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
                 <hr>
                 <?php endif; ?>
                 <li><a href="configuracion.php"><img src="../img/general/configuracion.png" alt="configuracion" class="icono-menu"> Configuración</a></li>
