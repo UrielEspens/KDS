@@ -204,20 +204,3 @@ body {
     padding-top: 10px;
     border-top: 2px dashed #ccc; /* Línea de separación */
 }
-
-/* Consideraciones para móviles o pantallas pequeñas */
-@media (max-width: 600px) {
-    .lista-articulos-contenedor {
-        flex-direction: column; /* Apila los elementos en pantallas pequeñas */
-    }
-
-    .lista-articulos-nombres,
-    .lista-articulos-subtotales {
-        min-width: 100%; /* Ocupan todo el ancho disponible */
-        text-align: left; /* Alinea todo a la izquierda si se apilan */
-    }
-
-    .lista-articulos-subtotales {
-        margin-top: 10px; /* Espacio entre la lista de nombres y subtotales apilados */
-    }
-}
