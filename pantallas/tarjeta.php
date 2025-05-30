@@ -7,6 +7,11 @@ if (!isset($_SESSION['idEmpleado'])) {
     exit();
 }
 
+require_once('procedimientos/conexion.php');
+require_once('procedimientos/crudPagos.php');
+require_once('procedimientos/clasePago.php');
+require_once('procedimientos/crudPedidos.php');
+
 $idPedido = $_GET['idPedido'] ?? null;
 $productos_subtotal = floatval($_GET['subtotal'] ?? 0.00);
 $propina_monto = floatval($_GET['propina_monto'] ?? 0.00);
@@ -20,6 +25,41 @@ $nombrePantalla = "Datos de la Tarjeta";
 if (!$idPedido) {
     header('Location: ../inicio.php');
     exit();
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $crudPago = new CrudPago();
+    $crudPedidos = new CrudPedidos();
+    
+    $pago = new Pago();
+    $pago->setIdPedido($idPedido);
+    $pago->setIdEmpleado($_SESSION['idEmpleado']);
+    $pago->setMetodoPago($metodoPago);
+    $pago->setMontoPagado($total_a_pagar);
+    
+    if ($crudPago->insertarPago($pago)) {
+        // Mover a historial y eliminar pedido activo
+        if ($crudPedidos->moverPedidoAHistorialNuevo( 
+            $idPedido, 
+            $metodoPago, 
+            $total_a_pagar
+        )) {
+            // Eliminar pedido activo
+            if ($crudPedidos->eliminarPedidoCompletoNuevo($idPedido)) {
+                header('Location: inicio.php');
+                exit();
+            } else {
+                $error = "Error al eliminar el pedido activo después de moverlo al historial";
+                error_log("Error al eliminar pedido activo en tarjeta.php: " . $idPedido);
+            }
+        } else {
+            $error = "Error al mover el pedido al historial";
+            error_log("Error al mover pedido a historial en tarjeta.php: " . $idPedido);
+        }
+    } else {
+        $error = "Error al registrar el pago";
+        error_log("Error al registrar pago en tarjeta.php: " . $idPedido);
+    }
 }
 
 ?>
@@ -55,7 +95,7 @@ if (!$idPedido) {
 
     <div class="container-tarjeta">
         <div class="left-column-tarjeta">
-            <form id="cardForm" class="card-form" action="procedimientos/adminPago.php" method="POST">
+            <form id="cardForm" class="card-form" method="POST">
                 <input type="hidden" name="idPedido" value="<?php echo htmlspecialchars($idPedido); ?>">
                 <input type="hidden" name="subtotal" value="<?php echo htmlspecialchars($productos_subtotal); ?>">
                 <input type="hidden" name="propinaToggle" value="<?php echo htmlspecialchars($aplicarPropina); ?>">
@@ -88,6 +128,11 @@ if (!$idPedido) {
                     </div>
                 </div>
 
+                <?php if (isset($error)): ?>
+                    <div class="error-message">
+                        <?php echo htmlspecialchars($error); ?>
+                    </div>
+                <?php endif; ?>
 
                 <div class="buttons-container-tarjeta">
                     <button type="button" class="btn-volver" onclick="window.location.href='pago.php?idPedido=<?php echo htmlspecialchars($idPedido); ?>&propina=<?php echo htmlspecialchars($aplicarPropina); ?>&metodoPago=<?php echo htmlspecialchars($metodoPago); ?>'">VOLVER</button>

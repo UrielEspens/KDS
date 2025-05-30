@@ -261,39 +261,11 @@ button[type="submit"] {
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    background-color: #4CAF50; /* Verde de tarjeta.css */
-    color: white; /* Texto blanco */
+    background-color: #4CAF50;
+    color: white;
 }
 
 button[type="submit"]:hover {
-    background-color: #388e3c; /* Verde más oscuro al pasar el mouse */
-    transform: translateY(-2px); /* Pequeño efecto de levantamiento */
-}
-
-/* Responsive adjustments for pago.php */
-@media (max-width: 768px) {
-    .container {
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .left-column,
-    .right-column {
-        width: 100%;
-        padding: 0; /* Remove padding for mobile, columns already have internal padding */
-    }
-
-    .pedido-info, .productos-list, .resumen-pago, .buttons-container {
-        padding: 20px; /* Re-apply padding where needed for content */
-    }
-
-    .buttons-container {
-        flex-direction: column; /* Apilar botones en pantallas pequeñas */
-        gap: 10px;
-    }
-
-    .btn-volver,
-    button[type="submit"] {
-        width: 100%; /* Botones de ancho completo */
-    }
+    background-color: #388e3c;
+    transform: translateY(-2px);
 }

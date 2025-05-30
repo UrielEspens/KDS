@@ -106,14 +106,14 @@ if ($metodoPagoSeleccionado === 'Tarjeta de Credito' || $metodoPagoSeleccionado 
 
             <div class="buttons-container">
                 <a href="inicio.php" class="btn-volver">VOLVER</a>
-                <!-- CAMBIO: Formulario mejorado con todos los parámetros necesarios -->
+             
                 <form action="<?php echo htmlspecialchars($formAction); ?>" method="<?php echo htmlspecialchars($formMethod); ?>" style="flex: 1;">
                     <input type="hidden" name="idPedido" value="<?php echo htmlspecialchars($idPedido); ?>">
                     <input type="hidden" name="subtotal" value="<?php echo htmlspecialchars($subtotal); ?>">
                     <input type="hidden" name="propinaToggle" value="<?php echo htmlspecialchars($aplicarPropina); ?>">
                     <input type="hidden" name="metodoPago" value="<?php echo htmlspecialchars($metodoPagoSeleccionado); ?>">
                     
-                    <!-- CAMBIO: Agregar parámetros adicionales necesarios para tarjeta.php -->
+                   
                     <?php if ($metodoPagoSeleccionado === 'Tarjeta de Credito' || $metodoPagoSeleccionado === 'Tarjeta de Debito'): ?>
                         <input type="hidden" name="propina_monto" value="<?php echo htmlspecialchars($aplicarPropina == '1' ? $subtotal * 0.10 : 0); ?>">
                         <input type="hidden" name="total_final" value="<?php echo htmlspecialchars($totalFinal); ?>">

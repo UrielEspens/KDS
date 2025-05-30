@@ -56,16 +56,27 @@ if (isset($_POST['accion']) && $_POST['accion'] === 'registrar_pago') {
     $pago->setMontoPagado($totalFinalCalculado); // Almacenar el total final calculado en montoPagado
 
     if ($crudPago->insertarPago($pago)) {
-        // Actualizar estado del pedido a 'Pagado'
-        if ($crudPedidos->actualizarEstadoPedido($idPedido, 'Pagado')) {
-            header('Location: ../inicio.php');
-            exit();
+        // CAMBIO: Mover a historial y eliminar pedido activo
+        if ($crudPedidos->moverPedidoAHistorialNuevo(
+            $idPedido, 
+            $metodoPago, 
+            $totalFinalCalculado
+        )) {
+            // Eliminar pedido activo
+            if ($crudPedidos->eliminarPedidoCompletoNuevo($idPedido)) {
+                header('Location: ../inicio.php');
+                exit();
+            } else {
+                error_log("Error: Fallo al eliminar el pedido activo #{$idPedido} después de moverlo al historial.");
+            }
+        } else {
+            error_log("Error: Fallo al mover el pedido #{$idPedido} al historial.");
         }
     } else {
         error_log("Error: Fallo al registrar el pago del pedido #{$idPedido}.");
-        header('Location: ../inicio.php');
-        exit();
     }
+    header('Location: ../inicio.php'); // Redirigir en caso de cualquier fallo
+    exit();
 } else {
     header('Location: ../inicio.php'); // Redirigir si la acción no es válida
     exit();

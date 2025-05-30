@@ -74,7 +74,12 @@ if (isset($_SESSION['mensaje_error'])) {
                                 <option value="">Seleccione una categoría</option>
                                 <?php foreach ($categorias as $cat): ?>
                                     <option value="<?php echo $cat->getIdCategoria(); ?>"
+<<<<<<< HEAD
                                         <?php echo $cat->getIdCategoria() ? 'selected' : ''; ?>>
+=======
+                                        <?php echo ($cat->getIdCategoria()) ? 'selected' : ''; ?>
+                                        >
+>>>>>>> fd0d774ac32f9d236691655f554e22770602fddf
                                         <?php echo $cat->getNombre(); ?>
                                     </option>
                                 <?php endforeach; ?>

@@ -122,7 +122,7 @@ class CrudPedidos{
 			$db = Db::conectar();
 
 			// Consulta principal para obtener datos del pedido, cliente y empleado
-			$selectPedido = $db->prepare('SELECT p.idPedido, p.estado, p.horaCreacion,
+			$selectPedido = $db->prepare('SELECT p.idPedido, p.estado, p.fechaHora,
 												c.idCliente, c.nombre AS nombreCliente, c.primerApe AS apellidoCliente,
 												e.idEmpleado, e.nombre AS nombreEmpleado, e.primerApe AS apellidoEmpleado
 										FROM pedido p
@@ -140,7 +140,7 @@ class CrudPedidos{
 			$detallesPedido = new DetallesPedido();
 			$detallesPedido->setIdPedido($datosHeader['idPedido']);
 			$detallesPedido->setEstado($datosHeader['estado']);
-			$detallesPedido->setHoraCreacion($datosHeader['horaCreacion']);
+			$detallesPedido->setHoraCreacion($datosHeader['fechaHora']); // Corregido: fechaHora
 			$detallesPedido->setNombreCliente($datosHeader['nombreCliente']);
 			$detallesPedido->setApellidoCliente($datosHeader['apellidoCliente']);
 			$detallesPedido->setIdCliente($datosHeader['idCliente']);
@@ -217,23 +217,22 @@ class CrudPedidos{
         $db = Db::conectar();
         $listaPedidos = [];
 
-        $query = 'SELECT p.idPedido, p.fechaHora,
+        $query = 'SELECT hp.idPedidoFinal, hp.fecha,
                    hp.montoFinal, hp.tipoPago,
                    c.nombre AS nombreCliente, c.primerApe AS apellidoCliente
-            FROM pedido p
-            INNER JOIN historial_pedidos hp ON p.idPedido = hp.idPedidoFinal -- <-- CAMBIO AQUÍ: hp.idPedidoFinal
-            INNER JOIN cliente c ON p.idCliente = c.idCliente
+            FROM historial_pedidos hp
+            INNER JOIN cliente c ON hp.idCliente = c.idCliente
             WHERE 1=1
         ';
 
         if ($idPedido !== null && $idPedido !== '') {
-            $query .= ' AND p.idPedido = :idPedido';
+            $query .= ' AND hp.idPedidoFinal = :idPedido';
         }
         if ($fechaDesde !== null && $fechaDesde !== '') {
-            $query .= ' AND p.fechaHora >= :fechaDesde';
+            $query .= ' AND hp.fecha >= :fechaDesde';
         }
         if ($fechaHasta !== null && $fechaHasta !== '') {
-            $query .= ' AND p.fechaHora <= :fechaHasta';
+            $query .= ' AND hp.fecha <= :fechaHasta';
         }
         if ($tipoPago !== null && $tipoPago !== '' && $tipoPago !== 'todos') {
             $query .= ' AND hp.tipoPago = :tipoPago';
@@ -242,7 +241,7 @@ class CrudPedidos{
             $query .= ' AND (c.nombre LIKE :nombreCliente OR c.primerApe LIKE :nombreCliente)';
         }
 
-        $query .= ' ORDER BY p.idPedido DESC';
+        $query .= ' ORDER BY hp.idPedidoFinal DESC';
 
         $select = $db->prepare($query);
 
@@ -266,8 +265,8 @@ class CrudPedidos{
 
         foreach ($select->fetchAll(PDO::FETCH_ASSOC) as $pedidoData) {
             $myPedido = new Pedido();
-            $myPedido->setIdPedido($pedidoData['idPedido']);
-            $myPedido->setFechaHora($pedidoData['fechaHora']);
+            $myPedido->setIdPedido($pedidoData['idPedidoFinal']);
+            $myPedido->setFechaHora($pedidoData['fecha']);
             $myPedido->setMontoTotal($pedidoData['montoFinal']);
             $myPedido->setTipoPago($pedidoData['tipoPago']);
             $myPedido->setNombreCliente($pedidoData['nombreCliente']);
@@ -275,6 +274,107 @@ class CrudPedidos{
             $listaPedidos[] = $myPedido;
         }
         return $listaPedidos;
+    }
+
+    // Nuevo método para obtener todos los pedidos para el historial
+    public function obtenerTodosLosPedidosParaHistorial() {
+        $db = Db::conectar();
+        $listaPedidos = [];
+        $select = $db->query('SELECT hp.idPedidoFinal, hp.fecha,
+                                   hp.montoFinal, hp.tipoPago,
+                                   c.nombre AS nombreCliente, c.primerApe AS apellidoCliente
+                            FROM historial_pedidos hp
+                            INNER JOIN cliente c ON hp.idCliente = c.idCliente
+                            ORDER BY hp.idPedidoFinal DESC;');
+
+        foreach ($select->fetchAll(PDO::FETCH_ASSOC) as $pedidoData) {
+            $myPedido = new Pedido();
+            $myPedido->setIdPedido($pedidoData['idPedidoFinal']);
+            $myPedido->setFechaHora($pedidoData['fecha']);
+            $myPedido->setMontoTotal($pedidoData['montoFinal']);
+            $myPedido->setTipoPago($pedidoData['tipoPago']);
+            $myPedido->setNombreCliente($pedidoData['nombreCliente']);
+            $myPedido->setApellidoCliente($pedidoData['apellidoCliente']);
+            $listaPedidos[] = $myPedido;
+        }
+        return $listaPedidos;
+    }
+
+    // NUEVO MÉTODO: Mover pedido y sus detalles a tablas de historial
+    public function moverPedidoAHistorialNuevo($idPedido, $metodoPago, $montoFinal) {
+        $db = Db::conectar();
+        try {
+            $db->beginTransaction();
+
+            // 1. Obtener los detalles del pedido original
+            $stmtPedido = $db->prepare('SELECT idCliente, idEmpleado, fechaHora FROM pedido WHERE idPedido = :idPedido');
+            $stmtPedido->bindParam(':idPedido', $idPedido, PDO::PARAM_INT);
+            $stmtPedido->execute();
+            $pedidoOriginal = $stmtPedido->fetch(PDO::FETCH_ASSOC);
+
+            if (!$pedidoOriginal) {
+                $db->rollBack();
+                return false; // Pedido no encontrado
+            }
+
+            // 2. Insertar en historial_pedidos
+            $insertHistorial = $db->prepare('INSERT INTO historial_pedidos (idPedidoFinal, idCliente, fecha, tipoPago, montoFinal, idEmpleado) VALUES (:idPedidoFinal, :idCliente, :fecha, :tipoPago, :montoFinal, :idEmpleado)');
+            $insertHistorial->bindParam(':idPedidoFinal', $idPedido, PDO::PARAM_INT);
+            $insertHistorial->bindParam(':idCliente', $pedidoOriginal['idCliente'], PDO::PARAM_INT);
+            $insertHistorial->bindParam(':fecha', $pedidoOriginal['fechaHora']); // Usar la fechaHora del pedido original
+            $insertHistorial->bindParam(':tipoPago', $metodoPago, PDO::PARAM_STR);
+            $insertHistorial->bindParam(':montoFinal', $montoFinal);
+            $insertHistorial->bindParam(':idEmpleado', $pedidoOriginal['idEmpleado'], PDO::PARAM_INT);
+            $insertHistorial->execute();
+
+            // 3. Obtener los productos del pedido original y moverlos a detalles_historial_pedido
+            $stmtProductos = $db->prepare('SELECT dp.idProducto, dp.cantidad, p.precio AS precioProducto FROM detalles_pedido dp INNER JOIN producto p ON dp.idProducto = p.idProducto WHERE dp.idPedido = :idPedido');
+            $stmtProductos->bindParam(':idPedido', $idPedido, PDO::PARAM_INT);
+            $stmtProductos->execute();
+            $productosOriginales = $stmtProductos->fetchAll(PDO::FETCH_ASSOC);
+
+            $insertDetallesHistorial = $db->prepare('INSERT INTO detalles_historial_pedido (idPedidoFinal, idProducto, cantidad, total) VALUES (:idPedidoFinal, :idProducto, :cantidad, :total)');
+            foreach ($productosOriginales as $producto) {
+                $totalProducto = $producto['cantidad'] * $producto['precioProducto'];
+                $insertDetallesHistorial->bindParam(':idPedidoFinal', $idPedido, PDO::PARAM_INT);
+                $insertDetallesHistorial->bindParam(':idProducto', $producto['idProducto'], PDO::PARAM_INT);
+                $insertDetallesHistorial->bindParam(':cantidad', $producto['cantidad'], PDO::PARAM_INT);
+                $insertDetallesHistorial->bindParam(':total', $totalProducto);
+                $insertDetallesHistorial->execute();
+            }
+
+            $db->commit();
+            return true;
+        } catch (PDOException $e) {
+            $db->rollBack();
+            error_log("Error al mover pedido a historial: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    // NUEVO MÉTODO: Eliminar el pedido completamente de las tablas activas
+    public function eliminarPedidoCompletoNuevo($idPedido) {
+        $db = Db::conectar();
+        try {
+            $db->beginTransaction();
+
+            // Eliminar de detalles_pedido
+            $deleteItems = $db->prepare('DELETE FROM detalles_pedido WHERE idPedido = :idPedido');
+            $deleteItems->bindParam(':idPedido', $idPedido, PDO::PARAM_INT);
+            $deleteItems->execute();
+
+            // Eliminar el pedido principal
+            $deletePedido = $db->prepare('DELETE FROM pedido WHERE idPedido = :idPedido');
+            $deletePedido->bindParam(':idPedido', $idPedido, PDO::PARAM_INT);
+            $deletePedido->execute();
+
+            $db->commit();
+            return true;
+        } catch (PDOException $e) {
+            $db->rollBack();
+            error_log("Error al eliminar pedido activo: " . $e->getMessage());
+            return false;
+        }
     }
 }
 ?>

@@ -108,6 +108,7 @@ if ($idOrden || $desdeFecha || $hastaFecha || ($tipoPago && $tipoPago !== 'todos
                     <th>Monto</th>
                     <th>Tipo de pago</th>
                     <th>Cliente</th>
+                    <th>Detalles</th>
                 </tr>
             </thead>
             <tbody>
@@ -120,7 +121,7 @@ if ($idOrden || $desdeFecha || $hastaFecha || ($tipoPago && $tipoPago !== 'todos
                             <td><?php echo htmlspecialchars($pedido->getTipoPago()); ?></td>
                             <td><?php echo htmlspecialchars($pedido->getNombreCliente() . ' ' . $pedido->getApellidoCliente()); ?></td>
                             <td class="action-buttons">
-                                <a href="eliminarPedido.php?idPedido=<?php echo $pedido->getIdPedido(); ?>" class="btn btn-delete">Eliminar</a>
+                                <a href="eliminarPedido.php?idPedido=<?php echo $pedido->getIdPedido(); ?>" class="btn btn-export">Ver</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
