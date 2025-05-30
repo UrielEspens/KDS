@@ -29,6 +29,7 @@ $usuario= new Empleado();
         $usuario->setPuesto($_POST['puesto']);
         $usuario->setIdEmpleado($_POST['idEmpleado']);
 
+        
         if (isset($_FILES['imagen']) && $_FILES['imagen']['tmp_name'] != '') {
             // Si se subió una nueva imagen
             $usuario->setImagen(file_get_contents($_FILES['imagen']['tmp_name']));

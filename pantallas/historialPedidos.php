@@ -89,9 +89,6 @@ if ($idOrden || $desdeFecha || $hastaFecha || ($tipoPago && $tipoPago !== 'todos
 
 
             <div class="filter-actions">
-                <button type="button" class="btn-export">
-                    EXPORTAR
-                </button>
                 <div class="buttons-container">
                     <button type="submit" class="btn btn-search">BUSCAR</button>
                     <button type="button" class="btn btn-clear" onclick="window.location.href='historialPedidos.php'">LIMPIAR</button>
@@ -108,7 +105,6 @@ if ($idOrden || $desdeFecha || $hastaFecha || ($tipoPago && $tipoPago !== 'todos
                     <th>Monto</th>
                     <th>Tipo de pago</th>
                     <th>Cliente</th>
-                    <th>Detalles</th>
                 </tr>
             </thead>
             <tbody>
@@ -120,14 +116,11 @@ if ($idOrden || $desdeFecha || $hastaFecha || ($tipoPago && $tipoPago !== 'todos
                             <td>$<?php echo number_format($pedido->getMontoTotal(), 2); ?></td>
                             <td><?php echo htmlspecialchars($pedido->getTipoPago()); ?></td>
                             <td><?php echo htmlspecialchars($pedido->getNombreCliente() . ' ' . $pedido->getApellidoCliente()); ?></td>
-                            <td class="action-buttons">
-                                <a href="eliminarPedido.php?idPedido=<?php echo $pedido->getIdPedido(); ?>" class="btn btn-export">Ver</a>
-                            </td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="6">No se encontraron pedidos.</td>
+                        <td colspan="5">No se encontraron pedidos.</td>
                     </tr>
                 <?php endif; ?>
             </tbody>

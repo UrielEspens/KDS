@@ -1,19 +1,4 @@
-/* --- Estilos Generales y Contenedor Principal --- */
 
-/* Asegúrate de que el body tenga estilos de centrado y fuente en estilos.css */
-/* Ejemplo:
-body {
-    font-family: 'Roboto', Arial, sans-serif;
-    background-color: #f0f2f5;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start; // Alinea arriba para dejar espacio para el header
-    min-height: 100vh;
-    margin: 0;
-    padding: 20px;
-    box-sizing: border-box;
-}
-*/
 
 .container {
     background-color: #ffffff; /* Fondo blanco limpio */

@@ -62,8 +62,9 @@ $usuario = $crud->obtenerUsuario($_GET['idEmpleado']);
                     <label class = "labelTittle" for="contrasena">Contraseña</label>
                     <input class = "labelConfiguracion" id= "contrasena" name= "contrasena" class= "input" type="text" value='<?php echo $usuario ->getContrasena()?>'><br><br>
                     <label for="puesto" class = "labelTittle">Puesto:</label><?php echo $usuario->getPuesto()?>
-                        <select id="text" name="puesto"  class = "input"required>
-                            <option  value="Mesero">Mesero</option>
+                        <select id="text" name="puesto"  class ="input" required>
+                            <option value="<?php echo $usuario->getPuesto()?>" selected><?php echo $usuario->getPuesto()?></option>
+                            <option value="Mesero">Mesero</option>
                             <option value="Chef">Chef</option>
                             <option value="Cajero">Cajero</option>
                             <option value="Gerente">Gerente</option>

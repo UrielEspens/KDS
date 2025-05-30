@@ -1,5 +1,3 @@
-/* --- Estilos Generales --- */
-
 body {
     font-family: 'Roboto', Arial, sans-serif; /* Fuente moderna y legible */
     background-color: #f0f2f5; /* Fondo gris claro suave */
@@ -28,8 +26,6 @@ body {
     gap: 25px; /* Espacio entre los elementos principales del contenedor */
     margin: 20px auto; /* Centra y da un margen superior/inferior */
 }
-
-/* --- Estilos de Secciones del Perfil --- */
 
 .infoPerfil {
     display: flex;

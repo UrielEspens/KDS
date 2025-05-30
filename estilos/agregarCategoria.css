@@ -200,7 +200,6 @@ select {
     padding-left: 30px;
 }
 
-/* Estilos de botones y mensajes */
 .buttons {
     display: flex;
     gap: 15px;

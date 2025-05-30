@@ -6,21 +6,15 @@ require_once('claseEmpleados.php'); // Incluye la clase Empleado
 
 class CrudEmpleados {
     public function __construct() {
-        // Constructor vacío
+       
     }
 
-    /**
-     * Verifica las credenciales de un empleado para el inicio de sesión.
-     * @param string $usuario El nombre de usuario.
-     * @param string $contrasena La contraseña (sin hash en este ejemplo).
-     * @return Empleado|null Un objeto Empleado si las credenciales son válidas, o null si no.
-     */
     public function verificarCredenciales($usuario, $contrasena) {
         $db = Db::conectar();
         $sql = 'SELECT idEmpleado, nombre, primerApe, segundoApe, usuario, contrasena, puesto FROM empleados WHERE usuario = :usuario AND contrasena = :contrasena LIMIT 1';
         $stmt = $db->prepare($sql);
         $stmt->bindParam(':usuario', $usuario);
-        $stmt->bindParam(':contrasena', $contrasena); // ¡ADVERTENCIA: Contraseña en texto plano!
+        $stmt->bindParam(':contrasena', $contrasena);
         $stmt->execute();
 
         if ($empleadoData = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -37,11 +31,7 @@ class CrudEmpleados {
         return null;
     }
 
-    /**
-     * Obtiene los detalles de un empleado por su ID.
-     * @param int $idEmpleado El ID del empleado.
-     * @return Empleado|null Un objeto Empleado si se encuentra, o null si no.
-     */
+
     public function obtenerEmpleadoPorId($idEmpleado) {
         $db = Db::conectar();
         $sql = 'SELECT idEmpleado, nombre, primerApe, segundoApe, usuario, contrasena, puesto FROM empleados WHERE idEmpleado = :idEmpleado LIMIT 1';

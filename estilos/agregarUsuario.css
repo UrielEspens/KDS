@@ -8,19 +8,18 @@ body {
 }
 
 .container {
-    background-color: #ffffff; /* Fondo blanco para destacar */
-    border: 1px solid #ddd; /* Borde más sutil */
-    border-radius: 8px; /* Esquinas ligeramente redondeadas */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave para profundidad */
+    background-color: #ffffff; 
+    border: 1px solid #ddd;
+    border-radius: 8px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
     display: flex;
-    flex-direction: column; /* Usar flex-direction en lugar de flex-flow para mayor claridad */
-    width: 100%; /* Ocupa todo el ancho disponible */
-    max-width: 450px; /* Limita el ancho máximo para pantallas grandes */
+    flex-direction: column;
+    width: 100%; 
+    max-width: 450px; 
     padding: 22px;
-    margin-top: 4px; /* Elimina márgenes fijos para centrado flexible */
+    margin-top: 4px; 
 }
 
-/* Contenedor para elementos específicos (si es necesario) */
 .container2 {
     display: flex;
     flex-direction: column; /* O row, dependiendo de tu diseño */

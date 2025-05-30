@@ -141,7 +141,7 @@ body {
     background-color: #c82333; /* Darker red on hover */
 }
 
-/* Styling for navigation links that act like buttons in .container-perfil */
+
 .container-perfil a { /* Targeting all links within .container-perfil */
     text-decoration: none; /* Remove underline */
     display: flex; /* Make it a flex container */
