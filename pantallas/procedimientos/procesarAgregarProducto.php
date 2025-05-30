@@ -10,8 +10,8 @@ session_start();
 
 // Verificar que la solicitud sea de tipo POST (es decir, que venga de un formulario)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nombre = trim($_POST['nombre'] ?? '');
-    $descripcion = trim($_POST['descripcion'] ?? '');
+    $nombre = $_POST['nombre'];
+    $descripcion = $_POST['descripcion'];
     
     $precio = filter_var($_POST['precio'] ?? '', FILTER_VALIDATE_FLOAT); 
     $idCategoria = filter_var($_POST['idCategoria'] ?? '', FILTER_VALIDATE_INT); 

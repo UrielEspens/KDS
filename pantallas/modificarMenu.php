@@ -48,6 +48,8 @@ require_once('procedimientos/busquedaMenu.php');
                     </a>
                 <?php endforeach; ?>
             </div>
+            <a href="eliminarCategoria.php" class="menu-categorias"><button class="btn botonEliminar">Eliminar categoría &nbsp;</button></a>
+            <a href="agregarCategoria.php" class="menu-categorias"><button class="btn botonAgregar">Agregar categoría</button></a>
             <a href="agregarProducto.php" class="menu-categorias"><button class="btn botonAgregar">Agregar producto</button></a>
         </div>
 

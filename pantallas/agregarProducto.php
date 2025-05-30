@@ -72,17 +72,16 @@ if (isset($_SESSION['mensaje_error'])) {
                         <div class="select-container">
                             <select id="categoria" name="idCategoria" required>
                                 <option value="">Seleccione una categoría</option>
-                                <?php foreach ($categorias as $cat): ?>
-                                    <option value="<?php echo $cat->getIdCategoria(); ?>"
-<<<<<<< HEAD
-                                        <?php echo $cat->getIdCategoria() ? 'selected' : ''; ?>>
-=======
-                                        <?php echo ($cat->getIdCategoria()) ? 'selected' : ''; ?>
-                                        >
->>>>>>> fd0d774ac32f9d236691655f554e22770602fddf
-                                        <?php echo $cat->getNombre(); ?>
-                                    </option>
-                                <?php endforeach; ?>
+                                <?php if (!empty($categorias)): ?>
+                                    <?php foreach ($categorias as $cat): ?>
+                                        <option value="<?php echo $cat->getIdCategoria(); ?>"
+                                            <?php echo $cat->getIdCategoria() ? 'selected' : ''; ?>>
+                                            <?php echo $cat->getNombre(); ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                <?php else; ?>
+                                        <option value="" selected>No hay categorías disponibles</option>
+                                <?php endif; ?>
                             </select>
                         </div>
                     </div>

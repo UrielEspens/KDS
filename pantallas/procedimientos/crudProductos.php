@@ -201,5 +201,12 @@ class CrudProductos {
         $insert->bindValue(':imagen', $producto->getImagen()); 
         return $insert->execute();
     }
+
+    public function insertarNuevaCategoria($nombre) { 
+        $db = Db::conectar();
+        $insert = $db->prepare('INSERT INTO categorias (nombre) VALUES (:nombre);');
+        $insert->bindValue(':nombre', $nombre); 
+        return $insert->execute();
+    }
 }
 ?>
