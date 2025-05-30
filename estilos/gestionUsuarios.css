@@ -1,85 +1,222 @@
+/* --- Estilos Generales y Contenedor Principal --- */
+
+/* Asegúrate de que el body tenga estilos de centrado y fuente en estilos.css */
+/* Ejemplo:
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    background-color: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; // Alinea arriba para dejar espacio para el header
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+*/
+
 .container {
+    background-color: #ffffff; /* Fondo blanco limpio */
+    border: 1px solid #e0e0e0; /* Borde sutil */
+    border-radius: 12px; /* Esquinas redondeadas */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Sombra más pronunciada para un efecto flotante */
+    display: flex;
+    flex-direction: column; /* Organiza los elementos en columna */
+    align-items: center; /* Centra los elementos horizontalmente dentro del contenedor */
+    width: 100%; /* Ocupa todo el ancho disponible */
+    max-width: 900px; /* Ancho máximo para pantallas grandes */
+    padding: 30px; /* Espaciado interno generoso */
+    gap: 30px; /* Espacio entre secciones principales (búsqueda y lista) */
+    margin: 20px auto; /* Centra el contenedor en la página y da margen */
+    box-sizing: border-box;
+    overflow: hidden; /* Asegura que la sombra se vea bien */
+}
+
+/* --- Contenedor de Búsqueda y Puestos --- */
+
+.containerBusquedaP {
+    display: flex;
+    flex-direction: column; /* Apila los grupos de búsqueda y botones de puesto */
+    width: 100%; /* Ocupa el 100% del contenedor padre */
+    max-width: 600px; /* Limita el ancho de la sección de búsqueda/filtros */
+    gap: 20px; /* Espacio entre los grupos de búsqueda y los botones de puesto */
+    margin: 0 auto; /* Centra este contenedor dentro de .container */
+    padding-bottom: 20px; /* Espacio antes de la línea divisoria si la necesitas */
+    border-bottom: 1px solid #f0f0f0; /* Línea divisoria suave */
+}
+
+.containerBusqueda { /* Contenedor para el input de búsqueda/lupa y para los botones de puesto/agregar */
     display: flex;
     align-items: center;
+    gap: 10px; /* Espacio entre los elementos de búsqueda (lupa, input, botón) */
+    flex-wrap: wrap; /* Permite que los elementos se envuelvan en pantallas pequeñas */
+    justify-content: center; /* Centra los elementos horizontalmente si hay espacio */
+}
+
+.containerBusqueda img { /* Estilo para la lupa de búsqueda */
+    width: 24px; /* Un poco más grande para mejor visibilidad */
+    height: 24px;
+    opacity: 0.6; /* Ligeramente transparente */
+    flex-shrink: 0; /* Evita que la imagen se encoja */
+}
+
+.containerBusqueda input[type="text"] {
+    flex-grow: 1; /* El input de búsqueda crecerá para ocupar el espacio disponible */
+    max-width: 250px; /* Ancho máximo para el campo de búsqueda */
+    padding: 10px 15px;
+    border: 1px solid #ced4da; /* Borde suave */
+    border-radius: 8px; /* Esquinas redondeadas */
+    font-size: 16px;
+    color: #495057;
+    box-sizing: border-box;
+}
+
+.containerBusqueda input[type="text"]:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* --- Botones --- */
+
+/* Estilo base para los botones de configuración y búsqueda */
+.buttonConfiguracion, .buttonConfiguracion2 {
+    background-color: #e9ecef; /* Un gris claro y moderno */
+    color: #343a40; /* Texto oscuro */
+    border: none; /* Sin borde inicial */
+    border-radius: 8px; /* Esquinas más redondeadas */
+    padding: 10px 20px; /* Espaciado cómodo */
+    text-align: center;
+    font-size: 14px; /* Tamaño de fuente legible */
+    font-weight: 600; /* Ligeramente más negrita */
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease; /* Transición suave */
+    text-decoration: none; /* Para enlaces que actúan como botones */
+    display: inline-flex; /* Permite alinear contenido y usar gap si es necesario */
+    align-items: center;
     justify-content: center;
-    flex-flow: column;
-    margin: 200px 200px;   
+    gap: 5px; /* Espacio si hay iconos en el botón */
+    white-space: nowrap; /* Evita que el texto se rompa */
+    box-sizing: border-box;
 }
 
-.containerBusquedaP{
-    display: flex;
-    width: 530px;
-    gap: 40px;  
-    margin: 10px 0;
+.buttonConfiguracion:hover, .buttonConfiguracion2:hover {
+    background-color: #dee2e6; /* Fondo un poco más oscuro al pasar el mouse */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Sombra suave al pasar el mouse */
+    transform: translateY(-1px); /* Pequeño efecto de levantamiento */
 }
 
-.containerBusqueda {
-    display: flex;
+/* Estilo específico para el botón "AGREGAR" si quieres que destaque */
+.containerBusqueda a .buttonConfiguracion { /* Asegúrate de que este selector sea correcto para tu HTML */
+    background-color: #28a745; /* Verde para acciones positivas */
+    color: #ffffff;
 }
+
+.containerBusqueda a .buttonConfiguracion:hover {
+    background-color: #218838;
+}
+
+/* --- Contenedor de Perfiles y Elementos Individuales --- */
 
 .containerPerfiles {
+    background-color: #f8f9fa; /* Fondo ligeramente gris para el área de perfiles */
+    width: 100%; /* Ocupa el ancho completo disponible */
+    max-width: 600px; /* Asegura que la lista de perfiles no sea demasiado ancha */
+    border-radius: 10px; /* Bordes redondeados para el contenedor de la lista */
+    border: 1px solid #e9ecef; /* Borde suave */
+    max-height: 400px; /* Altura máxima visible */
+    overflow-y: auto; /* Scroll vertical si es necesario */
+    padding: 15px; /* Espaciado interno */
+    box-sizing: border-box;
+    margin: 0 auto; /* Centra este contenedor */
+}
+
+.containerInfo { /* Cada tarjeta de usuario individual */
     display: flex;
-    background-color: #c7c6c6;
-    width: 530px;
-    border-radius: 5px;
-    flex-flow: column;
-    border: #000000 1px solid;
-    max-height: 350px;     /* Altura máxima visible */
-    overflow-y: auto;      /* Scroll vertical si es necesario */
+    align-items: center; /* Alinea verticalmente la imagen, info y botones */
+    padding: 15px; /* Espaciado interno para cada tarjeta */
+    gap: 15px; /* Espacio entre la imagen, info y botones */
+    background-color: #ffffff; /* Fondo blanco para cada tarjeta de usuario */
+    border-radius: 8px;
+    border: 1px solid #f0f0f0; /* Borde muy sutil */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.07); /* Sombra más visible para las tarjetas */
+    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Transición suave al pasar el mouse */
+    margin-bottom: 10px; /* Espacio entre cada tarjeta de usuario */
 }
 
-.buttonConfiguracion {
-    background-color: #ffffff;
-    border-top-color: #000000;
-    padding: 3px 10px;
-    text-align: center;
-    font-size: 10px;
-    margin: 2px 1%;
-    cursor: pointer;
-}
-.buttonConfiguracion2 {
-    background-color: #ffffff;
-    border-top-color: #000000;
-    padding: 3px 10px;
-    text-align: center;
-    font-size: 10px;
-    cursor: pointer;
+.containerInfo:last-child {
+    margin-bottom: 0; /* Elimina el margen inferior de la última tarjeta */
 }
 
-.iconoPerfil{
-    margin: 10px;
+.containerInfo:hover {
+    transform: translateY(-3px); /* Efecto de levantamiento al pasar el mouse */
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.12); /* Sombra más fuerte al pasar el mouse */
 }
 
-.containerInfo{
+.iconoPerfil { /* Imagen de perfil dentro de cada tarjeta de usuario */
+    width: 50px; /* Tamaño del icono de perfil */
+    height: 50px;
+    border-radius: 50%; /* Circular */
+    object-fit: cover; /* Asegura que la imagen no se distorsione */
+    border: 2px solid #007bff; /* Borde de acento */
+    flex-shrink: 0; /* Evita que la imagen se encoja en pantallas pequeñas */
+}
+
+.infoPerfil { /* Contenedor para el nombre de usuario y puesto */
     display: flex;
+    flex-direction: column;
+    margin-top: 0; /* Reinicia el margin-top si estaba allí */
+    flex-grow: 1; /* Permite que este contenedor crezca */
 }
 
-.labelTittle
-{
-    font-weight: bold; /* Texto en negritas */
-    
+.labelTittle {
+    font-weight: bold;
+    font-size: 1.1em; /* Un poco más grande para el nombre de usuario */
+    color: #212529; /* Color de texto oscuro */
+    margin-right: 0; /* Ya no es necesario con flexbox y gap */
 }
 
-.labelConfiguracion {
-    font-size: 13px;
-    color: #000000;
+.labelConfiguracion { /* Estilo para el puesto */
+    font-size: 0.9em; /* Más pequeño para el puesto */
+    color: #6c757d; /* Gris para un texto secundario */
 }
 
-.infoPerfil{
+/* --- Botones de Acción Individual (Modificar/Eliminar) --- */
+
+.containerBotones {
     display: flex;
-    flex-flow: column;
-    margin-top: 8px;
+    gap: 10px; /* Espacio entre los botones de lápiz y basurero */
+    margin-left: auto; /* Empuja los botones hacia la derecha */
+    margin-right: 5px; /* Pequeño margen a la derecha */
+    flex-shrink: 0; /* Evita que se encojan en pantallas pequeñas */
 }
 
-.containerBotones{
-    display: flex;
-    margin-top: 18px;
-    gap: 10px;
-    margin-left: auto;
-    margin-right: 18px;
+.containerBotones a img { /* Estilo para los iconos dentro de los enlaces de los botones */
+    height: 24px; /* Un poco más grande para iconos */
+    width: 24px;
+    opacity: 0.8;
+    transition: opacity 0.2s ease, transform 0.2s ease;
 }
-.linea {
+
+.containerBotones a:hover img {
+    opacity: 1; /* Icono completamente visible al pasar el mouse */
+    transform: scale(1.1); /* Pequeño zoom al pasar el mouse */
+}
+
+/* --- Línea Divisoria entre Usuarios --- */
+
+.linea { /* Línea entre cada usuario en la lista */
     border: none;
-    background: none; /* Elimina el fondo */
-    border-top: 2px dotted #000000; /* Línea punteada */
+    height: 1px; /* Línea más delgada */
+    background-color: #eee; /* Color gris muy suave */
+    margin: 5px 0; /* Espaciado entre las líneas */
+    width: calc(100% - 30px); /* Ocupa casi todo el ancho de .containerPerfiles */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* Eliminar la última línea divisoria para una estética más limpia */
+.containerPerfiles .linea:last-of-type {
+    display: none;
 }

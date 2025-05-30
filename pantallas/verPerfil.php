@@ -10,6 +10,8 @@ $usuarioEmpleado = $_SESSION['usuario'];
 $nombreEmpleado = $_SESSION['nombre'];
 $primerApeEmpleado = $_SESSION['primerApe'];
 $usuarioPuesto = $_SESSION['puesto'];
+$usuarioEmpleado = $_SESSION['usuario'];
+$usuarioImagen = $_SESSION['imagen'];
 ?>
 <!DOCTYPE html>
 <html>
@@ -45,7 +47,7 @@ $usuarioPuesto = $_SESSION['puesto'];
                 <div class = "labelTittle">ID DEL USUARIO:</div><div class = "labelConfiguracion"><?php echo $idEmpleado; ?></div>
             </div>
             <div class = "nombreUsuario">
-                <img src="../img/general/usuario.png" alt="usuario" height = "75" width = "75" class = "iconoUsuario">
+                <img src="data:image/jpeg;base64, <?php echo base64_encode($usuarioImagen); ?>" alt="usuario" height = "75" width = "75" class = "iconoUsuario">
                 <div>
                     <div class = "nombreApellido">
                         <div class = "labelTittle">Nombre:</div><div class = "labelConfiguracion"><?php echo $nombreEmpleado; ?></div>

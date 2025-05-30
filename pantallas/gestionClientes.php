@@ -22,7 +22,7 @@
     <div class="header">
         <div class="logo-title">
             <a href="inicio.php"><img src="../img/general/hogar.png" alt="Home" height="30px"></a>
-            <div class="title">Gestion clientes</div>
+            <div class="title">GESTION CLIENTES</div>
         </div>
         <div class="menu-container">
             <button id="toggleMenu">
@@ -45,15 +45,14 @@
                 <button type="submit" class="buttonConfiguracion">Buscar</button>
             </form>
             <div class = "containerBusqueda">
-                <a href="nuevoCliente.php"><button class="buttonConfiguracion">AGREGAR</button></a>
+                <a href="nuevoClienteConfiguracion.php"><button class="buttonConfiguracion">Agregar</button></a>
             </div>
         </div>
         <div class = "containerPerfiles">
             <?php foreach ($listaClientes as $cliente){ ?>
               <div class = "containerInfo">
-                <img src="../img/general/usuario.png" alt="usuario" height="40px" wight="40px" class="iconoPerfil">
                 <div class = "infoPerfil">
-                    <div class = "labelTittle"><?php echo $cliente->getNombre(); ?></div>
+                    <div class = "labelTittle"><?php echo $cliente->getNombre() . ' ' . $cliente->getPrimerApe() . ' ' . $cliente->getSegundoApe(); ?></div>
                     <div class = "labelConfiguracion"><?php echo $cliente->getTelefono(); ?></div>
                     <div class = "labelConfiguracion"><?php echo $cliente->getCalle(); ?></div>
                 </div>

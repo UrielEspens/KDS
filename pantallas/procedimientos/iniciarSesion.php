@@ -25,6 +25,7 @@ if (isset($_POST['usuario']) && isset($_POST['contrasena'])) {
         $_SESSION['primerApe'] = $empleado['primerApe'];
         $_SESSION['segundoApe'] = $empleado['segundoApe'];
         $_SESSION['puesto'] = $empleado['puesto'];
+        $_SESSION['imagen'] = $empleado['imagen'];
         header('Location: ../inicio.php');
         exit();
     } else {

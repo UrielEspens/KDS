@@ -17,9 +17,22 @@ if (isset($_POST['insertar'])) {
     $usuario->setReferenciaCasa($_POST['referenciaCasa']);
 
     $crud->insertar($usuario);
-    header('Location: ../gestionClientes.php');
+    header('Location: ../nuevoCliente.php');
 
-} else if (ISSET($_POST['actualizar'])) {
+}else if (isset($_POST['insertarConfiguracion'])) {
+    $usuario->setNombre($_POST['nombre']);
+    $usuario->setPrimerApe($_POST['primerApe']);
+    $usuario->setSegundoApe($_POST['segundoApe']);
+    $usuario->setTelefono($_POST['telefono']);
+    $usuario->setCalle($_POST['calle']);
+    $usuario->setNumeroCasa($_POST['numeroCasa']);
+    $usuario->setReferenciaCasa($_POST['referenciaCasa']);
+
+    $crud->insertar($usuario);
+    header('Location: ../nuevoClienteConfiguracion.php');
+
+
+}else if (ISSET($_POST['actualizar'])) {
     $usuario->setNombre($_POST['nombre']);
     $usuario->setPrimerApe($_POST['primerApe']);
     $usuario->setSegundoApe($_POST['segundoApe']);
@@ -30,7 +43,7 @@ if (isset($_POST['insertar'])) {
     $usuario->setIdCliente($_POST['idCliente']);
 
     $crud->actualizar($usuario);
-    header('Location: ../gestionCliente.php');
+    header('Location: ../gestionClientes.php');
 } else if ($_GET['accion'] == 'eliminar') {
     $idCliente = $_GET['idCliente'];
     $crud->eliminar($idCliente);

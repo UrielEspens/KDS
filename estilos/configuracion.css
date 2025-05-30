@@ -1,85 +1,170 @@
-.container {
-    background-color: #c7c6c6;
-    display: flex;
-    width: 700px;
-    max-height: 600px;
-    padding: 15px;
-    margin: 10%;
-    border-radius: 20px;
-    flex-flow: column;
-}
+/* --- Base Styles & Main Container --- */
 
+/* Ensure body styles provide proper centering and font setup */
 body {
+    font-family: 'Roboto', Arial, sans-serif;
+    background-color: #f0f2f5; /* Soft light gray background */
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    margin: 0;
+    box-sizing: border-box;
 }
 
-.btn-perfil {
-    background-color: #e1e1e1;
-    color: rgb(0, 0, 0);
-    border: 1px solid #000000;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    border-radius: 5px;
+/* Main Container (Card-like appearance) */
+.container {
+    background-color: #ffffff; /* Clean white background */
+    border: 1px solid #e0e0e0; /* Subtle border */
+    border-radius: 12px; /* Nicely rounded corners */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Soft, prominent shadow for depth */
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    width: 100%;
+    max-width: 650px; /* Adjusted max-width for a good balance */
+    padding: 30px; /* Generous internal spacing */
+    gap: 20px; /* Space between main sections (profile, options) */
+    margin: 20px auto; /* Center container with auto margins */
+    box-sizing: border-box;
+    overflow: hidden; /* Ensures shadow is crisp */
 }
 
+/* --- Profile Section Styles --- */
+
+/* Container for each profile row/option */
+.container-perfil {
+    display: flex;
+    align-items: center; /* Vertically align items in the center */
+    justify-content: space-between; /* Push profile info left, button right */
+    padding: 15px 0; /* Vertical internal spacing */
+    border-bottom: 1px solid #f0f0f0; /* Soft separator line */
+    margin-bottom: 5px; /* Small margin below the line */
+}
+
+/* Remove border from the last item for a cleaner look */
+.container-perfil:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+/* Info section (image + name/puesto) */
 .infoPerfil {
     display: flex;
     align-items: center;
+    gap: 15px; /* Space between image and text */
+    flex-grow: 1; /* Allows it to take available space before the button */
 }
 
+/* Link surrounding profile text */
 .infoPerfil a {
-    text-decoration: none;
-    padding: 10px;
+    text-decoration: none; /* Remove underline */
+    color: inherit; /* Inherit text color for default */
+    display: flex; /* Allow flex properties for text content */
+    flex-direction: column;
+    justify-content: center;
 }
 
-.container-perfil
-{
-    display: flex;
-    align-items: center;
-    margin: 0%;
-    justify-content: space-between;
+.infoPerfil a:hover {
+    color: #007bff; /* Highlight text on hover */
 }
 
-.linea {
-    border: none; /* Elimina el borde predeterminado */
-    height: 2px; /* Altura de la línea */
-    background: none; /* Elimina el fondo */
-    border-top: 2px dotted #000000; /* Línea punteada */
-    margin: 20px 0; /* Espaciado superior e inferior */
+/* Image within infoPerfil */
+.infoPerfil img {
+    width: 55px; /* Slightly larger image size */
+    height: 55px;
+    border-radius: 50%; /* Perfect circle */
+    object-fit: cover; /* Ensures image covers area without distortion */
+    border: 2px solid #007bff; /* Accent border around image */
+    flex-shrink: 0; /* Prevent image from shrinking */
 }
+
+/* --- Labels --- */
 
 .labelConfiguracion {
-    font-size: 15px;
-    margin: 3px;
-    margin-left: 15px;
-    color: #000000;
+    font-size: 1.1em; /* Slightly larger for main text */
+    font-weight: 500; /* Medium weight */
+    color: #343a40; /* Dark gray for good readability */
+    line-height: 1.4; /* Space between lines for name/puesto */
+    margin: 0; /* Reset margins from previous definitions */
+    margin-left: 0; /* Reset specific margin */
+    border-radius: 5PX;
 }
 
-.buttonConfiguracion {
-    background-color: #e1e1e1;
-    color: rgb(0, 0, 0);
-    border-top-color: #000000;
+/* Specific styling for the puesto (second line in labelConfiguracion) */
+.labelConfiguracion + .labelConfiguracion {
+    font-size: 0.95em; /* Smaller for secondary text */
+    color: #6c757d; /* Lighter gray for secondary info */
+}
+
+.labelTittle {
+    font-weight: bold;
+    font-size: 1.1em; /* Consistent size for titles */
+    color: #212529; /* Darker text for titles */
+}
+
+/* --- Buttons --- */
+
+/* Base button styles for all action buttons */
+.btn-perfil, .buttonConfiguracion {
+    background-color: #e9ecef; /* Light gray, modern background */
+    color: #343a40; /* Dark text */
+    border: none; /* No default border */
+    border-radius: 8px; /* Rounded corners */
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
+    display: inline-flex; /* Use flex for centering content if needed */
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: bold;
     cursor: pointer;
-    border-radius: 5px;
-    
+    margin: 0; /* Reset margin */
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; /* Smooth transitions */
+    white-space: nowrap; /* Prevent text from breaking */
+    box-sizing: border-box;
 }
 
-.labelTittle
-{
-    font-weight: bold; /* Texto en negritas */
-    
+.btn-perfil:hover, .buttonConfiguracion:hover {
+    background-color: #dee2e6; /* Slightly darker on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow on hover */
+}
+
+/* Specific style for "CERRAR SESIÓN" button */
+.btn-perfil {
+    background-color: #dc3545; /* Red for logout/danger action */
+    color: #ffffff; /* White text */
+}
+
+.btn-perfil:hover {
+    background-color: #c82333; /* Darker red on hover */
+}
+
+/* Styling for navigation links that act like buttons in .container-perfil */
+.container-perfil a { /* Targeting all links within .container-perfil */
+    text-decoration: none; /* Remove underline */
+    display: flex; /* Make it a flex container */
+    align-items: center;
+    justify-content: flex-start; /* Align text to the start */
+    border-radius: 8px;
+    color: #343a40; /* Dark text color */
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-sizing: border-box;
+}
+
+.container-perfil a:hover {
+    background-color: #e9ecef; /* Slightly darker on hover */
+    transform: translateX(5px); /* Slight slide to the right */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08); /* Soft shadow on hover */
+}
+
+/* --- Separator Line --- */
+
+.linea {
+    border: none;
+    height: 1px; /* Thinner line */
+    background-color: #e0e0e0; /* Soft gray color */
+    margin: 10px 0; /* Spacing around the line */
+    width: 100%; /* Full width */
 }

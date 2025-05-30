@@ -6,6 +6,8 @@ if (!isset($_SESSION['idEmpleado'])) {
     exit();
 }
 
+$usuarioPuesto = $_SESSION['puesto'];
+
 require_once('procedimientos/conexion.php');
 require_once('procedimientos/crudPedidos.php');
 require_once('procedimientos/claseDetallesPedido.php');
@@ -70,18 +72,22 @@ if ($metodoPagoSeleccionado === 'Tarjeta de Credito' || $metodoPagoSeleccionado 
             <div class="title">PAGO DE LA ORDEN</div>
         </div>
         <div class="menu-container">
+            
             <button id="toggleMenu">
                 <img src="../img/general/menuOpciones.png" alt="Opciones" height="30px">
             </button>
             <div id="menu">
                 <ul>
+                    <?php if ($usuarioPuesto == 'Gerente'): ?>
                     <li><a href="menu.php"><img src="../img/general/menuRestaurante.png" alt="menuComida" class="icono-menu"> Ver menú</a></li>
                     <hr>
                     <li><a href="historialPedidos.php"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
                     <hr>
+                    <?php endif; ?>
                     <li><a href="configuracion.php"><img src="../img/general/configuracion.png" alt="configuracion" class="icono-menu"> Configuración</a></li>
                 </ul>
             </div>
+            
         </div>
     </div>
 

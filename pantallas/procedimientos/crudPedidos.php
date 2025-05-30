@@ -181,9 +181,8 @@ class CrudPedidos{
 			$insert->bindValue('cantidad', $cantidad);
 			$insert->execute();
 		}
-
-		
-		public function obtenerPedidoPorId($idPedido) {
+    
+    public function obtenerPedidoPorId($idPedido) {
         $db = Db::conectar(); // Asume que Db::conectar() está disponible y devuelve la conexión PDO
         $select = $db->prepare('SELECT 
                                     p.idPedido, 
@@ -196,21 +195,31 @@ class CrudPedidos{
                                     c.nombre AS nombreCliente, 
 									c.primerApe AS apellidoCliente
                                 FROM pedido p
-                                INNER JOIN historial_pedidos hp ON p.idPedido = hp.idPedidoFinal -- <-- CAMBIO AQUÍ: hp.idPedidoFinal
+								INNER JOIN detalles_pedido d ON p.idPedido = d.idPedido
+                                INNER JOIN empleados e ON p.idEmpleado = e.idEmpleado
                                 INNER JOIN cliente c ON p.idCliente = c.idCliente
-                                ORDER BY p.idPedido DESC;');
+                                WHERE 
+                                    p.idPedido = :idPedido');
+        $select->bindValue('idPedido', $idPedido);
+        $select->execute();
+        $registro = $select->fetch();
 
-        foreach ($select->fetchAll(PDO::FETCH_ASSOC) as $pedidoData) {
-            $myPedido = new Pedido();
-            $myPedido->setIdPedido($pedidoData['idPedido']);
-            $myPedido->setFechaHora($pedidoData['fechaHora']);
-            $myPedido->setMontoTotal($pedidoData['montoFinal']);
-            $myPedido->setTipoPago($pedidoData['tipoPago']);
-            $myPedido->setNombreCliente($pedidoData['nombreCliente']);
-            $myPedido->setApellidoCliente($pedidoData['apellidoCliente']);
-            $listaPedidos[] = $myPedido;
+        if ($registro) {
+            // Asegúrate de que esta clase DetallesPedido esté incluida y sus setters funcionen con estos nombres de columna
+            $pedido = new DetallesPedido(); // O la clase que uses para representar un pedido completo
+            $pedido->setIdPedido($registro['idPedido']);
+            $pedido->setHoraCreacion($registro['horaCreacion']);
+            $pedido->setEstado($registro['estado']);
+            $pedido->setIdEmpleado($registro['idEmpleado']);
+            $pedido->setNombreEmpleado($registro['nombreEmpleado']);
+            $pedido->setApellidoEmpleado($registro['apellidoEmpleado']);
+            $pedido->setIdCliente($registro['idCliente']);
+            $pedido->setNombreCliente($registro['nombreCliente']);
+            $pedido->setApellidoCliente($registro['apellidoCliente']);
+            // Nota: Los artículos del pedido no se cargan aquí. Solo la información principal.
+            return $pedido;
         }
-        return $listaPedidos;
+        return null; // Si no se encontró el pedido
     }
 
     public function buscarPedidosParaHistorial($idPedido = null, $fechaDesde = null, $fechaHasta = null, $tipoPago = null, $nombreCliente = null) {

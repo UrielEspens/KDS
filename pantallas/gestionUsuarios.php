@@ -45,6 +45,7 @@ if (!isset($_SESSION['idEmpleado'])) {
             </ul>
             </div>
         </div>
+        <script src="../js/menuOpciones.js"></script>
     </div>
     <div class = "container">
         <div class = "containerBusquedaP">
@@ -57,6 +58,7 @@ if (!isset($_SESSION['idEmpleado'])) {
                 <button type="submit" class="buttonConfiguracion" name="puesto" value="chef">Chef</button>
                 <button type="submit" class="buttonConfiguracion" name="puesto" value="mesero">Mesero</button>
                 <button type="submit" class="buttonConfiguracion" name="puesto" value="gerente">Gerente</button>
+                <button type="submit" class="buttonConfiguracion" name="puesto" value="cajero">Cajero</button>
             </form>
             <div class="containerBusqueda">
                 <a href="agregarUsuario.php"><button class="buttonConfiguracion">AGREGAR</button></a>
@@ -64,18 +66,18 @@ if (!isset($_SESSION['idEmpleado'])) {
         </div>
         <div class = "containerPerfiles">
             <?php foreach ($listaUsuarios as $usuario){ ?>
-                <div class = "containerInfo">
-                    <img src="../img/general/usuario.png" alt="usuario" height="40px" wight="40px" class="iconoPerfil">
-                    <div class = "infoPerfil">
-                        <div class = "labelTittle"><?php echo $usuario->getUsuario(); ?></div>
-                        <div class = "labelConfiguracion"><?php echo $usuario->getPuesto(); ?></div>
+                <div class="containerInfo">
+                    <img src="data:image/jpeg;base64,<?php echo base64_encode($usuario->getImagen()); ?>" alt="usuario" height="40px" width="40px" class="iconoPerfil">
+                    <div class="infoPerfil">
+                        <div class="labelTittle"><?php echo $usuario->getUsuario(); ?></div>
+                        <div class="labelConfiguracion"><?php echo $usuario->getPuesto(); ?></div>
                     </div>
-                    <div class = "containerBotones">
-                        <a href="../pantallas/modificarUsuario.php?idEmpleado=<?php echo $usuario->getIdEmpleado()?>&accion=actualizar"><img src="../img/inicio/lapiz.png" alt="actualizar" height= "20"></a>
-                        <a href="../pantallas/eliminarUsuario.php?idEmpleado=<?php echo $usuario->getIdEmpleado()?>&accion=eliminar"><img src="../img/inicio/basurero.png" alt="eliminar "height= "20"></a>
+                    <div class="containerBotones">
+                        <a href="../pantallas/modificarUsuario.php?idEmpleado=<?php echo $usuario->getIdEmpleado()?>&accion=actualizar"><img src="../img/inicio/lapiz.png" alt="actualizar" height="20"></a>
+                        <a href="../pantallas/eliminarUsuario.php?idEmpleado=<?php echo $usuario->getIdEmpleado()?>&accion=eliminar"><img src="../img/inicio/basurero.png" alt="eliminar "height="20"></a>
                     </div>
                 </div>
-                <hr class = "linea">
+                <hr class="linea">
             <?php }?>
         </div>
 

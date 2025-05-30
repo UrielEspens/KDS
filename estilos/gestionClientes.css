@@ -1,76 +1,221 @@
+/* --- Base Styles & Main Container --- */
+
+/* Ensure body styles provide proper centering and font setup */
+body {
+    font-family: 'Roboto', Arial, sans-serif; /* Modern and readable font */
+    background-color: #f0f2f5; /* Soft light gray background */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start; 
+    margin: 0;
+    box-sizing: border-box;
+}
+
+/* Main Container (Card-like appearance for the entire page content) */
 .container {
+    background-color: #ffffff; /* Clean white background */
+    border: 1px solid #e0e0e0; /* Subtle border */
+    border-radius: 12px; /* Nicely rounded corners */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Soft, prominent shadow for depth */
+    display: flex;
+    flex-direction: column; /* Stacks sections vertically */
+    align-items: center; /* Centers items horizontally within the container */
+    width: 100%; /* Takes full width of its parent */
+    max-width: 900px; /* Max width for larger screens (adjust if 700px was strict) */
+    padding: 30px; /* Generous internal spacing */
+    gap: 30px; /* Space between the search section and the client list */
+    margin: 20px auto; /* Centers the container on the page */
+    box-sizing: border-box;
+    overflow: hidden; /* Ensures shadow is crisp and content is contained */
+}
+
+/* --- Search and Add Section --- */
+
+.containerBusquedaP {
+    display: flex;
+    flex-direction: column; /* Stacks the search form and add button */
+    width: 100%; /* Occupies full width within .container */
+    max-width: 530px; /* Keeping your original width for this section */
+    gap: 20px; /* Adjusted gap for modern spacing (was 40px) */
+    margin: 10px 0; /* Keeps your original vertical margin */
+    padding-bottom: 20px; /* Space before the separator line */
+    border-bottom: 1px solid #f0f0f0; /* Soft separator line */
+}
+
+.containerBusqueda { /* Container for the search input/lupa and for the add button */
     display: flex;
     align-items: center;
-    justify-content: center;
-    flex-flow: column;
-    margin: 200px 200px;
-    
+    gap: 10px; /* Space between elements (lupa, input, button) */
+    flex-wrap: wrap; /* Allows elements to wrap on smaller screens */
+    justify-content: center; /* Centers elements horizontally within the flex container */
 }
 
-.containerBusquedaP{
-    display: flex;
-    width: 530px;
-    gap: 40px;  
-    margin: 10px 0;
+.containerBusqueda img { /* Styling for the search lupa icon */
+    width: 24px; /* Slightly larger for better visibility */
+    height: 24px;
+    opacity: 0.6; /* Subtle transparency */
+    flex-shrink: 0; /* Prevents image from shrinking */
 }
 
-.containerBusqueda {
-    display: flex;
+.containerBusqueda input[type="text"] {
+    flex-grow: 1; /* Search input will expand to fill space */
+    max-width: 300px; /* Limits the max width of the search input */
+    padding: 10px 15px; /* Consistent padding */
+    border: 1px solid #ced4da; /* Soft border */
+    border-radius: 8px; /* Rounded corners */
+    font-size: 16px;
+    color: #495057;
+    box-sizing: border-box;
 }
 
-.containerPerfiles{
-    display: flex;
-    background-color: #c7c6c6;
-    width: 545px;;
-    border-radius: 5px;
-    flex-flow: column;
-    border: #000000 1px solid;
+.containerBusqueda input[type="text"]:focus {
+    border-color: #007bff; /* Accent color on focus */
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Subtle shadow on focus */
 }
+
+/* --- Buttons --- */
 
 .buttonConfiguracion {
-    background-color: #ffffff;
-    border-top-color: #000000;
-    padding: 3px 10px;
+    background-color: #e9ecef; /* Light gray, modern background */
+    color: #343a40; /* Dark text */
+    border: none; /* No default border */
+    border-radius: 8px; /* Rounded corners */
+    padding: 10px 20px; /* Increased padding from 3px 10px */
     text-align: center;
-    font-size: 10px;
-    margin: 2px 1%;
+    text-decoration: none;
+    display: inline-flex; /* Use flex for centering content if needed */
+    align-items: center;
+    justify-content: center;
+    font-size: 14px; /* Consistent font size (was 10px) */
+    font-weight: 600; /* Bolder text */
     cursor: pointer;
+    margin: 0 5px; /* Adjusting margin (was 2px 1%) */
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; /* Smooth transitions */
+    white-space: nowrap; /* Prevent text from breaking */
+    box-sizing: border-box;
 }
 
-.iconoPerfil{
-    margin: 10px;
+.buttonConfiguracion:hover {
+    background-color: #dee2e6; /* Slightly darker on hover */
+    transform: translateY(-1px); /* Slight lift effect */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Soft shadow on hover */
 }
 
-.containerInfo{
+/* Special style for the "Agregar" button if it's primary */
+.containerBusqueda a .buttonConfiguracion {
+    background-color: #28a745; /* Green for positive actions */
+    color: #ffffff;
+}
+
+.containerBusqueda a .buttonConfiguracion:hover {
+    background-color: #218838;
+}
+
+/* --- Client Profiles List --- */
+
+.containerPerfiles {
+    background-color: #f8f9fa; /* Light gray background for the list area */
+    width: 100%; /* Takes full width within its parent */
+    max-width: 545px; /* Keeping your original width */
+    border-radius: 10px; /* More rounded corners (was 5px) */
+    flex-direction: column; /* Stacks client cards */
+    border: 1px solid #e9ecef; /* Softer border (was black 1px) */
+    max-height: 400px; /* Increased max-height for more visible items (was 350px) */
+    overflow-y: auto; /* Adds vertical scroll if content overflows */
+    padding: 15px; /* Internal spacing */
+    box-sizing: border-box;
+    margin: 0 auto; /* Centers the list */
+}
+
+/* --- Individual Client Card --- */
+
+.containerInfo {
     display: flex;
+    align-items: center; /* Aligns image, info, and buttons vertically */
+    padding: 15px; /* Consistent internal padding for each card */
+    gap: 15px; /* Space between image, info, and buttons */
+    background-color: #ffffff; /* White background for each client card */
+    border-radius: 8px; /* Rounded corners for individual cards */
+    border: 1px solid #f0f0f0; /* Very subtle border */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.07); /* Light shadow */
+    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth hover effects */
+    margin-bottom: 10px; /* Space between each client card */
 }
 
-.labelTittle
-{
-    font-weight: bold; /* Texto en negritas */
-    
+.containerInfo:last-child {
+    margin-bottom: 0; /* Removes bottom margin from the last card */
 }
 
-.labelConfiguracion {
-    font-size: 13px;
-    color: #000000;
+.containerInfo:hover {
+    transform: translateY(-3px); /* Lifts the card slightly on hover */
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.12); /* More prominent shadow on hover */
 }
 
-.infoPerfil{
+.iconoPerfil { /* Client icon within each card */
+    width: 50px; /* Larger icon size (was 40px) */
+    height: 50px;
+    border-radius: 50%; /* Circular */
+    object-fit: cover; /* Ensures image fits without distortion */
+    border: 2px solid #007bff; /* Accent border */
+    flex-shrink: 0; /* Prevents image from shrinking */
+}
+
+.infoPerfil { /* Container for client name, phone, and street */
     display: flex;
-    flex-flow: column;
-    margin-top: 8px;
+    flex-direction: column;
+    flex-grow: 1; /* Allows this section to expand and take space */
+    margin-top: 0; /* Resets previous margin-top */
 }
 
-.containerBotones{
-    display: flex;
-    margin-top: 18px;
-    gap: 10px;
-    margin-left: auto;
-    margin-right: 18px;
+.labelTittle { /* Style for full client name */
+    font-weight: bold;
+    font-size: 1.1em; /* Slightly larger and more prominent */
+    color: #212529; /* Darker text */
 }
+
+.labelConfiguracion { /* Style for phone and street */
+    font-size: 0.95em; /* Slightly smaller */
+    color: #6c757d; /* Softer gray for secondary info */
+    margin: 0; /* Resets previous margins */
+}
+
+/* --- Action Buttons (Delete) --- */
+
+.containerBotones {
+    display: flex;
+    gap: 10px; /* Space between action icons */
+    margin-left: auto; /* Pushes buttons to the right */
+    margin-right: 15px; /* Adjusted right margin (was 18px) */
+    flex-shrink: 0; /* Prevents buttons from shrinking */
+}
+
+.containerBotones a img { /* Style for the trash can icon */
+    height: 24px; /* Larger icon size (was 20px) */
+    width: 24px;
+    opacity: 0.8;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.containerBotones a:hover img {
+    opacity: 1; /* Fully visible on hover */
+    transform: scale(1.1); /* Slight zoom on hover */
+}
+
+/* --- Separator Line --- */
+
 .linea {
     border: none;
-    background: none; /* Elimina el fondo */
-    border-top: 2px dotted #000000; /* Línea punteada */
+    height: 1px; /* Thinner line */
+    background-color: #eee; /* Very soft gray color */
+    margin: 5px 0; /* Space above and below the line */
+    width: calc(100% - 30px); /* Adjust width to fit within padding of .containerPerfiles */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Hide the last separator line for a cleaner look */
+.containerPerfiles .linea:last-of-type {
+    display: none;
 }

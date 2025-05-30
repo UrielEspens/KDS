@@ -1,3 +1,13 @@
+<?php
+session_start();
+if (!isset($_SESSION['idEmpleado'])) {
+    header('Location: index.php');
+    exit();
+}
+$usuarioPuesto = $_SESSION['puesto'];
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,6 +21,7 @@
             <a href="inicio.php"><img src="../img/general/hogar.png" alt="Home" height="30px"></a>
             <div class="title">AGREGAR CLIENTE</div>
         </div>
+        <?php if ($usuarioPuesto == 'Gerente'): ?>
         <div class="menu-container">
             <button id="toggleMenu">
                 <img src="../img/general/menuOpciones.png" alt="Opciones" height="30px">
@@ -23,6 +34,7 @@
             </ul>
             </div>
         </div>
+        <?php endif; ?>
     </div>
 
     <div class="form-container">
@@ -67,7 +79,7 @@
             <div class="buttons">
                 <input type="hidden" name="insertar" value="insertar">
                 <input type="submit" class="btn btn-save" value='GUARDAR'>
-                <a href="carrito.php" class="btn btn-cancel">CANCELAR</a>
+                <a href="carrito.php" class="btn btn-cancel">Volver</a>
             </div>
         </form>
     </div>

@@ -208,5 +208,13 @@ class CrudProductos {
         $insert->bindValue(':nombre', $nombre); 
         return $insert->execute();
     }
+
+        public function eliminarCategoriaPorId($idCategoria) {
+            $db = Db::conectar();
+            $delete = $db->prepare('DELETE FROM categorias WHERE idCategoria = :idCategoria;');
+            $delete->bindParam(':idCategoria', $idCategoria);
+            $delete->execute();
+            return $delete->rowCount() > 0;
+    }
 }
 ?>

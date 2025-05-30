@@ -3,7 +3,7 @@ session_start();
 if (!isset($_SESSION['idEmpleado'])) {
     header("location:../error/index.php");
     exit;
-    }
+}
 require_once 'procedimientos/conexion.php';
 require_once 'procedimientos/claseCategoria.php';
 require_once 'procedimientos/crudProductos.php';
@@ -62,20 +62,34 @@ if (isset($_SESSION['mensaje_error'])) {
             <div class="mensaje-error"><?php echo $mensajeError; ?></div>
         <?php endif; ?>
 
-        <form action="procedimientos/procesarAgregarCategoria.php" method="POST" enctype="multipart/form-data">
+        <form action="procedimientos/procesarEliminarCategoria.php" method="POST" enctype="multipart/form-data">
             <div class="top-section">
                 <div class="info-column">
                     <div class="form-item">
-                        <label for="nombre">Nombre</label>
-                        <input type="text" id="nombre" name="nombre" placeholder="Escriba el nombre" value="" required>
+                        <label for="idCategoria">Categoría a Eliminar</label>
+                        <select id="categoria" name="idCategoria" required>
+                                <option value="">Seleccione una categoría</option>
+                                <?php if (!empty($categorias)): ?>
+                                    <?php foreach ($categorias as $cat): ?>
+                                        <option value="<?php echo $cat->getIdCategoria(); ?>"
+                                            <?php echo $cat->getIdCategoria() ? 'selected' : ''; ?>>
+                                            <?php echo $cat->getNombre(); ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                        <option value="" selected>No hay categorías disponibles</option>
+                                <?php endif; ?>
+                        </select>
+                    </div>
+                    <div class="buttons">
+                        <button type="submit" class="btn btn-save">Eliminar</button>
+                        <a href="modificarMenu.php" class="btn btn-cancel">Volver</a>
                     </div>
                 </div>
+                
             </div>
 
-            <div class="buttons">
-                <button type="submit" class="btn btn-save">Guardar</button>
-                <a href="modificarMenu.php" class="btn btn-cancel">Volver</a>
-            </div>
+           
         </form>
     </div>
     <script src="../js/menuOpciones.js"></script>

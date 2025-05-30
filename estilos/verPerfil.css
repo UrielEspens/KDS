@@ -1,122 +1,251 @@
-.container {
-    background-color: #c7c6c6;
-    display: flex;
-    width: 700px;
-    max-height: 600px;
-    padding: 15px;
-    margin: 3%;
-    border-radius: 3%;
-    flex-flow: column;
-}
+/* --- Estilos Generales --- */
 
 body {
+    font-family: 'Roboto', Arial, sans-serif; /* Fuente moderna y legible */
+    background-color: #f0f2f5; /* Fondo gris claro suave */
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column; /* Organiza los elementos en columna */
+    justify-content: center; /* Centra verticalmente */
+    align-items: center; /* Centra horizontalmente */
+    min-height: 100vh; /* Ocupa al menos toda la altura de la vista */
+    margin: 0;
+    box-sizing: border-box; /* Incluye padding y border en el tamaño total */
 }
 
+/* --- Contenedor Principal (Tarjeta / Formulario) --- */
+
+.container {
+    background-color: #ffffff; /* Fondo blanco para una apariencia limpia */
+    border: 1px solid #e0e0e0; /* Borde sutil */
+    border-radius: 12px; /* Esquinas más redondeadas */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Sombra más pronunciada pero suave */
+    display: flex;
+    flex-direction: column; /* Organiza los elementos en columna */
+    width: 100%;
+    max-width: 750px; /* Permite un ancho máximo un poco mayor para tu diseño */
+    max-height: 700px; /* Ajusta la altura máxima si es necesario */
+    padding: 30px;
+    gap: 25px; /* Espacio entre los elementos principales del contenedor */
+    margin: 20px auto; /* Centra y da un margen superior/inferior */
+}
+
+/* --- Estilos de Secciones del Perfil --- */
 
 .infoPerfil {
     display: flex;
     align-items: center;
+    gap: 20px; /* Espacio entre la imagen y el nombre/ID */
+    padding-bottom: 20px; /* Espacio antes de la línea divisoria */
+    margin-bottom: 20px; /* Espacio después de la línea divisoria */
 }
 
 .nombreUsuario {
     display: flex;
     align-items: center;
+    gap: 15px; /* Espacio entre la imagen y el texto del nombre */
 }
 
-.nombreUsuario img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    margin-right: 20px;
+.nombreUsuario img { /* Imagen de perfil dentro de .nombreUsuario */
+    width: 120px; /* Tamaño ligeramente más grande para la imagen de perfil */
+    height: 120px;
+    border-radius: 50%; /* Asegura que sea un círculo perfecto */
+    border: 3px solid #007bff; /* Borde de acento alrededor de la imagen */
+    object-fit: cover; /* Asegura que la imagen cubra el área sin distorsionarse */
 }
 
-.containerInfoPerfil
-{
+.containerInfoPerfil { /* Contenedor de la información de texto del perfil (id, nombre, apellidos) */
     display: flex;
     flex-direction: column;
+    gap: 8px; /* Espacio entre los elementos de texto del perfil */
 }
 
-.linea {
-    border: none; /* Elimina el borde predeterminado */
-    height: 2px; /* Altura de la línea */
-    background: none; /* Elimina el fondo */
-    border-top: 2px dotted #000000; /* Línea punteada */
-    margin: 20px 0; /* Espaciado superior e inferior */
-}
-
-.idUsuario {
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 15px;
-}
-
+.idUsuario,
 .nombreApellido {
     display: flex;
-    flex-direction: row;
-    margin-bottom: 15px;
-    margin-left: 5px;
-}
-.labelConfiguracion {
-    color: #000000;
+    align-items: center; /* Alinea los elementos al centro verticalmente */
+    gap: 10px; /* Espacio entre el label y el valor */
+    margin-bottom: 10px; /* Espacio entre cada fila de información */
 }
 
-.buttonConfiguracion {
-    background-color: #e1e1e1;
-    color: rgb(0, 0, 0);
-    border-top-color: #000000;
+.container-info { /* Este contenedor parece englobar los campos de usuario, contraseña, puesto, imagen. */
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espacio entre cada grupo de label/input */
+}
+
+/* --- Elementos de Formulario --- */
+
+.labelConfiguracion {
+    color: #444; /* Color de texto más oscuro para legibilidad */
+    font-size: 1rem; /* Tamaño de fuente estándar */
+}
+
+.labelTittle {
+    font-weight: bold;
+    font-size: 1.1rem; /* Un poco más grande para títulos */
+    color: #212529; /* Negro más suave */
+    margin-right: 10px; /* Espacio a la derecha */
+}
+
+input[type="text"],
+select { /* Aplicamos estilos similares al input y al select */
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ced4da; /* Borde más suave */
+    border-radius: 8px; /* Esquinas más redondeadas */
+    font-size: 16px;
+    font-family: 'Roboto', Arial, sans-serif; /* Usa la misma fuente que el body */
+    color: #495057; /* Color de texto oscuro */
+    box-sizing: border-box; /* Incluye padding y border en el ancho/alto total */
+}
+
+input[type="text"]:focus,
+select:focus {
+    border-color: #007bff; /* Borde azul al enfocar */
+    outline: none; /* Elimina el contorno predeterminado */
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Sombra suave al enfocar */
+}
+
+/* --- Botones --- */
+
+/* Estilos base para todos los botones */
+.btn, .btnRegistrar, .buttonConfiguracion { 
+    background-color: #007bff; /* Un azul primario atractivo */
+    color: #ffffff; /* Texto blanco */
     padding: 10px 20px;
     text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
+    font-size: 16px; /* Tamaño de fuente legible */
+    font-weight: bold; /* Texto en negrita para destacar */
+    border: none; /* Quitamos el borde sólido */
+    border-radius: 8px; /* Esquinas ligeramente redondeadas para un look moderno */
     cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; /* Transición suave */
+    text-decoration: none; /* Para los 'a' que se usan como botones */
+    display: inline-flex; /* Permite centrar contenido y usar gap si es necesario */
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Espacio si hay iconos en el botón */
+    width: auto; /* Ocupa solo el ancho necesario */
+    box-sizing: border-box; /* Asegura que padding no aumente el ancho total */
+}
+
+.btn:hover,
+.btnRegistrar:hover,
+.buttonConfiguracion:hover {
+    background-color: #0056b3; /* Color más oscuro al pasar el mouse */
+    transform: translateY(-2px); /* Un pequeño efecto de levantamiento */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra al pasar el mouse */
+}
+
+/* Botones específicos de acción (en el formulario de eliminar categoría, etc.) */
+.btn-save { 
+    background-color: #28a745; /* Verde para acciones positivas */
+}
+
+.btn-save:hover {
+    background-color: #218838;
+}
+
+.btn-cancel { 
+    background-color: #6c757d; /* Gris para acciones secundarias */
+    color: white; /* Texto blanco */
+}
+
+.btn-cancel:hover {
+    background-color: #5a6268;
+}
+
+.btnEliminar { /* Para el botón "Eliminar Cuenta" */
+    background-color: #dc3545; /* Rojo de Bootstrap para peligro/eliminación */
+    color: #ffffff; /* Texto blanco */
+}
+
+.btnEliminar:hover {
+    background-color: #c82333; /* Rojo más oscuro al pasar el mouse */
+    transform: translateY(-1px);
+}
+
+/* --- Contenedores de Botones --- */
+
+.buttons { /* Contenedor de botones para formularios de agregar/eliminar */
+    display: flex;
+    justify-content: space-around; /* Distribuye los botones equitativamente */
+    gap: 15px; /* Espacio entre los botones */
+    margin-top: 25px; /* Más espacio arriba para separarlos del contenido del formulario */
+}
+
+.containerBotones { /* Contenedor de botones específico para la sección de perfil (al final) */
+    display: flex;
+    flex-wrap: wrap; /* Permite que los botones se envuelvan si no hay espacio */
+    justify-content: flex-end; /* Alinea los botones a la derecha */
+    gap: 20px; /* Espacio entre los botones */
+    margin-top: 30px; /* Un poco más de margen superior para separarlos del contenido */
+    padding-top: 20px; /* Espacio interno superior */
+    border-top: 1px solid #f0f0f0; /* Una línea sutil para separar */
+}
+
+/* --- Línea Divisoria --- */
+
+.linea {
+    border: none;
+    height: 1px; /* Línea más delgada */
+    background-color: #e0e0e0; /* Color gris suave */
+    margin: 30px 0; /* Más espacio para separar secciones */
+}
+
+/* --- Mensajes de Éxito y Error --- */
+
+.mensaje-exito {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    padding: 10px 15px;
     border-radius: 5px;
-    
+    margin-bottom: 15px;
+    text-align: center;
+    font-weight: bold;
 }
 
-.labelTittle
-{
-    font-weight: bold; /* Texto en negritas */
-    margin-right: 8px;
+.mensaje-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    text-align: center;
+    font-weight: bold;
 }
 
-.container-perfil
-{
+/* --- Otros Contenedores (Ajustes según tu HTML) --- */
+
+.container2 { /* Puede ser un contenedor flex adicional para agrupar elementos */
+    display: flex;
+    flex-direction: column; /* O row, dependiendo de tu diseño */
+    gap: 15px; /* Espacio entre los elementos dentro de este contenedor */
+}
+
+.containerForm { /* Si tienes un contenedor específico para el formulario */
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espacio entre los elementos del formulario */
+}
+
+.containerPerfil { /* Si tienes un contenedor específico para el perfil que no es el .container principal */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra los elementos horizontalmente */
+    gap: 15px;
+    padding-bottom: 20px; /* Espacio debajo de la sección de perfil */
+    border-bottom: 1px solid #eee; /* Una línea divisoria sutil */
+    margin-bottom: 20px; /* Espacio debajo de la línea divisoria */
+}
+
+.container-perfil { /* Otro contenedor de perfil, posiblemente para organizar elementos en fila */
     display: flex;
     align-items: center;
-    margin: 0%;
-    justify-content: space-between;
-}
-
-.btnEliminar{
-    background-color: #f8f8f8;
-    color: rgb(0, 0, 0);
-    border: black 1px solid;
-    padding: 10px 20px;
-    text-align: center;
-    font-size: 16px;
-    margin-top: 110px;
-    cursor: pointer;
-}
-
-.btnCancelar{
-    background-color: #dc3939;
-    color: rgb(0, 0, 0);
-    border: black 1px solid;
-    padding: 10px 20px;
-    text-align: center;
-    font-size: 16px;
-    margin-top: 110px;
-    cursor: pointer;
-}
-
-.containerBotones{
-    display: flex;
-    margin-left: auto;
-    gap: 45px;
+    justify-content: space-between; /* Distribuye espacio entre elementos */
+    padding: 15px 0; /* Espaciado vertical */
+    border-bottom: 1px solid #f0f0f0; /* Línea separadora */
+    margin-bottom: 20px; /* Espacio después de la línea */
 }

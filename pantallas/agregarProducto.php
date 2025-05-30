@@ -79,7 +79,7 @@ if (isset($_SESSION['mensaje_error'])) {
                                             <?php echo $cat->getNombre(); ?>
                                         </option>
                                     <?php endforeach; ?>
-                                <?php else; ?>
+                                <?php else: ?>
                                         <option value="" selected>No hay categorías disponibles</option>
                                 <?php endif; ?>
                             </select>

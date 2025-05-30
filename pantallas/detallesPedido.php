@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 require_once('procedimientos/crudPedidos.php');
 require_once('procedimientos/claseDetallesPedido.php');
 require_once('procedimientos/conexion.php');
@@ -28,6 +30,8 @@ if (isset($_GET['idPedido']) && is_numeric($_GET['idPedido'])) {
     // ID no proporcionado o inválido, manejar el error
     echo "<p>ID de pedido no proporcionado o inválido.</p>";
 }
+
+$usuarioPuesto = $_SESSION['puesto'];
 
 ?>
 
@@ -83,7 +87,6 @@ if (isset($_GET['idPedido']) && is_numeric($_GET['idPedido'])) {
                         $totalCalculadoEnBucle = 0.00;
 
                         if (is_array($pedido->getArticulos()) && !empty($pedido->getArticulos())) {
-                            // Un solo bucle para construir ambas listas
                             foreach ($pedido->getArticulos() as $articuloObjeto) {
                                 $cantidad = $articuloObjeto->getCantidadProducto();
                                 $nombre = $articuloObjeto->getNombreProducto();
@@ -124,11 +127,13 @@ if (isset($_GET['idPedido']) && is_numeric($_GET['idPedido'])) {
                             <img src="../img/inicio/lapiz.png" alt="Editar" width="24px">
                         </button> 
                         -->
+                        <?php if ($usuarioPuesto != 'Cajero'): ?>
                         <a href="confirmarEliminarPedido.php?idPedido=<?php echo $idPedido; ?>&total=<?php echo number_format($pedido->getTotal(), 2); ?>">
                             <button class="eliminarDetalles">
                                 <img src="../img/inicio/basurero.png" alt="Eliminar" width="24px">
                             </button>
                         </a>
+                        <?php endif; ?>
                     </div>
                 </div>
             <?php endif; ?>

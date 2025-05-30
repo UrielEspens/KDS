@@ -7,6 +7,7 @@ if (!isset($_SESSION['idEmpleado'])) {
     exit();
 }
 
+$usuarioPuesto = $_SESSION['puesto'];
 require_once('procedimientos/conexion.php');
 require_once('procedimientos/crudPagos.php');
 require_once('procedimientos/clasePago.php');
@@ -67,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?php echo htmlspecialchars($nombrePantalla); ?></title>
+    <title><?php echo $nombrePantalla; ?></title>
     <link rel="stylesheet" href="../estilos/estilos.css">
     <link rel="stylesheet" href="../estilos/tarjeta.css">
 </head>
@@ -83,10 +84,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </button>
             <div id="menu">
                 <ul>
+                    <?php if ($usuarioPuesto == 'Gerente'): ?>
                     <li><a href="menu.php"><img src="../img/general/menuRestaurante.png" alt="menuComida" class="icono-menu"> Ver menú</a></li>
                     <hr>
                     <li><a href="historialPedidos.php"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
                     <hr>
+                    <?php endif; ?>
                     <li><a href="configuracion.php"><img src="../img/general/configuracion.png" alt="configuracion" class="icono-menu"> Configuración</a></li>
                 </ul>
             </div>
@@ -96,10 +99,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="container-tarjeta">
         <div class="left-column-tarjeta">
             <form id="cardForm" class="card-form" method="POST">
-                <input type="hidden" name="idPedido" value="<?php echo htmlspecialchars($idPedido); ?>">
-                <input type="hidden" name="subtotal" value="<?php echo htmlspecialchars($productos_subtotal); ?>">
-                <input type="hidden" name="propinaToggle" value="<?php echo htmlspecialchars($aplicarPropina); ?>">
-                <input type="hidden" name="metodoPago" value="<?php echo htmlspecialchars($metodoPago); ?>">
+                <input type="hidden" name="idPedido" value="<?php echo $idPedido; ?>">
+                <input type="hidden" name="subtotal" value="<?php echo $productos_subtotal; ?>">
+                <input type="hidden" name="propinaToggle" value="<?php echo $aplicarPropina; ?>">
+                <input type="hidden" name="metodoPago" value="<?php echo $metodoPago; ?>">
                 
                 <div class="form-group">
                     <label for="cardNumber">Número de tarjeta</label>
@@ -130,12 +133,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <?php if (isset($error)): ?>
                     <div class="error-message">
-                        <?php echo htmlspecialchars($error); ?>
+                        <?php echo $error; ?>
                     </div>
                 <?php endif; ?>
 
                 <div class="buttons-container-tarjeta">
-                    <button type="button" class="btn-volver" onclick="window.location.href='pago.php?idPedido=<?php echo htmlspecialchars($idPedido); ?>&propina=<?php echo htmlspecialchars($aplicarPropina); ?>&metodoPago=<?php echo htmlspecialchars($metodoPago); ?>'">VOLVER</button>
+                    <button type="button" class="btn-volver" onclick="window.location.href='pago.php?idPedido=<?php echo $idPedido; ?>&propina=<?php echo $aplicarPropina; ?>&metodoPago=<?php echo $metodoPago; ?>'">VOLVER</button>
                     <button type="submit" class="btn-registrar" name="accion" value="registrar_pago">REGISTRAR PAGO</button>
                 </div>
             </form>
