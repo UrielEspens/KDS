@@ -2,53 +2,64 @@
 session_start();
 
 if (!isset($_SESSION['idEmpleado'])) {
-    header('Location: index.php');
+    header('Location: ../index.php');
     exit();
 }
 
 require_once('procedimientos/conexion.php');
 require_once('procedimientos/crudPedidos.php');
-require_once('procedimientos/clasePedido.php');
 require_once('procedimientos/claseDetallesPedido.php');
 require_once('procedimientos/claseProducto.php');
-require_once('procedimientos/claseCliente.php');
-require_once('procedimientos/claseEmpleados.php');
 
 $idPedido = $_GET['idPedido'] ?? null;
+$pedido = null;
+$productosPedido = [];
+$subtotal = 0;
+$nombrePantalla = "Realizar Pago";
 
-$detallesPedido = null;
-$totalProductos = 0;
-$propina = 0;
-$totalGeneral = 0;
-$porcentajePropina = 0.10;
+// Verificar si se debe aplicar propina
+$aplicarPropina = $_GET['propina'] ?? '0';
+
+$metodoPagoSeleccionado = $_GET['metodoPago'] ?? '';
 
 if ($idPedido) {
     $crudPedidos = new CrudPedidos();
-    $detallesPedido = $crudPedidos->obtenerPedidoCompletoParaPago($idPedido);
+    $pedido = $crudPedidos->mostrarDetalles($idPedido);
+    $productosPedido = $crudPedidos->obtenerProductosDePedido($idPedido);
 
-    if ($detallesPedido) {
-        foreach ($detallesPedido->getArticulos() as $articulo) {
-            $totalProductos += ($articulo->getPrecioProducto() * $articulo->getCantidadProducto());
-        }
-        $propina = $totalProductos * $porcentajePropina;
-        $totalGeneral = $totalProductos + $propina;
-    } else {
-        $_SESSION['mensaje_error'] = "Error: Pedido no encontrado o no se pudo cargar.";
-        header('Location: inicio.php');
-        exit();
+    // Calcular subtotal
+    foreach ($productosPedido as $producto) {
+        $subtotal += $producto->getPrecioProducto() * $producto->getCantidadProducto();
     }
+    
+    // Calcular total final (con o sin propina)
+    $totalFinal = $subtotal;
+    if ($aplicarPropina == '1') {
+        $totalFinal += $subtotal * 0.10; // Agregar 10% de propina
+    }
+
 } else {
-    $_SESSION['mensaje_error'] = "Error: ID de pedido no proporcionado.";
-    header('Location: inicio.php');
+    header('Location: ../inicio.php');
     exit();
 }
 
-$usuarioPuesto = $_SESSION['Cajero'] ?? '';
+// CAMBIO: Lógica mejorada para determinar el action y método del formulario
+$formAction = '../pantallas/procedimientos/adminPago.php';
+$formMethod = 'POST';
+$buttonText = 'REGISTRAR PAGO';
+
+if ($metodoPagoSeleccionado === 'Tarjeta de Credito' || $metodoPagoSeleccionado === 'Tarjeta de Debito') {
+    $formAction = 'tarjeta.php';
+    $formMethod = 'GET'; // Para pasar parámetros a tarjeta.php
+    $buttonText = 'CONTINUAR';
+}
+
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Pago de la Orden</title>
+    <title>Pago</title>
     <link rel="stylesheet" href="../estilos/estilos.css">
     <link rel="stylesheet" href="../estilos/pago.css">
 </head>
@@ -64,63 +75,101 @@ $usuarioPuesto = $_SESSION['Cajero'] ?? '';
             </button>
             <div id="menu">
                 <ul>
-                    <?php if ($usuarioPuesto == 'Gerente' || $usuarioPuesto == 'Mesero'): ?>
-                    <li><a href="menu.php"><img src="../img/general/menuRestaurante.png" alt="menuComida" class="icono-menu">  Ver menú</a></li>
+                    <li><a href="../menu.php"><img src="../img/general/menuRestaurante.png" alt="menuComida" class="icono-menu"> Ver menú</a></li>
                     <hr>
-                    <?php endif; ?>
-                    <?php if ($usuarioPuesto == 'Gerente'): ?>
-                    <li><a href="historialPedidos.html"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
+                    <li><a href="../historialPedidos.php"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
                     <hr>
-                    <?php endif; ?>
-                    <li><a href="configuracion.php"><img src="../img/general/configuracion.png" alt="configuracion" class="icono-menu"> Configuración</a></li>
+                    <li><a href="../configuracion.php"><img src="../img/general/configuracion.png" alt="configuracion" class="icono-menu"> Configuración</a></li>
                 </ul>
             </div>
         </div>
     </div>
 
-    <div class="content-pago">
-        <?php if ($detallesPedido): ?>
-            <div class="left-panel-pago">
-                <div class="order-details-pago">
-                    <p><strong>No. Pedido:</strong> <?php echo htmlspecialchars($detallesPedido->getIdPedido()); ?></p>
-                    <p><strong>Cliente:</strong> <?php echo htmlspecialchars($detallesPedido->getNombreCliente()); ?></p>
-                    <p><strong>Mesero:</strong> <?php echo htmlspecialchars($detallesPedido->getNombreEmpleado()); ?></p>
-                </div>
+    <div class="container">
+        <div class="left-column">
+            <div class="pedido-info">
+                <h2>No. Pedido: <?php echo htmlspecialchars($pedido->getIdPedido()); ?></h2>
+                <p><strong>Cliente:</strong> <?php echo htmlspecialchars($pedido->getNombreCliente() . ' ' . $pedido->getApellidoCliente()); ?></p>
+                <p><strong>Mesero:</strong> <?php echo htmlspecialchars($pedido->getNombreEmpleado() . ' ' . $pedido->getApellidoEmpleado()); ?></p>
+            </div>
 
-                <div class="item-list-pago">
-                    <?php if (!empty($detallesPedido->getArticulos())): ?>
-                        <?php foreach ($detallesPedido->getArticulos() as $articulo): ?>
-                            <div class="item-pago">
-                                <span class="item-quantity-pago"><?php echo htmlspecialchars($articulo->getCantidadProducto()); ?></span>
-                                <span class="item-name-pago"><?php echo htmlspecialchars($articulo->getNombreProducto()); ?></span>
-                                <span class="item-price-pago">$<?php echo number_format($articulo->getPrecioProducto(), 2); ?></span>
-                            </div>
-                        <?php endforeach; ?>
+            <div class="productos-list">
+                <?php foreach ($productosPedido as $producto): ?>
+                    <div class="producto-item">
+                        <span class="producto-cantidad"><?php echo htmlspecialchars($producto->getCantidadProducto()); ?></span>
+                        <span class="producto-nombre"><?php echo htmlspecialchars($producto->getNombreProducto()); ?></span>
+                        <span class="producto-linea"></span>
+                        <span class="producto-precio">$<?php echo number_format($producto->getPrecioProducto() * $producto->getCantidadProducto(), 2); ?></span>
+                    </div>
+                <?php endforeach; ?>
+            </div>
 
+            <div class="buttons-container">
+                <a href="inicio.php" class="btn-volver">VOLVER</a>
+                <!-- CAMBIO: Formulario mejorado con todos los parámetros necesarios -->
+                <form action="<?php echo htmlspecialchars($formAction); ?>" method="<?php echo htmlspecialchars($formMethod); ?>" style="flex: 1;">
+                    <input type="hidden" name="idPedido" value="<?php echo htmlspecialchars($idPedido); ?>">
+                    <input type="hidden" name="subtotal" value="<?php echo htmlspecialchars($subtotal); ?>">
+                    <input type="hidden" name="propinaToggle" value="<?php echo htmlspecialchars($aplicarPropina); ?>">
+                    <input type="hidden" name="metodoPago" value="<?php echo htmlspecialchars($metodoPagoSeleccionado); ?>">
+                    
+                    <!-- CAMBIO: Agregar parámetros adicionales necesarios para tarjeta.php -->
+                    <?php if ($metodoPagoSeleccionado === 'Tarjeta de Credito' || $metodoPagoSeleccionado === 'Tarjeta de Debito'): ?>
+                        <input type="hidden" name="propina_monto" value="<?php echo htmlspecialchars($aplicarPropina == '1' ? $subtotal * 0.10 : 0); ?>">
+                        <input type="hidden" name="total_final" value="<?php echo htmlspecialchars($totalFinal); ?>">
+                        <input type="hidden" name="propina" value="<?php echo htmlspecialchars($aplicarPropina); ?>">
                     <?php endif; ?>
-                </div>
-            </div>
 
-            <div class="right-panel-pago">
-                <div class="summary-title-pago">Resumen de compra</div>
-                <div class="summary-line-pago">
-                    <span>Productos:</span>
-                    <span>$<?php echo number_format($totalProductos, 2); ?></span>
+                    <button type="submit" name="accion" value="<?php echo ($metodoPagoSeleccionado === 'Tarjeta de Credito' || $metodoPagoSeleccionado === 'Tarjeta de Debito') ? 'continuar_tarjeta' : 'registrar_pago'; ?>"><?php echo htmlspecialchars($buttonText); ?></button>
+                </form>
+            </div>
+        </div>
+
+        <div class="right-column">
+            <div class="resumen-pago">
+                <h3>Resumen de compra</h3>
+                
+                <div class="resumen-line">
+                    <span>Productos</span>
+                    <span>$<?php echo number_format($subtotal, 2); ?></span>
                 </div>
-                <div class="summary-line-pago">
-                    <span>Propina:</span>
-                    <span>$<?php echo number_format($propina, 2); ?></span>
+                
+                <div class="propina-line">
+                    <form method="GET" action="pago.php" class="propina-toggle-container">
+                        <input type="hidden" name="idPedido" value="<?php echo htmlspecialchars($idPedido); ?>">
+                        <input type="hidden" name="metodoPago" value="<?php echo htmlspecialchars($metodoPagoSeleccionado); ?>">
+                        <label for="propinaToggle">Propina</label>
+                        <label class="switch">
+                            <input type="checkbox" id="propinaToggle" name="propina" value="1" <?php echo ($aplicarPropina == '1') ? 'checked' : ''; ?> onchange="this.form.submit()">
+                            <span class="slider"></span>
+                        </label>
+                    </form>
+                    <span id="propinaAmountDisplay">$<?php echo number_format($aplicarPropina == '1' ? $subtotal * 0.10 : 0, 2); ?></span>
                 </div>
-                <div class="summary-total-pago">
-                    <span>Total:</span>
-                    <span>$<?php echo number_format($totalGeneral, 2); ?></span>
+                
+                <div class="total-line">
+                    <span>Total a pagar:</span>
+                    <span>$<?php echo number_format($totalFinal, 2); ?></span>
+                </div>
+                
+                <div class="detalles-pago">
+                    <h3>Detalles del pago</h3>
+                    <form method="GET" action="pago.php" id="metodoPagoForm">
+                        <input type="hidden" name="idPedido" value="<?php echo htmlspecialchars($idPedido); ?>">
+                        <input type="hidden" name="propina" value="<?php echo htmlspecialchars($aplicarPropina); ?>">
+                        <div class="form-group">
+                            <select id="metodoPago" name="metodoPago" required onchange="this.form.submit()">
+                                <option value="">Selecciona un método</option>
+                                <option value="Efectivo" <?php echo ($metodoPagoSeleccionado == 'Efectivo') ? 'selected' : ''; ?>>Efectivo</option>
+                                <option value="Tarjeta de Credito" <?php echo ($metodoPagoSeleccionado == 'Tarjeta de Credito') ? 'selected' : ''; ?>>Tarjeta de Crédito</option>
+                                <option value="Tarjeta de Debito" <?php echo ($metodoPagoSeleccionado == 'Tarjeta de Debito') ? 'selected' : ''; ?>>Tarjeta de Débito</option>
+                                <option value="Transferencia" <?php echo ($metodoPagoSeleccionado == 'Transferencia') ? 'selected' : ''; ?>>Transferencia</option>
+                            </select>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <div class="footer-buttons-pago">
-                <a href="inicio.php" class="btn-volver-pago">VOLVER</a>
-                <a href="metodo_pago.php?idPedido=<?php echo htmlspecialchars($idPedido); ?>&total=<?php echo htmlspecialchars($totalGeneral); ?>&propina=<?php echo htmlspecialchars($propina); ?>&productos=<?php echo htmlspecialchars($totalProductos); ?>" class="btn-continuar-pago">CONTINUAR</a>
-            </div>
-        <?php endif; ?>
+        </div>
     </div>
 
     <script src="../js/menuOpciones.js"></script>

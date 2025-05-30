@@ -18,7 +18,7 @@
             <div id="menu">
             <ul>
             <li><a href="menu.php"><img src="../img/general/menuRestaurante.png" alt="menuComida" class="icono-menu">  Ver menú</a></li>
-                <li><a href="historialPedidos.html"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
+                <li><a href="historialPedidos.php"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
                 <li><a href="configuracion.php"><img src="../img/general/configuracion.png" alt="configuracion" class="icono-menu"> Configuración</a></li>
             </ul>
             </div>
@@ -29,7 +29,7 @@
             <img src="../img/general/puntos.png" alt="puntos" height="30px">
         </div>
         <div class="container2">
-            <form action="../pantallas/procedimientos/admin_Usuario.php" method="POST">
+            <form action="../pantallas/procedimientos/admin_Usuario.php" method="POST" enctype="multipart/form-data">
                     <div>
                         <label for="nombreUsuario" class = "labelTittle">Nombre usuario:</label><br>
                         <input type="text" id="nombreUsuario" name="nombreUsuario"  class = "input" required>
@@ -44,7 +44,7 @@
                     </div>
                     <div>
                         <label for="telefono" class = "labelTittle">Segundo apellido:</label><br>
-                        <input type="text" id="segundoApe" name="segundoApe" class = "input">
+                        <input type="text" id="segundoApe" name="segundoApe" class = "input" required>
                     </div>
                     <div>
                         <label for="puesto" class = "labelTittle">Puesto:</label><br>
@@ -59,17 +59,15 @@
                         <label for="contrasena" class = "labelTittle">Contraseña:</label><br>
                         <input type="text" id="contrasena" class = "input" name="contrasena" required>
                     </div>
-                    <div>
-                        <label for="imagen" class = "labelTittle">Imagen::</label><br>
-                        <input type="text" id="imagen" class = "input" name="imagen" required>
                     </div>
-                <input type='hidden' name='insertar' value='insertar'>
-		        <input class = "btnRegistrar" type='submit' value='Registrar'>
+                    <div class = "containerImagen">
+                        <label for="imagen" class = "containerPerfil"><img src="../img/general/Usuario.png" alt="Perfil" height="100px"></label><br>
+                        <input type="file" id="imagen" class = "input" name="imagen" accept="image/jpeg, image/png, image/webp" required>
+                    </div>    
+                        <input type='hidden' name='insertar' value='insertar'>
+		                <input class = "btnRegistrar" type='submit' value='Registrar'>
+                    </div>
             </form>
-            <div class = "containerPerfil">
-                <img src="../img/general/Usuario.png" alt="Perfil" height="100px"><br><br>
-            </div>
-            </div>
         </div>
     </div>
     

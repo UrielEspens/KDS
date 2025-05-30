@@ -1,15 +1,22 @@
+<?php
+require_once('procedimientos/crudUsuarios.php');
+require_once('procedimientos/claseUsuario.php');
+$crud= new CrudUsuarios();
+$usuario = $crud->obtenerUsuario($_GET['idEmpleado']);
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Eliminar usuario</title>
+    <title>Configuración</title>
     <link rel="stylesheet" href="../estilos/estilos.css">
-    <link rel="stylesheet" href="../estilos/eliminarUsuario.css">
+    <link rel="stylesheet" href="../estilos/verPerfil.css">
 </head>
 <body>
     <div class="header">
         <div class="logo-title">
             <a href="inicio.php"><img src="../img/general/hogar.png" alt="Home" height="30px"></a>
-            <div class="title">Eliminar usuario</div>
+            <div class="title">VER PERFIL</div>
         </div>
         <div class="menu-container">
             <button id="toggleMenu">
@@ -25,46 +32,34 @@
         </div>
     </div>
     <div class = "container">
-        <div class = "infoPerfil">
-            <div class = "labelTittle">ID EMPLEADO:</div>
-            <div class = "labelConfiguracion">@idEmpleado</div>
-        </div>
-        <div class = "containerPerfil">
-            <img src="../img/general/usuario.png" alt="usuarioImagen" height="70px" class = "iconoPerfil" >
-            <div class = "containerInfo">
-                <div class = "infoPerfil">
-                    <div class = "labelTittle">Nombre:</div>
-                    <div class = "labelConfiguracion">@nombre</div>
+            <div class = "containerInfoPerfil">
+                <div class = "idUsuario">
+                    <div>
+                        <label class = "labelTittle" for="idEmpleado">Id del usuario:</label><?php echo $usuario->getIdEmpleado()?>
+                    </div>
                 </div>
-                <div class = "infoPerfil">
-                    <div class = "labelTittle">Correo:</div>
-                    <div class = "labelConfiguracion">@correo</div>
-                </div>
-            </div>
-        </div>
-        <hr class = "linea">
-        <div class = "containerPerfil">
-            <div class = "containerInfo2">
-                <div class = "infoPerfil2">
-                    <div class = "labelTittle">Usuario:</div>
-                    <div class = "labelConfiguracion">@usuarioEmpleado</div>
-                </div>
-                <div class = "infoPerfil2">
-                    <div class = "labelTittle">Contraseña:</div>
-                    <div class = "labelConfiguracion">@contraseñaEmpleado</div>
-                </div>
-                <div class = "infoPerfil2">
-                    <div class = "labelTittle">Rol:</div>
-                    <div class = "labelConfiguracion">@rolMesero</div>
+                <div class = "nombreUsuario">
+                    <div class = "iconUsuario">
+                        <img src="data:image/png;base64,<?php echo base64_encode($usuario->getImagen()); ?>" alt="Imagen de usuario" class="imagenUsuario">
+                    </div>
+                    <div>
+                        <label class = "labelTittle" for="nombre">Nombre:</label><?php echo $usuario ->getNombre()?><br><br>
+                        <label class = "labelTittle" for="primerApe">Primer pellido</label><?php echo $usuario ->getPrimerApe()?><br><br>
+                        <label class = "labelTittle" for="segundoApe">Segundo apellido</label><?php echo $usuario ->getSegundoApe()?>
+                    </div>
                 </div>
             </div>
-            <div class = "containerBotones">
-                    <button class = "btnEliminar" onclick="location.href='eliminarUsuario.php'">Eliminar</button>
+            <hr class = "linea">
+            <div class = "container-info">
+                <div>
+                    <label class = "labelTittle" for="usuario">Usuario:</label><?php echo $usuario ->getUsuario()?><br><br>
+                    <label for="puesto" class = "labelTittle">Puesto:</label><?php echo $usuario->getPuesto()?><br><br>
+                </div>
+                <div class = "containerBotones">
+                    <a href="../pantallas/procedimientos/admin_Usuario.php?idEmpleado=<?php echo $usuario->getIdEmpleado()?>&accion=eliminar"><button class = "btnEliminar" onclick="location.href='eliminarUsuario.php'">Eliminar</button></a>
                     <button class = "btnCancelar" onclick="location.href='gestionUsuarios.php'">Cancelar</button>
                 </div>
-        </div>
-    </div>
-    
+            </div>   
     <script src="../js/menuOpciones.js"></script>
 </body>
 </html>

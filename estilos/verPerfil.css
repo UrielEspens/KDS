@@ -92,3 +92,31 @@ body {
     margin: 0%;
     justify-content: space-between;
 }
+
+.btnEliminar{
+    background-color: #f8f8f8;
+    color: rgb(0, 0, 0);
+    border: black 1px solid;
+    padding: 10px 20px;
+    text-align: center;
+    font-size: 16px;
+    margin-top: 110px;
+    cursor: pointer;
+}
+
+.btnCancelar{
+    background-color: #dc3939;
+    color: rgb(0, 0, 0);
+    border: black 1px solid;
+    padding: 10px 20px;
+    text-align: center;
+    font-size: 16px;
+    margin-top: 110px;
+    cursor: pointer;
+}
+
+.containerBotones{
+    display: flex;
+    margin-left: auto;
+    gap: 45px;
+}

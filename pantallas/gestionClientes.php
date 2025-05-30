@@ -1,9 +1,22 @@
-<!DOCTYPE html>
+<?php
+ require_once('../pantallas/procedimientos/conexion.php');
+ require_once('../pantallas/procedimientos/claseCliente.php');
+ require_once('../pantallas/procedimientos/crudClientes.php');
+
+ $crud= new CrudClientes();
+ $cliente= new Cliente();   
+ if(isset($_GET['busqueda']) && $_GET['busqueda'] != '') {
+     $listaClientes = $crud->buscarClientesBusqueda($_GET['busqueda']);
+ } else {
+     $listaClientes = $crud->obtenerClientes();
+ }
+ ?>
+
 <html>
 <head>
     <title>Gestion clientes</title>
     <link rel="stylesheet" href="../estilos/estilos.css">
-    <link rel="stylesheet" href="../estilos/gestionUsuarios.css">
+    <link rel="stylesheet" href="../estilos/gestionClientes.css">
 </head>
 <body>
     <div class="header">
@@ -18,7 +31,7 @@
             <div id="menu">
             <ul>
             <li><a href="menu.php"><img src="../img/general/menuRestaurante.png" alt="menuComida" class="icono-menu">  Ver menú</a></li>
-                <li><a href="historialPedidos.html"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
+                <li><a href="historialPedidos.php"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
                 <li><a href="configuracion.php"><img src="../img/general/configuracion.png" alt="configuracion" class="icono-menu"> Configuración</a></li>
             </ul>
             </div>
@@ -26,41 +39,31 @@
     </div>
     <div class = "container">
         <div class = "containerBusquedaP">
+            <form method="GET" action="gestionClientes.php" class="containerBusqueda">
+                <img src="../img/general/lupa.png" alt="busquedaLupa" height="20px" width="20px">
+                <input type="text" name="busqueda" placeholder="Buscar usuario">
+                <button type="submit" class="buttonConfiguracion">Buscar</button>
+            </form>
             <div class = "containerBusqueda">
-                <img src="../img/general/lupa.png" alt="busquedaLupa" height="20px" wight="20px" >
-                <input type="text" placeholder="Buscar clientes" class="busqueda">
-                <button class="buttonConfiguracion">Buscar</button>
-            </div>
-            <div class = "containerBusqueda">
-                <a href="agregarCliente.php"><button class="buttonConfiguracion">AGREGAR</button></a>
+                <a href="nuevoCliente.php"><button class="buttonConfiguracion">AGREGAR</button></a>
             </div>
         </div>
         <div class = "containerPerfiles">
+            <?php foreach ($listaClientes as $cliente){ ?>
               <div class = "containerInfo">
                 <img src="../img/general/usuario.png" alt="usuario" height="40px" wight="40px" class="iconoPerfil">
                 <div class = "infoPerfil">
-                    <div class = "labelTittle">@nombreUsuario</div>
-                    <div class = "labelConfiguracion">@telCliente</div>
+                    <div class = "labelTittle"><?php echo $cliente->getNombre(); ?></div>
+                    <div class = "labelConfiguracion"><?php echo $cliente->getTelefono(); ?></div>
+                    <div class = "labelConfiguracion"><?php echo $cliente->getCalle(); ?></div>
                 </div>
-                <div class = "containerBotones">  
-                    <img src="../img/inicio/lapiz.png" alt="editar" height="20px" wight="20px" class="iconoEditar">
-                    <img src="../img/inicio/basurero.png" alt="borrar" height="20px" wight="20px" class="iconoEliminar">
+                <div class = "containerBotones">
+                    <a href="../pantallas/procedimientos/admin_Cliente.php?idCliente=<?php echo $cliente->getIdCliente()?>&accion=eliminar"><img src="../img/inicio/basurero.png" alt="eliminar "height= "20"></a>
                 </div>
               </div>
               <hr class = "linea">
-              <div class = "containerInfo">
-                <img src="../img/general/usuario.png" alt="usuario" height="40px" wight="40px" class="iconoPerfil">
-                <div class = "infoPerfil">
-                    <div class = "labelTittle">@nombrePerfil</div>
-                    <div class = "labelConfiguracion">@puestoPerfil</div>
-                </div>
-                <div class = "containerBotones">  
-                    <a href=""><img src="../img/inicio/lapiz.png" alt="editar" height="20px" wight="20px" class="iconoEditar"></a>
-                    <a href=""><img src="../img/inicio/basurero.png" alt="borrar" height="20px" wight="20px" class="iconoEliminar"></a>
-                </div>
-              </div>
-        </div>
-
+            <?php }?>
+        </div>    
     </div>
 
     

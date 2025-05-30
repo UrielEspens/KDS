@@ -37,6 +37,14 @@
     margin: 2px 1%;
     cursor: pointer;
 }
+.buttonConfiguracion2 {
+    background-color: #ffffff;
+    border-top-color: #000000;
+    padding: 3px 10px;
+    text-align: center;
+    font-size: 10px;
+    cursor: pointer;
+}
 
 .iconoPerfil{
     margin: 10px;

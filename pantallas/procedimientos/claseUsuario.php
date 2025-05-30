@@ -13,7 +13,7 @@
 		}
 
         public function getIdEmpleado(){
-            return $this->IdEmpleado;
+            return $this->idEmpleado;
         }
         public function setIdEmpleado($idEmpleado){
             $this->idEmpleado = $idEmpleado;

@@ -26,20 +26,18 @@ $usuarioEmpleado = $_SESSION['usuario'];
             <div class="title">CONFIGURACIÓN</div>
         </div>
         <div class="menu-container">
-            <?php if ($usuarioPuesto == 'Gerente'): ?>
-                <button id="toggleMenu">
-                    <img src="../img/general/menuOpciones.png" alt="Opciones" height="30px">
-                </button>
-                <div id="menu">
-                <ul>
-                    <li><a href="menu.php"><img src="../img/general/menuRestaurante.png" alt="menuComida" class="icono-menu">  Ver menú</a></li>
-                    <hr>
-                    <li><a href="historialPedidos.html"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
-                    <hr>
-                    <li><a href="configuracion.php"><img src="../img/general/configuracion.png" alt="configuracion" class="icono-menu"> Configuración</a></li>
-                </ul>
-                </div>
-            <?php endif; ?>
+            <button id="toggleMenu">
+                <img src="../img/general/menuOpciones.png" alt="Opciones" height="30px">
+            </button>
+            <div id="menu">
+            <ul>
+                <li><a href="menu.php"><img src="../img/general/menuRestaurante.png" alt="menuComida" class="icono-menu">  Ver menú</a></li>
+                <hr>
+                <li><a href="historialPedidos.php"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
+                <hr>
+                <li><a href="configuracion.php"><img src="../img/general/configuracion.png" alt="configuracion" class="icono-menu"> Configuración</a></li>
+            </ul>
+            </div>
         </div>
     </div>
     <div class = "container">
@@ -53,16 +51,18 @@ $usuarioEmpleado = $_SESSION['usuario'];
            </div>
             <a href="procedimientos/cerrarSesion.php"><button class ="btn-perfil">CERRAR SESIÓN</button></a>
        </div>
-       <?php if ($usuarioPuesto == 'Gerente'): ?>
-        <hr class = "linea">
-        <div class = "container-perfil">
-            <a href="gestionUsuarios.php"><div class = "labelConfiguracion">GESTION DE USUARIOS</div> </a><br>
-        </div>
-        <hr class = "linea">
-        <div class = "container-perfil">
-            <a href="modificarMenu.php"><div class = "labelConfiguracion">MODIFICAR MENÚ</div></a><br>
-        </div>
-        <?php endif; ?>
+       <hr class = "linea">
+       <div class = "container-perfil">
+           <a href="gestionUsuarios.php"><div class = "labelConfiguracion">GESTION DE USUARIOS</div> </a><br>
+       </div>
+       <hr class = "linea">
+       <div class = "container-perfil">
+           <a href="gestionClientes.php"><div class = "labelConfiguracion">GESTION DE CLIENTES</div> </a><br>
+       </div>
+       <hr class = "linea">
+       <div class = "container-perfil">
+           <a href="menu.php"><div class = "labelConfiguracion">MENU</div></a><br>
+       </div>
     <script src="../js/menuOpciones.js"></script>
 </body>
 </html>

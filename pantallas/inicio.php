@@ -44,7 +44,7 @@ $listaPedidos = $crud->mostrarPedidos();
                 <hr>
                 <?php endif; ?>
                 <?php if ($usuarioPuesto == 'Gerente'): ?>
-                <li><a href="historialPedidos.html"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
+                <li><a href="historialPedidos.php"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
                 <hr>
                 <?php endif; ?>
                 <li><a href="configuracion.php"><img src="../img/general/configuracion.png" alt="configuracion" class="icono-menu"> Configuración</a></li>
@@ -80,12 +80,9 @@ $listaPedidos = $crud->mostrarPedidos();
                 </button>
                 </a>
                 <?php if ($usuarioPuesto == 'Gerente' || $usuarioPuesto == 'Cajero'): ?>
-                    <form action="pago.php" method="get" style="display:inline;">
-                        <input type="hidden" name="idPedido" value="<?php echo htmlspecialchars($pedido->getIdPedido()); ?>">
-                        <button type="submit" class="botonCheck"  <?php echo ($pedido->getEstado() === 'pagado') ? 'disabled' : ''; ?>>
-                            <img src="../img/inicio/controlar.png" alt="Listo" width="25px" height="27px">
-                        </button>
-                    </form>
+                    <a href="pago.php?idPedido=<?php echo htmlspecialchars($pedido->getIdPedido()); ?>" class="botonCheck">
+                        <img src="../img/inicio/controlar.png" alt="Listo" width="25px" height="27px">
+                    </a>
                 <?php endif; ?>
             </div>
         <?php endforeach; ?>
@@ -95,7 +92,6 @@ $listaPedidos = $crud->mostrarPedidos();
     <?php if ($usuarioPuesto == 'Chef' || $usuarioPuesto == 'Gerente'): ?>
         <div class="orders-container-chef"> <?php foreach ($listaPedidos as $pedido): ?>
                 <?php
-                // Fetch full order details for Chef view
                 $detallesPedido = $crud->mostrarDetalles($pedido->getIdPedido());
                 $productosDelPedido = $crud->obtenerProductosDePedido($pedido->getIdPedido());
                 if ($detallesPedido) {

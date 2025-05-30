@@ -18,7 +18,7 @@
             <div id="menu">
             <ul>
             <li><a href="menu.php"><img src="../img/general/menuRestaurante.png" alt="menuComida" class="icono-menu">  Ver menú</a></li>
-                <li><a href="historialPedidos.html"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
+                <li><a href="historialPedidos.php"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
                 <li><a href="configuracion.php"><img src="../img/general/configuracion.png" alt="configuracion" class="icono-menu"> Configuración</a></li>
             </ul>
             </div>
@@ -33,12 +33,12 @@
                     <input type="text" id="nombre" name="nombre" placeholder="Escriba el nombre" required>
                 </div>
                 <div class="form-col">
-                    <label for="primerApellido">Primer apellido</label>
-                    <input type="text" id="primerApellido" name="primerApe" placeholder="Escriba el primer apellido" required>
+                    <label for="primerApe">Primer apellido</label>
+                    <input type="text" id="primerApe" name="primerApe" placeholder="Escriba el primer apellido" required>
                 </div>
                 <div class="form-col">
-                    <label for="segundoApellido">Segundo apellido</label>
-                    <input type="text" id="segundoApellido" name="segundoApe" placeholder="Escriba segundo apellido">
+                    <label for="segundoApe">Segundo apellido</label>
+                    <input type="text" id="segundoApe" name="segundoApe" placeholder="Escriba segundo apellido" required>
                 </div>
             </div>
 
@@ -48,15 +48,15 @@
                     <input type="text" id="calle" name="calle" placeholder="Escriba la calle" required>
                 </div>
                 <div class="form-col smaller-col">
-                    <label for="numero">Número</label>
-                    <input type="text" id="numero" name="numeroCasa" placeholder="Escriba el número" required>
+                    <label for="numeroCasa">Número</label>
+                    <input type="text" id="numeroCasa" name="numeroCasa" placeholder="Escriba el número" required>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-col">
-                    <label for="cruzamientos">Cruzamientos y/o referencia</label>
-                    <input type="text" id="cruzamientos" name="referenciaCasa" placeholder="Escriba los cruzamientos y/o referencias">
+                    <label for="referenciaCasa">Cruzamientos y/o referencia</label>
+                    <input type="text" id="referenciaCasa" name="referenciaCasa" placeholder="Escriba los cruzamientos y/o referencias"required>
                 </div>
                 <div class="form-col smaller-col">
                     <label for="telefono">Teléfono</label>

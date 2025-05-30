@@ -9,8 +9,16 @@ if (!isset($_SESSION['idEmpleado'])) {
  require_once('../pantallas/procedimientos/crudUsuarios.php');
 
  $crud= new CrudUsuarios();
- $usuario= new Empleado();
- $listaUsuarios=$crud->obtenerListaUsuarios();
+ $usuario= new Empleado();   
+
+ //Creacion de la lista de usuarios a traves de la validacion del tipo de busqueda
+ if (isset($_GET['busqueda']) && $_GET['busqueda'] != '') {
+    $listaUsuarios = $crud->buscarUsuariosBusqueda($_GET['busqueda']);
+}else if(isset($_GET['puesto']) && $_GET['puesto'] != '') {
+        $listaUsuarios = $crud->buscarUsuariosPorPuesto($_GET['puesto']);
+}else {
+    $listaUsuarios = $crud->obtenerListaUsuarios();
+ }
  
  ?>
 <html>
@@ -32,7 +40,7 @@ if (!isset($_SESSION['idEmpleado'])) {
             <div id="menu">
             <ul>
             <li><a href="menu.php"><img src="../img/general/menuRestaurante.png" alt="menuComida" class="icono-menu">  Ver menú</a></li>
-                <li><a href="historialPedidos.html"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
+                <li><a href="historialPedidos.php"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
                 <li><a href="configuracion.php"><img src="../img/general/configuracion.png" alt="configuracion" class="icono-menu"> Configuración</a></li>
             </ul>
             </div>
@@ -40,16 +48,17 @@ if (!isset($_SESSION['idEmpleado'])) {
     </div>
     <div class = "container">
         <div class = "containerBusquedaP">
-            <form method="GET" action="admin_Usuarios.php" class="containerBusqueda">
+            <form method="GET" action="gestionUsuarios.php" class="containerBusqueda">
                 <img src="../img/general/lupa.png" alt="busquedaLupa" height="20px" width="20px">
                 <input type="text" name="busqueda" placeholder="Buscar usuario">
-                <input type='hidden' name='busqueda' value='busqueda'>
                 <button type="submit" class="buttonConfiguracion">Buscar</button>
             </form>
-            <div class = "containerBusqueda">
-                <button class="buttonConfiguracion">Chef</button>
-                <button class="buttonConfiguracion">Mesero</button>
-                <button class="buttonConfiguracion">Gerente</button>
+            <form method="GET" action="gestionUsuarios.php" class="containerBusqueda">
+                <button type="submit" class="buttonConfiguracion" name="puesto" value="chef">Chef</button>
+                <button type="submit" class="buttonConfiguracion" name="puesto" value="mesero">Mesero</button>
+                <button type="submit" class="buttonConfiguracion" name="puesto" value="gerente">Gerente</button>
+            </form>
+            <div class="containerBusqueda">
                 <a href="agregarUsuario.php"><button class="buttonConfiguracion">AGREGAR</button></a>
             </div>
         </div>
@@ -62,8 +71,8 @@ if (!isset($_SESSION['idEmpleado'])) {
                         <div class = "labelConfiguracion"><?php echo $usuario->getPuesto(); ?></div>
                     </div>
                     <div class = "containerBotones">
-                    <a href="../pantallas/modificarUsuario.php?idEmpleado=<?php echo $usuario->getIdEmpleado()?>&accion=actualizar">actualizar</a>
-                    <a href="../pantallas/procedimientos/admin_Usuario.php?idEmpleado=<?php echo $usuario->getIdEmpleado()?>&accion=eliminar">eliminar</a>
+                        <a href="../pantallas/modificarUsuario.php?idEmpleado=<?php echo $usuario->getIdEmpleado()?>&accion=actualizar"><img src="../img/inicio/lapiz.png" alt="actualizar" height= "20"></a>
+                        <a href="../pantallas/eliminarUsuario.php?idEmpleado=<?php echo $usuario->getIdEmpleado()?>&accion=eliminar"><img src="../img/inicio/basurero.png" alt="eliminar "height= "20"></a>
                     </div>
                 </div>
                 <hr class = "linea">
@@ -71,8 +80,5 @@ if (!isset($_SESSION['idEmpleado'])) {
         </div>
 
     </div>
-
-    
-    <script src="../js/menuOpciones.js"></script>
 </body>
 </html>
