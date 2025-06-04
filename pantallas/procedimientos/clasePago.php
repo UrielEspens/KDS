@@ -1,5 +1,7 @@
 <?php
+// Definir la clase Pago
 class Pago {
+    // Declara las propiedades privadas de la clase
     private $idPago;
     private $idPedido;
     private $idEmpleado;
@@ -7,6 +9,7 @@ class Pago {
     private $montoPagado;
     private $fechaHoraPago;
 
+    // Constructor
     public function __construct() {}
 
     // Getters

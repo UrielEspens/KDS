@@ -1,5 +1,6 @@
 <?php
 	class Empleado{
+        // Declara las propiedades privadas de la clase
         private $idEmpleado;
 		private $usuario;
         private $contrasena;
@@ -9,9 +10,11 @@
         private $puesto;
         private $imagen;
 
+        // Constructor
 		function __construct(){
 		}
 
+        // Getters y setters
         public function getIdEmpleado(){
             return $this->idEmpleado;
         }

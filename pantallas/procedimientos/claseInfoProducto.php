@@ -1,5 +1,7 @@
 <?php
+// Definir la clase InfoProducto
 class InfoProducto {
+    // Declara las propiedades privadas de la clase
     private $idProducto;
     private $nombre;
     private $descripcion;
@@ -7,9 +9,11 @@ class InfoProducto {
     private $precio;
     private $imagen; 
 
+    // Constructor
     function __construct(){
     }
 
+    // Getters y setters
     public function getIdProducto(){
         return $this->idProducto;
     }

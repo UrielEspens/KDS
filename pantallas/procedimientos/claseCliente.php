@@ -1,4 +1,5 @@
 <?php
+// Define la clase Cliente
 class Cliente{
     private $idCliente;
     private $nombre;
@@ -9,9 +10,11 @@ class Cliente{
     private $numeroCasa;
     private $referenciaCasa;
 
+    // Constructor
     public function __construct() {
     }
 
+    // Getters y setters
     public function getIdCliente() {
         return $this->idCliente;
     }

@@ -1,5 +1,7 @@
 <?php
+// Define la clase DetallesPedido
 class DetallesPedido{
+    // Declara las propiedades privadas de la clase
     private $idPedido;
     private $estado;
     private $horaCreacion;
@@ -11,10 +13,12 @@ class DetallesPedido{
     private $idEmpleado;
     private $articulos = [];
     private $total;
-
+    
+    // Constructor
     function __construct(){
     }
 
+    // Getters y setter para el pedido
     public function getIdPedido(){
         return $this->idPedido;
     }
@@ -30,7 +34,7 @@ class DetallesPedido{
     public function setEstado($estado){
         $this->estado = $estado;
     }
-
+    // Getters y setters para idCliente
     public function getNombreCliente(){
         return $this->nombreCliente;
     }
@@ -47,7 +51,6 @@ class DetallesPedido{
         $this->apellidoCliente = $apellidoCliente;
     }
 
-    // --- Getters y Setters para idCliente ---
     public function getIdCliente(){
         return $this->idCliente;
     }
@@ -55,8 +58,8 @@ class DetallesPedido{
     public function setIdCliente($idCliente){
         $this->idCliente = $idCliente;
     }
-    // --- FIN Getters y Setters para idCliente ---
-
+    
+    // Getters y setters para idEmpleado
     public function getNombreEmpleado(){
         return $this->nombreEmpleado;
     }
@@ -73,7 +76,6 @@ class DetallesPedido{
         $this->apellidoEmpleado = $apellidoEmpleado;
     }
 
-    // --- Getters y Setters para idEmpleado ---
     public function getIdEmpleado(){
         return $this->idEmpleado;
     }
@@ -81,8 +83,8 @@ class DetallesPedido{
     public function setIdEmpleado($idEmpleado){
         $this->idEmpleado = $idEmpleado;
     }
-    // --- FIN Getters y Setters para idEmpleado ---
-
+    
+    // Getters y setters para los articulos
     public function getHoraCreacion(){
         return $this->horaCreacion;
     }

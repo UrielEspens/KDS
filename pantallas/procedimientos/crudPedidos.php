@@ -7,9 +7,10 @@ require_once('claseCliente.php');
 require_once('claseEmpleados.php');
 
 class CrudPedidos{
-    // constructor de la clase
+    // Constructor de la clase
     public function __construct(){}
 
+    //  Elimina un pedido y sus detalles asociados de las tablas activas
     public function eliminarPedido($idPedido) {
         $db = Db::conectar();
         // Eliminar de detalles_pedido
@@ -28,7 +29,7 @@ class CrudPedidos{
         return $deletePedido->execute();
     }
 
-
+    // Muestra una lista resumida de todos los pedidos activos, incluyendo información de cliente y empleado
     public function mostrarPedidos(){
         $db=Db::conectar();
         $listaPedidos=[];
@@ -41,7 +42,7 @@ class CrudPedidos{
                             FROM pedido p
                             INNER JOIN cliente c ON p.idCliente = c.idCliente
                             INNER JOIN empleados e ON p.idEmpleado = e.idEmpleado;');
-
+        // Itera sobre los resultados y crea objetos Pedido
         foreach($select->fetchAll(PDO::FETCH_ASSOC) as $pedidoData){
             $myPedido = new Pedido();
             $myPedido->setIdPedido($pedidoData['idPedido']);
@@ -52,9 +53,10 @@ class CrudPedidos{
             $myPedido->setApellidoEmpleado($pedidoData['apellidoEmpleado']);
             $listaPedidos[] = $myPedido;
         }
-        return $listaPedidos;
+        return $listaPedidos; // Retorna el array de pedidos
     }
 
+        // Obtiene los detalles completos de un pedido específico, incluyendo información de cliente y empleado    
 		public function mostrarDetalles($idPedido){
 			$db = Db::conectar();
 			$select = $db->prepare(' SELECT pedido.idPedido,
@@ -89,12 +91,13 @@ class CrudPedidos{
 			$myPedido->setApellidoEmpleado($detallePedido['apellidoEmpleado']);
 			$myPedido->setHoraCreacion($detallePedido['horaCreacion']);
 			
-			return $myPedido;
+			return $myPedido; // Retorna el objeto DetallesPedido
 		}
 
+        // Obtiene los productos asociados a un pedido específico
 		public function obtenerProductosDePedido($idPedido){
 				$db = Db::conectar();
-				$listaArticulos = []; // Aquí almacenaremos los objetos ArticuloPedido
+				$listaArticulos = []; // Aquí se almacena los objetos ArticuloPedido
 				$select = $db->prepare('SELECT
 													prod.nombre AS nombreProducto,
 													prod.precio AS precioProducto,
@@ -112,12 +115,13 @@ class CrudPedidos{
 					$myArticulo->setNombreProducto($articuloData['nombreProducto']);
 					$myArticulo->setPrecioProducto($articuloData['precioProducto']);
 					$myArticulo->setCantidadProducto($articuloData['cantidadProducto']);
-					$listaArticulos[] = $myArticulo; // Añadimos el objeto a la lista
+					$listaArticulos[] = $myArticulo; // Se añade el objeto a la lista
 				}
 
-				return $listaArticulos; // Retornamos el array de objetos ArticuloPedido
+				return $listaArticulos; // Se retorna el array de objetos ArticuloPedido
 		}
 		
+        // Obtiene todos los detalles de un pedido, incluyendo los productos y la información del cliente/empleado para generar el resumen de pago
 		public function obtenerPedidoCompletoParaPago($idPedido) {
 			$db = Db::conectar();
 
@@ -136,11 +140,11 @@ class CrudPedidos{
 			if (!$datosHeader) {
 				return null;
 			}
-
+            // Crea y popula el objeto DetallesPedido con la información del encabezado
 			$detallesPedido = new DetallesPedido();
 			$detallesPedido->setIdPedido($datosHeader['idPedido']);
 			$detallesPedido->setEstado($datosHeader['estado']);
-			$detallesPedido->setHoraCreacion($datosHeader['fechaHora']); // Corregido: fechaHora
+			$detallesPedido->setHoraCreacion($datosHeader['fechaHora']);
 			$detallesPedido->setNombreCliente($datosHeader['nombreCliente']);
 			$detallesPedido->setApellidoCliente($datosHeader['apellidoCliente']);
 			$detallesPedido->setIdCliente($datosHeader['idCliente']);
@@ -154,6 +158,7 @@ class CrudPedidos{
 			return $detallesPedido;
 		}
 
+        // Actualiza el estado de un pedido en la base de datos
 		public function actualizarEstadoPedido($idPedido, $estado) {
 			$db = Db::conectar();
 			$update = $db->prepare('UPDATE pedido SET estado = :estado WHERE idPedido = :idPedido');
@@ -161,7 +166,7 @@ class CrudPedidos{
 			$update->bindParam(':idPedido', $idPedido);
 			return $update->execute();
     	}
-	
+        // Inserta un nuevo pedido en la base de datos
 		public function insertarPedido($idCliente, $idEmpleado) {
 			$db = Db::conectar();
 			$insert = $db->prepare('INSERT INTO pedido (idCliente, idEmpleado) VALUES (:idCliente, :idEmpleado)');
@@ -169,10 +174,10 @@ class CrudPedidos{
 			$insert->bindValue('idEmpleado', $idEmpleado);
 			$insert->execute();
 
-			// Retornamos el id generado automáticamente
+			// Se retorna el id generado automáticamente
 			return $db->lastInsertId();
 		}
-
+        // Inserta un detalle de producto individual para un pedido
 		public function insertarDetalleIndividual($idPedido, $idProducto, $cantidad) {
 			$db = Db::conectar();
 			$insert = $db->prepare('INSERT INTO detalles_pedido (idPedido, idProducto, cantidad) VALUES (:idPedido, :idProducto, :cantidad)');
@@ -181,9 +186,9 @@ class CrudPedidos{
 			$insert->bindValue('cantidad', $cantidad);
 			$insert->execute();
 		}
-    
+    // Obtiene un pedido por su ID con información detallada de cliente y empleado
     public function obtenerPedidoPorId($idPedido) {
-        $db = Db::conectar(); // Asume que Db::conectar() está disponible y devuelve la conexión PDO
+        $db = Db::conectar();
         $select = $db->prepare('SELECT 
                                     p.idPedido, 
 									p.fechaHora AS horaCreacion,
@@ -205,8 +210,7 @@ class CrudPedidos{
         $registro = $select->fetch();
 
         if ($registro) {
-            // Asegúrate de que esta clase DetallesPedido esté incluida y sus setters funcionen con estos nombres de columna
-            $pedido = new DetallesPedido(); // O la clase que uses para representar un pedido completo
+            $pedido = new DetallesPedido();
             $pedido->setIdPedido($registro['idPedido']);
             $pedido->setHoraCreacion($registro['horaCreacion']);
             $pedido->setEstado($registro['estado']);
@@ -216,12 +220,12 @@ class CrudPedidos{
             $pedido->setIdCliente($registro['idCliente']);
             $pedido->setNombreCliente($registro['nombreCliente']);
             $pedido->setApellidoCliente($registro['apellidoCliente']);
-            // Nota: Los artículos del pedido no se cargan aquí. Solo la información principal.
             return $pedido;
         }
         return null; // Si no se encontró el pedido
     }
 
+    //  Busca pedidos en el historial basándose en varios criterios de filtro
     public function buscarPedidosParaHistorial($idPedido = null, $fechaDesde = null, $fechaHasta = null, $tipoPago = null, $nombreCliente = null) {
         $db = Db::conectar();
         $listaPedidos = [];
@@ -233,7 +237,7 @@ class CrudPedidos{
             INNER JOIN cliente c ON hp.idCliente = c.idCliente
             WHERE 1=1
         ';
-
+        // Añade condiciones WHERE dinámicamente según los parámetros dados
         if ($idPedido !== null && $idPedido !== '') {
             $query .= ' AND hp.idPedidoFinal = :idPedido';
         }
@@ -250,10 +254,11 @@ class CrudPedidos{
             $query .= ' AND (c.nombre LIKE :nombreCliente OR c.primerApe LIKE :nombreCliente)';
         }
 
-        $query .= ' ORDER BY hp.idPedidoFinal DESC';
+        $query .= ' ORDER BY hp.idPedidoFinal DESC'; // Ordena los resultados
 
         $select = $db->prepare($query);
 
+        // Se vinculan los parámetros a la consulta preparada, solo si existen
         if ($idPedido !== null && $idPedido !== '') {
             $select->bindValue(':idPedido', $idPedido, PDO::PARAM_INT);
         }
@@ -271,7 +276,7 @@ class CrudPedidos{
         }
 
         $select->execute();
-
+        // Itera sobre los resultados y crea objetos Pedido para el historial
         foreach ($select->fetchAll(PDO::FETCH_ASSOC) as $pedidoData) {
             $myPedido = new Pedido();
             $myPedido->setIdPedido($pedidoData['idPedidoFinal']);
@@ -285,7 +290,7 @@ class CrudPedidos{
         return $listaPedidos;
     }
 
-    // Nuevo método para obtener todos los pedidos para el historial
+    // Método para obtener todos los pedidos para el historial sin aplicar ningún filtro
     public function obtenerTodosLosPedidosParaHistorial() {
         $db = Db::conectar();
         $listaPedidos = [];
@@ -309,13 +314,13 @@ class CrudPedidos{
         return $listaPedidos;
     }
 
-    // NUEVO MÉTODO: Mover pedido y sus detalles a tablas de historial
+    // Método para mover pedido y sus detalles a tablas de historial
     public function moverPedidoAHistorialNuevo($idPedido, $metodoPago, $montoFinal) {
         $db = Db::conectar();
         try {
             $db->beginTransaction();
 
-            // 1. Obtener los detalles del pedido original
+            // Obtener los detalles del pedido original
             $stmtPedido = $db->prepare('SELECT idCliente, idEmpleado, fechaHora FROM pedido WHERE idPedido = :idPedido');
             $stmtPedido->bindParam(':idPedido', $idPedido, PDO::PARAM_INT);
             $stmtPedido->execute();
@@ -326,7 +331,7 @@ class CrudPedidos{
                 return false; // Pedido no encontrado
             }
 
-            // 2. Insertar en historial_pedidos
+            // Insertar en historial_pedidos
             $insertHistorial = $db->prepare('INSERT INTO historial_pedidos (idPedidoFinal, idCliente, fecha, tipoPago, montoFinal, idEmpleado) VALUES (:idPedidoFinal, :idCliente, :fecha, :tipoPago, :montoFinal, :idEmpleado)');
             $insertHistorial->bindParam(':idPedidoFinal', $idPedido, PDO::PARAM_INT);
             $insertHistorial->bindParam(':idCliente', $pedidoOriginal['idCliente'], PDO::PARAM_INT);
@@ -336,7 +341,7 @@ class CrudPedidos{
             $insertHistorial->bindParam(':idEmpleado', $pedidoOriginal['idEmpleado'], PDO::PARAM_INT);
             $insertHistorial->execute();
 
-            // 3. Obtener los productos del pedido original y moverlos a detalles_historial_pedido
+            // Obtener los productos del pedido original y moverlos a detalles_historial_pedido
             $stmtProductos = $db->prepare('SELECT dp.idProducto, dp.cantidad, p.precio AS precioProducto FROM detalles_pedido dp INNER JOIN producto p ON dp.idProducto = p.idProducto WHERE dp.idPedido = :idPedido');
             $stmtProductos->bindParam(':idPedido', $idPedido, PDO::PARAM_INT);
             $stmtProductos->execute();
@@ -361,7 +366,7 @@ class CrudPedidos{
         }
     }
 
-    // NUEVO MÉTODO: Eliminar el pedido completamente de las tablas activas
+    // Método para eliminar el pedido completamente de las tablas activas
     public function eliminarPedidoCompletoNuevo($idPedido) {
         $db = Db::conectar();
         try {

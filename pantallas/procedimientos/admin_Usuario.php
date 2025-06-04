@@ -1,12 +1,14 @@
 <?php
-//incluye la clase Usuarios y CrudUsuarios
+// Incluye la clase Usuarios y CrudUsuarios
 require_once('crudUsuarios.php');
 require_once('ClaseUsuario.php');
 
+// Crea una nueva instancia de la clase CrudUsuarios
 $crud= new CrudUsuarios();
+// Crea una nueva instancia de la clase Empleado
 $usuario= new Empleado();
 
-	// si el elemento insertar no viene nulo llama al crud e inserta un articulo
+	// Si el elemento insertar no viene nulo llama, al crud e inserta un articulo
 	if (isset($_POST['insertar'])) {
         $usuario->setUsuario($_POST['nombreUsuario']);  
         $usuario->setContrasena($_POST['contrasena']);
@@ -29,12 +31,12 @@ $usuario= new Empleado();
         $usuario->setPuesto($_POST['puesto']);
         $usuario->setIdEmpleado($_POST['idEmpleado']);
 
-        
+        // Verifica si se subió una nueva imagen
         if (isset($_FILES['imagen']) && $_FILES['imagen']['tmp_name'] != '') {
-            // Si se subió una nueva imagen
+            // Si se subió una nueva imagen, obtiene su contenido binario
             $usuario->setImagen(file_get_contents($_FILES['imagen']['tmp_name']));
         } else {
-            // Si no se subió imagen, conserva la anterior
+            // Si no se subió imagen, se conserva la anterior
             $usuarioBD = $crud->obtenerUsuario($_POST['idEmpleado']);
             $usuario->setImagen($usuarioBD->getImagen());
         }
@@ -43,7 +45,7 @@ $usuario= new Empleado();
         header('Location: ../gestionUsuarios.php');
         exit();
     }
-
+    // Verifica si la acción es 'eliminar'
     else if ($_GET['accion'] == 'eliminar') {
         $idEmpleado = $_GET['idEmpleado'];
         $crud->eliminar($idEmpleado);

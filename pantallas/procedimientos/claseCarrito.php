@@ -1,13 +1,17 @@
 <?php
+// Define la clase ItemsCarrito
 class ItemsCarrito {
+    // Declara las propiedades privadas de la clase
     private $idItem;
     private $nombreItem;
     private $precioItem;
     private $cantidadItem;
     
+    // Constructor
     function __construct(){
     }
-
+    
+    // Getters y setters
     public function getIdItem(){
         return $this->idItem;
     }

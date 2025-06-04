@@ -1,5 +1,7 @@
 <?php
+    // Definir la clase Pedido
 	class Pedido{
+        // Declara las propiedades privadas de la clase
 		private $idPedido;
 		private $estado;
 		private $fechaHora;
@@ -10,9 +12,11 @@
 		private $nombreEmpleado;
 		private $apellidoEmpleado;
 
+        // Constructor
 		function __construct(){
 		}
 
+        // Getters y setters
         public function getIdPedido(){
             return $this->idPedido;
         }

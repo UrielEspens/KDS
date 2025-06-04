@@ -1,11 +1,11 @@
 <?php
-// incluye la clase Db
+// Incluye la clase Db
 require_once('conexion.php');
 require_once('ClaseUsuario.php');
 
 
 	class CrudUsuarios{
-		// constructor de la clase
+		// Constructor
 		public function __construct(){}
 
 		// Funcion para insertar usuarios

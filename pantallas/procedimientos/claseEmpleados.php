@@ -1,7 +1,7 @@
 <?php
-// procedimientos/claseEmpleado.php
-
+// Definir la clase Empleado
 class Empleado {
+    // Declara las propiedades privadas de la clase
     private $idEmpleado;
     private $nombre;
     private $primerApe;
@@ -9,9 +9,8 @@ class Empleado {
     private $usuario;
     private $contrasena; 
     private $puesto;
-
+    // Constructor
     public function __construct() {
-        // Constructor vacío
     }
 
     // Getters

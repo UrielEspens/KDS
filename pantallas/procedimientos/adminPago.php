@@ -56,7 +56,7 @@ if (isset($_POST['accion']) && $_POST['accion'] === 'registrar_pago') {
     $pago->setMontoPagado($totalFinalCalculado); // Almacenar el total final calculado en montoPagado
 
     if ($crudPago->insertarPago($pago)) {
-        // CAMBIO: Mover a historial y eliminar pedido activo
+        // Mover a historial y eliminar pedido activo
         if ($crudPedidos->moverPedidoAHistorialNuevo(
             $idPedido, 
             $metodoPago, 

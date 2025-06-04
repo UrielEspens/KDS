@@ -7,17 +7,17 @@ require_once('claseDetallesPedido.php');
 
 $crud = new CrudPedidos();
 
-// Verificamos que el carrito no esté vacío y que haya un cliente seleccionado
+// Se verifica que el carrito no esté vacío y que haya un cliente seleccionado
 if (isset($_POST['accionCarrito']) && $_POST['accionCarrito'] == 'guardar_pedido' &&
     !empty($_SESSION['carrito']) && isset($_SESSION['clienteSeleccionado_id'])) {
 
     $idCliente = $_SESSION['clienteSeleccionado_id'];
     $idEmpleado = $_SESSION['idEmpleado'];
 
-    // Primero, insertamos el pedido general
+    // Se inserta el pedido general
     $idPedido = $crud->insertarPedido($idCliente, $idEmpleado);
 
-    // Luego, recorremos el carrito para insertar cada producto como un detalle
+    // Se recorre el carrito para insertar cada producto como un detalle
     foreach ($_SESSION['carrito'] as $producto) {
         $detalle = new DetallesPedido();
         $detalle->setIdPedido($idPedido);
@@ -40,15 +40,14 @@ if (isset($_POST['accionCarrito']) && $_POST['accionCarrito'] == 'guardar_pedido
     echo "No se puede guardar el pedido: faltan datos.";
 }
 
-$accion = $_POST['accion'] ?? null; // Obtén la acción del formulario
+$accion = $_POST['accion'] ?? null; // Se obtiene la acción del formulario
 $idPedido = $_POST['idPedido'] ?? null;
 
 if ($accion === 'eliminar_pedido' && $idPedido !== null) {
-    // Validar y sanear el ID
+    // Validar el ID
     $idPedido = (int)$idPedido;
 
     if ($crud->eliminarPedido($idPedido)) {
-        // Redirigir a una página de éxito o al historial de pedidos
         header('Location: ../inicio.php?status=pedido_eliminado');
         exit();
     } else {
@@ -57,7 +56,7 @@ if ($accion === 'eliminar_pedido' && $idPedido !== null) {
         exit();
     }
 } else {
-    // Acción o ID no válidos, redirigir a una página de error o al inicio
+    // Si la acción o ID no son válidos, redirigir a una página de error o al inicio
     header('Location: ../inicio.php?error=accion_invalida');
     exit();
 }

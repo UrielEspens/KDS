@@ -3,7 +3,7 @@ session_start();
 
 // Redireccionar si el usuario no está logueado
 if (!isset($_SESSION['idEmpleado'])) {
-    header('Location: ../index.php'); // Ajusta la ruta a tu página de inicio de sesión si es diferente
+    header('Location: ../index.php');
     exit();
 }
 
@@ -15,7 +15,7 @@ require_once('crudPedidos.php');
 require_once('claseCliente.php');
 require_once('crudClientes.php');
 
-// Inicializa el carrito en la sesión si no existe (aunque cargarCarrito.php ya debería hacerlo)
+// Inicializa el carrito en la sesión si no existe
 if (!isset($_SESSION['carrito'])) {
     $_SESSION['carrito'] = [];
 }
@@ -27,7 +27,7 @@ $crudPedidos = new CrudPedidos();
 
 $idEmpleado = $_SESSION['idEmpleado'];
 
-// --- VALIDACIÓN CRÍTICA DEL idCarritoDB ---
+// Validación del idCarritoDB
 if (!isset($_SESSION['idCarritoDB']) || !$_SESSION['idCarritoDB']) {
     error_log("ERROR: idCarritoDB no está en sesión en adminCarrito.php para empleado " . $idEmpleado);
     $_SESSION['mensaje_error'] = "Error al procesar el carrito. Por favor, recargue la página.";
@@ -38,10 +38,8 @@ $idCarritoDB = $_SESSION['idCarritoDB'];
 
 
 $accion = $_POST['accionCarrito'] ?? '';
-$idProducto = isset($_POST['idProducto']) ? (int)$_POST['idProducto'] : 0; // Para acciones de producto
+$idProducto = isset($_POST['idProducto']) ? (int)$_POST['idProducto'] : 0;
 
-//_____________________________________________________________________________________________________________________________________________________________________
-// PARA GUARDAR LOS DATOS DEL CLIENTE EN LA SESSION (Este bloque se mueve para que se ejecute primero si solo se selecciona cliente)
 if (isset($_POST['idCliente']) && !isset($_POST['accionCarrito'])) {
     $clienteIdSeleccionado = (int)$_POST['idCliente'];
     $_SESSION['clienteSeleccionado_id'] = $clienteIdSeleccionado;
@@ -56,8 +54,7 @@ if (isset($_POST['idCliente']) && !isset($_POST['accionCarrito'])) {
     exit();
 }
 
-//_____________________________________________________________________________________________________________________________________________________________________
-// PARA AÑADIR AL CARRITO (desde menu.php)
+// Para añadir al carrido desde menu.php
 if ($accion === 'añadir' && $idProducto > 0) {
     $productoEncontradoEnCarritoSesion = false;
     foreach ($_SESSION['carrito'] as &$item) {
@@ -93,8 +90,7 @@ if ($accion === 'añadir' && $idProducto > 0) {
     // Redirigir a menu.php si el añadir viene de allí
     header('Location: ../menu.php');
     exit();
-//_____________________________________________________________________________________________________________________________________________________________________
-//PARA AUMENTAR LA CANTIDAD (desde carrito.php)
+//Para aumentar la cantidad desde carrito.php
 } elseif ($accion === 'sumar' && $idProducto > 0) {
     foreach ($_SESSION['carrito'] as &$item) {
         if ($item['id'] === $idProducto) {
@@ -106,8 +102,7 @@ if ($accion === 'añadir' && $idProducto > 0) {
     unset($item);
     header('Location: ../carrito.php');
     exit();
-//_____________________________________________________________________________________________________________________________________________________________________
-//PARA DISMINUIR LA CANTIDAD (desde carrito.php)
+//Para disminuir la cantidad desde carrito.php
 } elseif ($accion === 'restar' && $idProducto > 0) {
     foreach ($_SESSION['carrito'] as $key => &$item) {
         if ($item['id'] === $idProducto) {
@@ -125,8 +120,7 @@ if ($accion === 'añadir' && $idProducto > 0) {
     $_SESSION['carrito'] = array_values($_SESSION['carrito']); // Re-indexar para evitar huecos en el array
     header('Location: ../carrito.php');
     exit();
-//_____________________________________________________________________________________________________________________________________________________________________
-//PARA ELIMINAR EL PRODUCTO COMPLETO (desde carrito.php)
+//Para eliminar el producto completo desde carrito.php
 } elseif ($accion === 'borrar' && $idProducto > 0) {
     foreach ($_SESSION['carrito'] as $key => $item) {
         if ($item['id'] === $idProducto) {
@@ -138,22 +132,20 @@ if ($accion === 'añadir' && $idProducto > 0) {
     $_SESSION['carrito'] = array_values($_SESSION['carrito']); // Re-indexar
     header('Location: ../carrito.php');
     exit();
-//_____________________________________________________________________________________________________________________________________________________________________
-//PARA VACIAR EL CARRITO COMPLETO (desde carrito.php)
+//Para vaciar el carrito completo desde carrito.php
 } elseif ($accion === 'vaciar_carrito') {
     $_SESSION['carrito'] = [];
     $crudCarrito->vaciarCarritoDB($idCarritoDB);
     header('Location: ../carrito.php');
     exit();
-//_____________________________________________________________________________________________________________________________________________________________________
-//PARA GUARDAR EL PEDIDO - RESTAURADO A SU ESTADO ANTERIOR (sin transacciones)
+//Para guardar el pedidio 
 } elseif ($accion === 'guardar_pedido') {
     $idCliente = $_POST['idCliente'] ?? null;
     $articulos = $_POST['articulos'] ?? [];
     $cantidades = $_POST['cantidades'] ?? [];
 
     if (!empty($articulos) && !empty($cantidades) && isset($_SESSION['idEmpleado']) && $idCliente) {
-        // Validar que el idCliente sea válido y exista (opcional, pero buena práctica)
+        // Validar que el idCliente sea válido y exista
         $clienteObjeto = $crudClientes->obtenerClientePorId($idCliente);
         if (!$clienteObjeto) {
             echo "<script>alert('Error: El cliente seleccionado no es válido. Por favor, intente de nuevo.'); window.location.href='../carrito.php';</script>";
@@ -167,10 +159,6 @@ if ($accion === 'añadir' && $idProducto > 0) {
                 for ($i = 0; $i < count($articulos); $i++) {
                     $idProducto = (int)$articulos[$i];
                     $cantidadProducto = (int)$cantidades[$i];
-                    // Aquí no se obtiene el precio del producto de la DB como en la versión anterior.
-                    // Si el precio viene del POST y confías en él, está bien.
-                    // Si quieres el precio actual de la DB para más seguridad,
-                    // tendrías que descomentar el bloque que te puse.
                     $crudPedidos->insertarDetalleIndividual($idNuevoPedido, $idProducto, $cantidadProducto);
                 }
             } else {

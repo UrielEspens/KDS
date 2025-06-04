@@ -2,7 +2,7 @@
 require_once(__DIR__ . '/crud.Producto.php');
 require_once(__DIR__ . '/claseInfoProducto.php');
 
-$crudProducto = new CrudProducto();
+$crudProducto = new CrudProductos();
 $producto = new InfoProducto();
 
 if (isset($_POST['insertar'])) {
@@ -11,8 +11,9 @@ if (isset($_POST['insertar'])) {
     $idCategoria = $_POST['idCategoria'];
     $precio = $_POST['precio'];
 
-    $imagenContenido = null;
+    $imagenContenido = null; // Inicializa la variable para el contenido de la imagen
 
+    // Verifica si se subió un archivo de imagen y si no hubo errores
     if (isset($_FILES['imagen_file']) && $_FILES['imagen_file']['error'] == UPLOAD_ERR_OK) {
         $imagenContenido = file_get_contents($_FILES['imagen_file']['tmp_name']);
         if ($imagenContenido === false) {

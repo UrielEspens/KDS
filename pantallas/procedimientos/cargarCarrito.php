@@ -6,7 +6,7 @@ require_once('crudProductos.php');
 
 // Instanciar los objetos CRUD
 $crudCarrito = new CrudCarrito();
-$crudProductos = new CrudProductos(); // Mantener por si necesitas obtener detalles de productos para el carrito
+$crudProductos = new CrudProductos();
 $crudClientes = new CrudClientes();
 
 // Variables de sesión del empleado
@@ -24,33 +24,29 @@ if (is_null($idEmpleado)) {
     exit();
 }
 
-// --- Lógica de Manejo del Carrito Persistente en DB ---
-// Centralizamos la lógica de obtención/creación del ID del carrito activo
+// Lógica de Manejo del Carrito Persistente en  la DB
 if (!isset($_SESSION['idCarritoDB'])) {
     $idCarritoDB = $crudCarrito->obtenerIdCarritoActivoPorEmpleado($idEmpleado);
 
     if (!$idCarritoDB) {
-        // Si no hay un carrito activo para este empleado, crea uno nuevo.
+        // Si no hay un carrito activo para este empleado, crea uno nuevo
         $idCarritoDB = $crudCarrito->crearCarritoParaEmpleado($idEmpleado);
         if (!$idCarritoDB) {
             error_log("ERROR: No se pudo crear un nuevo carrito para el empleado " . $idEmpleado);
             $_SESSION['mensaje_error'] = "No se pudo iniciar el carrito de compras. Intente de nuevo.";
-            header('Location: ../inicio.php'); // O a una página de error
+            header('Location: ../inicio.php');
             exit();
         }
     }
     $_SESSION['idCarritoDB'] = $idCarritoDB; // Almacena el ID del carrito en la sesión
 } else {
-    // Si ya existe en sesión, simplemente lo usamos
+    // Si ya existe en sesión, simplemente se usa
     $idCarritoDB = $_SESSION['idCarritoDB'];
-    // Opcional: podrías verificar si este idCarritoDB sigue activo en la BD,
-    // pero para simplicidad, asumimos que si está en sesión, es válido.
 }
 
-// Cargar los ítems del carrito (desde la DB) en la sesión del carrito actual
-// Es importante que $_SESSION['carrito'] siempre refleje el estado de la DB al cargar la página
+// Cargar los ítems del carrito desde la DB en la sesión del carrito actual
 $_SESSION['carrito'] = []; // Vaciar por si acaso, para recargar limpio
-$itemsDB = $crudCarrito->obtenerItemsDeCarrito($idEmpleado); // Esta función ya obtiene los ítems del carrito activo
+$itemsDB = $crudCarrito->obtenerItemsDeCarrito($idEmpleado);
 foreach ($itemsDB as $itemDB) {
     $_SESSION['carrito'][] = [
         'id'        => $itemDB->getIdItem(),
@@ -61,7 +57,7 @@ foreach ($itemsDB as $itemDB) {
 }
 
 
-// --- Lógica para seleccionar cliente ---
+// Lógica para seleccionar cliente
 $listaClientes = [];
 if (method_exists($crudClientes, 'obtenerTodosLosClientes')) {
     $listaClientes = $crudClientes->obtenerTodosLosClientes();
@@ -69,11 +65,11 @@ if (method_exists($crudClientes, 'obtenerTodosLosClientes')) {
     error_log("ERROR: El método 'obtenerTodosLosClientes' no existe en CrudClientes.");
 }
 
-// Asegurarse de que el cliente seleccionado en sesión se muestre correctamente
+// Se asegura de que el cliente seleccionado en sesión se muestre correctamente
 $clienteIdActual = $_SESSION['clienteSeleccionado_id'] ?? '';
 $clienteNombreParaMostrar = $_SESSION['clienteSeleccionado_nombre'] ?? 'No hay cliente seleccionado.';
 
-// Si hay un ID de cliente en sesión pero no el nombre (ej. primera carga o sesión recuperada), buscarlo
+// Si hay un ID de cliente en sesión pero no el nombre, se busca
 if (!empty($clienteIdActual) && empty($_SESSION['clienteSeleccionado_nombre']) && !empty($listaClientes)) {
     foreach ($listaClientes as $cliente) {
         if ((int)$cliente->getIdCliente() === (int)$clienteIdActual) {

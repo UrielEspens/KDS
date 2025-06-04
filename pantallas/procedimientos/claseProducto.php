@@ -1,12 +1,16 @@
 <?php
+// Definir la clase Producto
 class Producto {
+    // Declara las propiedades privadas de la clase
     private $nombreProducto;
     private $precioProducto;
     private $cantidadProducto;
 
+    // Constructor
     function __construct() {
     }
 
+    // Getters y setters
     public function getNombreProducto() {
         return $this->nombreProducto;
     }

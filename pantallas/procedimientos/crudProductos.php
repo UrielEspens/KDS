@@ -8,6 +8,7 @@ class CrudProductos {
 
     public function __construct(){}
 
+    // Muestra la representación HTML de un producto en la vista de usuario
     public function mostrarProducto(InfoProducto $producto) {
         echo '<div class="menu-item" data-product-id="' . $producto->getIdProducto() . '" data-categoria-id="' . $producto->getIdCategoria() . '">';
         echo '<img src="data:image/jpeg;base64, ' . base64_encode($producto->getImagen()) . '" alt="' . ($producto->getNombre()) . '">';
@@ -17,7 +18,7 @@ class CrudProductos {
         echo '<p class="item-price">$' . number_format($producto->getPrecio(), 2) . ' MXN</p>';
         echo '</div>';
 
-        // ¡CAMBIO AQUÍ! El formulario ahora apunta a adminCarrito.php
+        // Formulario para añadir el producto al carrito
         echo '<form action="procedimientos/adminCarrito.php" method="post" style="display: inline-block;">';
         echo '<input type="hidden" name="accionCarrito" value="añadir">';
         echo '<input type="hidden" name="idProducto" value="' . $producto->getIdProducto() . '">';
@@ -26,6 +27,7 @@ class CrudProductos {
         echo '</div>';
     }
 
+    // Muestra la representación HTML de un producto en la vista de administración
     public function mostrarProductoEditable(InfoProducto $producto) {
         echo '<div class="menu-item" data-product-id="' . $producto->getIdProducto() . '" data-categoria-id="' . $producto->getIdCategoria() . '">';
         echo '<img src="data:image/jpeg;base64, ' . base64_encode($producto->getImagen()) . '" alt="' . ($producto->getNombre()) . '">';
@@ -35,7 +37,7 @@ class CrudProductos {
         echo '<p class="item-price">$' . number_format($producto->getPrecio(), 2) . ' MXN</p>';
         echo '</div>';
 
-        // ¡CAMBIO AQUÍ! El formulario ahora apunta a adminCarrito.php
+        // Contenedor para los botones de acción de editar y eliminar
         echo '<div class="botones-accion">';
         echo '<a href="modificarProducto.php?idProducto=' . $producto->getIdProducto() . '" class="btn botonEditar"><img src="../img/inicio/lapiz.png" alt="Editar"></a>';
         echo '<a href="eliminarProducto.php?idProducto=' . $producto->getIdProducto() . '" class="btn botonEliminar"><img src="../img/inicio/basurero.png" alt="Eliminar"></a>';
@@ -87,9 +89,10 @@ class CrudProductos {
       
     }
 
+    //Obtiene un producto específico por su ID
     public function obtenerProductoPorId($idProducto) {
             $db = Db::conectar();
-            // CAMBIO CLAVE: Usar prepare() en lugar de query() para consultas con parámetros
+            
             $select = $db->prepare('SELECT *
                                     FROM producto
                                     WHERE idProducto = :idProducto;');
@@ -140,11 +143,11 @@ class CrudProductos {
             return $listaProductos;
     }
 
+    // Busca productos por nombre o descripción
     public function buscarProductos($textoBusqueda, $tipoBusqueda = 'inicio') {
         $db = Db::conectar();
         $resultados = [];
         $textoBusquedaUpper = strtoupper($textoBusqueda);
-        // La consulta SQL ahora es fija para "inicio"
         $buscandoProducto = 'SELECT * FROM producto WHERE ';
         $buscandoProducto .= 'UPPER(nombre) LIKE :textoBusqueda OR UPPER(descripcion) LIKE :textoBusqueda';
         $param = $textoBusquedaUpper . '%';
@@ -153,6 +156,7 @@ class CrudProductos {
         $select->bindValue(':textoBusqueda', $param);
         $select->execute();
 
+        // Itera sobre los resultados y crea objetos InfoProducto
         foreach ($select->fetchAll() as $productoData) {
             $producto = new InfoProducto();
             $producto->setIdProducto($productoData['idProducto']);
@@ -166,6 +170,7 @@ class CrudProductos {
         return $resultados;
     }
 
+    // Actualiza un producto existente en la base de datos
     public function actualizarProducto($idProducto, $nombre, $descripcion, $precio, $idCategoria, $imagen = null) {
         $db = Db::conectar();
         if ($imagen !== null) {
@@ -183,14 +188,14 @@ class CrudProductos {
         return $stmt->execute();
         
     }
-
+    // Elimina un producto de la base de datos por su ID
     public function eliminarProducto($idProducto) {      
         $db = Db::conectar();
         $stmt = $db->prepare("DELETE FROM producto WHERE idProducto = :id");
         $stmt->bindParam(':id', $idProducto, PDO::PARAM_INT);
         return $stmt->execute();
     }
-
+    // Agrega un nuevo producto a la base de datos
     public function agregarProducto($producto) { 
         $db = Db::conectar();
         $insert = $db->prepare("INSERT INTO producto (nombre, descripcion, precio, idCategoria, imagen) VALUES (:nombre, :descripcion, :precio, :idCategoria, :imagen)");
@@ -201,14 +206,14 @@ class CrudProductos {
         $insert->bindValue(':imagen', $producto->getImagen()); 
         return $insert->execute();
     }
-
+    // Inserta una nueva categoría en la base de datos
     public function insertarNuevaCategoria($nombre) { 
         $db = Db::conectar();
         $insert = $db->prepare('INSERT INTO categorias (nombre) VALUES (:nombre);');
         $insert->bindValue(':nombre', $nombre); 
         return $insert->execute();
     }
-
+        // Elimina una categoría de la base de datos por su ID
         public function eliminarCategoriaPorId($idCategoria) {
             $db = Db::conectar();
             $delete = $db->prepare('DELETE FROM categorias WHERE idCategoria = :idCategoria;');
