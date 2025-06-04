@@ -12,7 +12,7 @@ require_once('procedimientos/crudPedidos.php');
 $crudPedidos = new CrudPedidos();
 $listaPedidos = [];
 
-// Obtener parámetros de filtro
+// Obtener parámetros de filtro de la URL (GET)
 $idOrden = isset($_GET['idOrden']) ? $_GET['idOrden'] : null;
 $desdeFecha = isset($_GET['desdeFecha']) ? $_GET['desdeFecha'] : null;
 $hastaFecha = isset($_GET['hastaFecha']) ? $_GET['hastaFecha'] : null;
@@ -46,6 +46,7 @@ if ($idOrden || $desdeFecha || $hastaFecha || ($tipoPago && $tipoPago !== 'todos
             </button>
             <div id="menu">
                 <ul>
+                    <!-- Menú de navegación principal -->
                     <li><a href="menu.php"><img src="../img/general/menuRestaurante.png" alt="menuComida" class="icono-menu"> Ver menú</a></li>
                     <hr>
                     <li><a href="historialPedidos.php"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
@@ -55,6 +56,7 @@ if ($idOrden || $desdeFecha || $hastaFecha || ($tipoPago && $tipoPago !== 'todos
             </div>
         </div>
     </div>
+    <!-- Formulario de filtros para buscar pedidos por fecha, tipo de pago, ID o cliente -->
     <form method="GET" action="historialPedidos.php">
         <div class="filters-container">
             <div class="filter-group">
@@ -87,10 +89,11 @@ if ($idOrden || $desdeFecha || $hastaFecha || ($tipoPago && $tipoPago !== 'todos
                 <input type="text" class="order-id-input" id="nombre-cliente" name="nombreCliente" placeholder="Nombre o Apellido" value="<?php echo $nombreClienteBusqueda; ?>">
             </div>
 
-
             <div class="filter-actions">
                 <div class="buttons-container">
+                    <!-- Botón para buscar con los filtros -->
                     <button type="submit" class="btn btn-search">BUSCAR</button>
+                    <!-- Botón para limpiar los filtros y mostrar todos los pedidos -->
                     <button type="button" class="btn btn-clear" onclick="window.location.href='historialPedidos.php'">LIMPIAR</button>
                 </div>
             </div>
@@ -108,6 +111,7 @@ if ($idOrden || $desdeFecha || $hastaFecha || ($tipoPago && $tipoPago !== 'todos
                 </tr>
             </thead>
             <tbody>
+                <!-- Muestra la lista de pedidos filtrados o todos si no hay filtros -->
                 <?php if (!empty($listaPedidos)): ?>
                     <?php foreach ($listaPedidos as $pedido): ?>
                         <tr>

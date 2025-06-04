@@ -1,17 +1,22 @@
 <?php
-session_start();
+session_start(); 
+
+// Verifica si el usuario ha iniciado sesión, si no, lo redirige al login
 if (!isset($_SESSION['idEmpleado'])) {
     header('Location: index.php');
     exit();
 }
-$usuarioPuesto = $_SESSION['puesto'];
-require_once('procedimientos/conexion.php'); //Conexión
 
-$nombreEmpleado = $_SESSION['nombre'];
-$apellidoEmpleado = $_SESSION['primerApe'];
-$puestoEmpleado = $_SESSION['puesto'];
-$usuarioEmpleado = $_SESSION['usuario'];
-$usuarioImagen = $_SESSION['imagen'];
+// Obtiene el puesto del usuario para mostrar el menú adecuado
+$usuarioPuesto = $_SESSION['puesto'];
+require_once('procedimientos/conexion.php'); 
+
+// Obtiene los datos del usuario desde la sesión
+$nombreEmpleado   = $_SESSION['nombre'];     
+$apellidoEmpleado = $_SESSION['primerApe'];   
+$puestoEmpleado   = $_SESSION['puesto'];
+$usuarioEmpleado  = $_SESSION['usuario'];     
+$usuarioImagen    = $_SESSION['imagen'];      
 ?>
 <!DOCTYPE html>
 <html>
@@ -32,6 +37,7 @@ $usuarioImagen = $_SESSION['imagen'];
             </button>
             <div id="menu">
             <ul>
+                <!-- Menú dinámico según el puesto del usuario (Gerente o Mesero etc) -->
                 <?php if ($usuarioPuesto == 'Gerente' || $usuarioPuesto == 'Mesero'): ?>
                 <li><a href="menu.php"><img src="../img/general/menuRestaurante.png" alt="menuComida" class="icono-menu">  Ver menú</a></li>
                 <hr>
@@ -48,14 +54,18 @@ $usuarioImagen = $_SESSION['imagen'];
     <div class = "container">
        <div class = "container-perfil">
            <div class="infoPerfil">
+                <!-- Muestra la imagen del usuario (BLOB convertido a base64) -->
                 <img src="data:image/jpeg;base64,<?php echo base64_encode($usuarioImagen); ?>" alt="usuario" height="45px" width="45px">
+                <!-- Enlace al perfil del usuario -->
                 <a href="verPerfil.php"><div class = "labelConfiguracion">
                     <?php echo $nombreEmpleado . ' ' . $apellidoEmpleado; ?> <br>
                     <?php echo $puestoEmpleado; ?>
                 </div></a>
            </div>
+            <!-- Botón para cerrar sesión (destruye la sesión y redirige al login) -->
             <a href="procedimientos/cerrarSesion.php"><button class ="btn-perfil">CERRAR SESIÓN</button></a>
        </div>
+       <!-- Opciones solo visibles para el Gerente -->
        <?php if ($usuarioPuesto == 'Gerente'): ?>
         <hr class = "linea">
         <div class = "container-perfil">

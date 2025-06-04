@@ -13,23 +13,26 @@ require_once('procedimientos/crudPedidos.php');
 require_once('procedimientos/claseDetallesPedido.php');
 require_once('procedimientos/claseProducto.php');
 
+//Se inicializan las variables necesarias
 $idPedido = $_GET['idPedido'] ?? null;
 $pedido = null;
 $productosPedido = [];
 $subtotal = 0;
 $nombrePantalla = "Realizar Pago";
 
-// Verificar si se debe aplicar propina
+// Verificar si se debe aplicar propina (viene por GET)
 $aplicarPropina = $_GET['propina'] ?? '0';
 
+// Método de pago seleccionado (viene por GET)
 $metodoPagoSeleccionado = $_GET['metodoPago'] ?? '';
 
+// Si hay un ID de pedido, obtiene los detalles y productos del pedido
 if ($idPedido) {
     $crudPedidos = new CrudPedidos();
     $pedido = $crudPedidos->mostrarDetalles($idPedido);
     $productosPedido = $crudPedidos->obtenerProductosDePedido($idPedido);
 
-    // Calcular subtotal
+    // Calcular subtotal sumando el precio * cantidad de cada producto
     foreach ($productosPedido as $producto) {
         $subtotal += $producto->getPrecioProducto() * $producto->getCantidadProducto();
     }
@@ -45,11 +48,12 @@ if ($idPedido) {
     exit();
 }
 
-// CAMBIO: Lógica mejorada para determinar el action y método del formulario
+// Lógica para determinar el action y método del formulario según el método de pago
 $formAction = '../pantallas/procedimientos/adminPago.php';
 $formMethod = 'POST';
 $buttonText = 'REGISTRAR PAGO';
 
+// Si el método de pago es tarjeta, redirige a la pantalla de tarjeta
 if ($metodoPagoSeleccionado === 'Tarjeta de Credito' || $metodoPagoSeleccionado === 'Tarjeta de Debito') {
     $formAction = 'tarjeta.php';
     $formMethod = 'GET'; // Para pasar parámetros a tarjeta.php
@@ -68,11 +72,12 @@ if ($metodoPagoSeleccionado === 'Tarjeta de Credito' || $metodoPagoSeleccionado 
 <body>
     <div class="header">
         <div class="logo-title">
+            <!-- Botón para volver al inicio -->
             <a href="inicio.php"><img src="../img/general/hogar.png" alt="Home" height="30px"></a>
             <div class="title">PAGO DE LA ORDEN</div>
         </div>
         <div class="menu-container">
-            
+            <!-- Menú de navegación principal, solo para Gerente -->
             <button id="toggleMenu">
                 <img src="../img/general/menuOpciones.png" alt="Opciones" height="30px">
             </button>
@@ -87,7 +92,6 @@ if ($metodoPagoSeleccionado === 'Tarjeta de Credito' || $metodoPagoSeleccionado 
                     <li><a href="configuracion.php"><img src="../img/general/configuracion.png" alt="configuracion" class="icono-menu"> Configuración</a></li>
                 </ul>
             </div>
-            
         </div>
     </div>
 
@@ -100,6 +104,7 @@ if ($metodoPagoSeleccionado === 'Tarjeta de Credito' || $metodoPagoSeleccionado 
             </div>
 
             <div class="productos-list">
+                <!-- Lista de productos del pedido -->
                 <?php foreach ($productosPedido as $producto): ?>
                     <div class="producto-item">
                         <span class="producto-cantidad"><?php echo $producto->getCantidadProducto(); ?></span>
@@ -111,15 +116,17 @@ if ($metodoPagoSeleccionado === 'Tarjeta de Credito' || $metodoPagoSeleccionado 
             </div>
 
             <div class="buttons-container">
+                <!-- Botón para volver al inicio -->
                 <a href="inicio.php" class="btn-volver">VOLVER</a>
              
+                <!-- Formulario para registrar el pago o continuar a la pantalla de tarjeta -->
                 <form action="<?php echo $formAction; ?>" method="<?php echo $formMethod; ?>" style="flex: 1;">
                     <input type="hidden" name="idPedido" value="<?php echo $idPedido; ?>">
                     <input type="hidden" name="subtotal" value="<?php echo $subtotal; ?>">
                     <input type="hidden" name="propinaToggle" value="<?php echo $aplicarPropina; ?>">
                     <input type="hidden" name="metodoPago" value="<?php echo $metodoPagoSeleccionado; ?>">
                     
-                   
+                    <!-- Si el método es tarjeta, pasa también el monto de propina y total final -->
                     <?php if ($metodoPagoSeleccionado === 'Tarjeta de Credito' || $metodoPagoSeleccionado === 'Tarjeta de Debito'): ?>
                         <input type="hidden" name="propina_monto" value="<?php echo $aplicarPropina == '1' ? $subtotal * 0.10 : 0; ?>">
                         <input type="hidden" name="total_final" value="<?php echo $totalFinal; ?>">
@@ -131,6 +138,7 @@ if ($metodoPagoSeleccionado === 'Tarjeta de Credito' || $metodoPagoSeleccionado 
             </div>
         </div>
 
+        <!-- Columna derecha: Resumen de pago y selección de método -->
         <div class="right-column">
             <div class="resumen-pago">
                 <h3>Resumen de compra</h3>
@@ -141,6 +149,7 @@ if ($metodoPagoSeleccionado === 'Tarjeta de Credito' || $metodoPagoSeleccionado 
                 </div>
                 
                 <div class="propina-line">
+                    <!-- Switch para activar/desactivar propina -->
                     <form method="GET" action="pago.php" class="propina-toggle-container">
                         <input type="hidden" name="idPedido" value="<?php echo $idPedido; ?>">
                         <input type="hidden" name="metodoPago" value="<?php echo $metodoPagoSeleccionado; ?>">
@@ -160,6 +169,7 @@ if ($metodoPagoSeleccionado === 'Tarjeta de Credito' || $metodoPagoSeleccionado 
                 
                 <div class="detalles-pago">
                     <h3>Detalles del pago</h3>
+                    <!-- Selección de método de pago, recarga la página al cambiar -->
                     <form method="GET" action="pago.php" id="metodoPagoForm">
                         <input type="hidden" name="idPedido" value="<?php echo $idPedido; ?>">
                         <input type="hidden" name="propina" value="<?php echo $aplicarPropina; ?>">

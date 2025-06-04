@@ -2,6 +2,7 @@
 require_once('procedimientos/crudUsuarios.php');
 require_once('procedimientos/claseUsuario.php');
 $crud= new CrudUsuarios();
+//Se obtiene el usuario a eliminar mediante un metodo get para hacer la consulta y traer los datos del usuario
 $usuario = $crud->obtenerUsuario($_GET['idEmpleado']);
 ?>
 

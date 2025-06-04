@@ -2,6 +2,8 @@
 require_once('procedimientos/crudUsuarios.php');
 require_once('procedimientos/claseUsuario.php');
 $crud= new CrudUsuarios();
+
+// Verifica si se ha enviado un ID de empleado para obtener sus datos
 $usuario = $crud->obtenerUsuario($_GET['idEmpleado']);
 ?>
 
@@ -32,6 +34,7 @@ $usuario = $crud->obtenerUsuario($_GET['idEmpleado']);
         </div>
     </div>
     <div class = "container">
+        <!--Muestra un formulario y tare los datops del usuario a editar para verificar-->
         <form action="../pantallas/procedimientos/admin_Usuario.php" method="POST" enctype="multipart/form-data">
             <div class = "containerInfoPerfil">
                 <div class = "idUsuario">

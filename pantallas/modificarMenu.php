@@ -27,6 +27,7 @@ require_once('procedimientos/busquedaMenu.php');
             </button>
             <div id="menu">
                 <ul>
+                    <!-- Menú de navegación principal -->
                     <li><a href="menu.php"><img src="../img/general/menuRestaurante.png" alt="menuComida" class="icono-menu"> Ver menú</a></li>
                     <hr>
                     <li><a href="historialPedidos.php"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
@@ -40,6 +41,7 @@ require_once('procedimientos/busquedaMenu.php');
     <div class="menu-body">
         <div class="menu-options">
             <div class="categorias-container">
+                <!-- Botones de categorías para navegar rápidamente por el menú -->
                 <?php foreach ($categorias as $categoria): ?>
                     <a href="#<?php echo $categoria->getNombre(); ?>">
                         <button class="btn botonCategoria" data-categoria="<?php echo $categoria->getNombre(); ?>" data-categoria-id="<?php echo $categoria->getIdCategoria(); ?>">
@@ -48,6 +50,7 @@ require_once('procedimientos/busquedaMenu.php');
                     </a>
                 <?php endforeach; ?>
             </div>
+            <!-- Botones para gestionar categorías y productos -->
             <a href="eliminarCategoria.php" class="menu-categorias"><button class="btn botonEliminar">Eliminar categoría &nbsp;</button></a>
             <a href="agregarCategoria.php" class="menu-categorias"><button class="btn botonAgregar">Agregar categoría</button></a>
             <a href="agregarProducto.php" class="menu-categorias"><button class="btn botonAgregar">Agregar producto</button></a>
@@ -55,13 +58,15 @@ require_once('procedimientos/busquedaMenu.php');
 
         <div class="categorias-container-productos">
             <div id="todos-section" class="menu-section active-section">
+                <!-- Muestra los productos agrupados por categoría -->
                 <?php foreach ($categorias as $categoria): ?>
                     <a name="<?php echo $categoria->getNombre(); ?>"></a>
                     <h2><?php echo $categoria->getNombre(); ?></h2>
                     <div class="menu-items">
+                        <!-- Muestra los productos de la categoría usando el método mostrarProductoEditable de CrudProductos -->
                         <?php foreach ($todosLosProductos as $producto): ?>
                             <?php if ($producto->getIdCategoria() == $categoria->getIdCategoria()): ?>
-                                <?php $crudProductos->mostrarProductoEditable($producto); ?>
+                                <?php $crudProductos->mostrarProductoEditable($producto); // Este método muestra el producto con opciones de editar/eliminar ?>
                             <?php endif; ?>
                         <?php endforeach; ?>
                     </div>
@@ -69,7 +74,6 @@ require_once('procedimientos/busquedaMenu.php');
             </div>
         </div>
     </div>
-
     <script src="../js/menuOpciones.js"></script>
     <script src="../js/menu.js" defer></script>
 </body>

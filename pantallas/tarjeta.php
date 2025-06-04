@@ -7,12 +7,14 @@ if (!isset($_SESSION['idEmpleado'])) {
     exit();
 }
 
+// Se obtiene el puesto del usuario desde la sesión
 $usuarioPuesto = $_SESSION['puesto'];
 require_once('procedimientos/conexion.php');
 require_once('procedimientos/crudPagos.php');
 require_once('procedimientos/clasePago.php');
 require_once('procedimientos/crudPedidos.php');
 
+// Se inicializan las variables necesarias y se obtienen los datos del pedido meinte GET
 $idPedido = $_GET['idPedido'] ?? null;
 $productos_subtotal = floatval($_GET['subtotal'] ?? 0.00);
 $propina_monto = floatval($_GET['propina_monto'] ?? 0.00);
@@ -28,24 +30,27 @@ if (!$idPedido) {
     exit();
 }
 
+// Si el formulario fue enviado (POST), procesa el pago
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $crudPago = new CrudPago();
     $crudPedidos = new CrudPedidos();
     
+    // Crea el objeto Pago y lo llena con los datos del formulario y sesión
     $pago = new Pago();
     $pago->setIdPedido($idPedido);
     $pago->setIdEmpleado($_SESSION['idEmpleado']);
     $pago->setMetodoPago($metodoPago);
     $pago->setMontoPagado($total_a_pagar);
     
+    // Intenta registrar el pago
     if ($crudPago->insertarPago($pago)) {
-        // Mover a historial y eliminar pedido activo
+        // Si el pago se registra, mueve el pedido al historial
         if ($crudPedidos->moverPedidoAHistorialNuevo( 
             $idPedido, 
             $metodoPago, 
             $total_a_pagar
         )) {
-            // Eliminar pedido activo
+            // Elimina el pedido activo después de moverlo al historial
             if ($crudPedidos->eliminarPedidoCompletoNuevo($idPedido)) {
                 header('Location: inicio.php');
                 exit();
@@ -62,7 +67,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         error_log("Error al registrar pago en tarjeta.php: " . $idPedido);
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -75,6 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <div class="header">
         <div class="logo-title">
+            <!-- Botón para volver al inicio -->
             <a href="inicio.php"><img src="../img/general/hogar.png" alt="Home" height="30px"></a>
             <div class="title">DATOS DE LA TARJETA</div>
         </div>
@@ -98,6 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <div class="container-tarjeta">
         <div class="left-column-tarjeta">
+            <!-- Formulario para ingresar los datos de la tarjeta -->
             <form id="cardForm" class="card-form" method="POST">
                 <input type="hidden" name="idPedido" value="<?php echo $idPedido; ?>">
                 <input type="hidden" name="subtotal" value="<?php echo $productos_subtotal; ?>">
@@ -131,6 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                 </div>
 
+                <!-- Muestra mensaje de error si ocurre algún problema en el proceso -->
                 <?php if (isset($error)): ?>
                     <div class="error-message">
                         <?php echo $error; ?>
@@ -138,7 +145,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php endif; ?>
 
                 <div class="buttons-container-tarjeta">
+                    <!-- Botón para volver a la pantalla de pago -->
                     <button type="button" class="btn-volver" onclick="window.location.href='pago.php?idPedido=<?php echo $idPedido; ?>&propina=<?php echo $aplicarPropina; ?>&metodoPago=<?php echo $metodoPago; ?>'">VOLVER</button>
+                    <!-- Botón para registrar el pago -->
                     <button type="submit" class="btn-registrar" name="accion" value="registrar_pago">REGISTRAR PAGO</button>
                 </div>
             </form>

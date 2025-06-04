@@ -1,19 +1,21 @@
 <?php
-session_start();
+session_start(); 
+
 if (!isset($_SESSION['idEmpleado'])) {
     header('Location: index.php');
     exit();
 }
 
+// Obtiene el puesto del usuario para mostrar el menú adecuado
 $usuarioPuesto = $_SESSION['puesto'];
 
 require_once('procedimientos/conexion.php'); 
 require_once('procedimientos/cargarCarrito.php'); 
 
-// Mostrar mensaje de error si existe
+// Mostrar mensaje de error si existe en la sesión (por ejemplo, error al guardar pedido)
 if (isset($_SESSION['mensaje_error'])) {
     echo '<script>alert("' . $_SESSION['mensaje_error'] . '"); </script>';
-    unset($_SESSION['mensaje_error']); // Limpiar el mensaje después de mostrarlo
+    unset($_SESSION['mensaje_error']); 
 }
 ?>
 
@@ -31,6 +33,7 @@ if (isset($_SESSION['mensaje_error'])) {
             <div class="title">GENERAR PEDIDO:</div>
         </div>
         <div class="menu-container">
+            <!-- Solo muestra el menú si el usuario es Gerente -->
             <?php if ($usuarioPuesto == 'Gerente'): ?>
                 <button id="toggleMenu">
                     <img src="../img/general/menuOpciones.png" alt="Opciones" height="30px">
@@ -56,6 +59,7 @@ if (isset($_SESSION['mensaje_error'])) {
             <form action="procedimientos/adminCarrito.php" method="post" style="display: inline-block;">
                 <select class="clienteSeleccion" id="clienteSeleccion" name="idCliente" required>
                     <option value="">selecciona un cliente</option>
+                    <!-- Se recorre la lista de clientes disponibles creada tras la consulta -->
                     <?php if (!empty($listaClientes)): ?>
                         <?php foreach ($listaClientes as $cliente): ?>
                             <option value="<?php echo $cliente->getIdCliente(); ?>"
@@ -79,6 +83,7 @@ if (isset($_SESSION['mensaje_error'])) {
         <div class="clienteSeleccionado"><strong>Mesero: </strong> <?php echo $nombreEmpleado . ' ' . $apellidoEmpleado; ?></div>
         <p class="clienteSeleccionado"><strong>Cliente Seleccionado: </strong><?php echo $clienteNombreParaMostrar; ?></p>
         <hr class="linea">
+        <!-- Si el carrito tiene productos, los muestra -->
         <?php if (!empty($_SESSION['carrito'])): ?>
             <div class="carrito-items-container">
                 <?php
@@ -90,7 +95,6 @@ if (isset($_SESSION['mensaje_error'])) {
                     $subtotalProducto = $precio * $cantidad;
                     $totalCarrito += $subtotalProducto;
                 ?>
-
                     <div class="carrito-item">
                         <div class="item-contenedor-izq">
                             <div class="item-info">
@@ -104,16 +108,19 @@ if (isset($_SESSION['mensaje_error'])) {
                             <span class="item-subtotal">Subtotal: $<?php echo number_format($subtotalProducto, 2); ?></span>
 
                             <div class="item-botones">
+                                <!-- Botón para restar cantidad -->
                                 <form action="procedimientos/adminCarrito.php" method="post" style="display: inline-block;">
                                     <input type="hidden" name="accionCarrito" value="restar">
                                     <input type="hidden" name="idProducto" value="<?php echo $item['id']; ?>">
                                     <button type="submit" class="btn">-</button>
                                 </form>
+                                <!-- Botón para sumar cantidad -->
                                 <form action="procedimientos/adminCarrito.php" method="post" style="display: inline-block;">
                                     <input type="hidden" name="accionCarrito" value="sumar">
                                     <input type="hidden" name="idProducto" value="<?php echo $item['id']; ?>">
                                     <button type="submit" class="btn">+</button>
                                 </form>
+                                <!-- Botón para eliminar producto del carrito -->
                                 <form action="procedimientos/adminCarrito.php" method="post" style="display: inline-block;">
                                     <input type="hidden" name="accionCarrito" value="borrar">
                                     <input type="hidden" name="idProducto" value="<?php echo $item['id']; ?>">
@@ -125,8 +132,10 @@ if (isset($_SESSION['mensaje_error'])) {
                 <?php endforeach; ?>
             </div>
             <hr class="linea">
+            <!-- Resumen del carrito y acciones finales -->
             <div class="carrito-resumen">
                 <p class="totalPedido"><strong>Total del pedido: </strong> $<?php echo number_format($totalCarrito, 2); ?></p>
+                <!-- Botón para guardar el pedido -->
                 <form action="procedimientos/adminCarrito.php" method="post" style="display: inline-block;">
                     <input type="hidden" name="accionCarrito" value="guardar_pedido">
                     <input type="hidden" name="idCliente" value="<?php echo $clienteIdActual; ?>">
@@ -144,6 +153,7 @@ if (isset($_SESSION['mensaje_error'])) {
                 <a href="menu.php"><button class="btn">Añadir producto</button></a>
             </div>
         <?php else: ?>
+            <!-- Si el carrito está vacío, muestra mensaje y botón para añadir productos -->
             <p class="carrito-vacio">Tu pedido está vacío.<a href="menu.php"><button class="btn">Añadir producto</button></a></p>
         <?php endif; ?>
     </div>
