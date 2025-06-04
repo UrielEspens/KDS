@@ -1,11 +1,9 @@
 <?php
 // procedimientos/procesarAgregarProducto.php
 
-require_once 'conexion.php';
-require_once 'claseProducto.php';
-require_once 'crudProductos.php';
-
-// Iniciar sesión para gestionar mensajes de éxito o error
+require_once 'conexion.php';        
+require_once 'claseProducto.php';   
+require_once 'crudProductos.php';  
 session_start();
 
 // Verificar que la solicitud sea de tipo POST (es decir, que venga de un formulario)
@@ -13,9 +11,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre = $_POST['nombre'];
     $descripcion = $_POST['descripcion'];
     
+    // Validar y filtrar el precio y la categoría
     $precio = filter_var($_POST['precio'] ?? '', FILTER_VALIDATE_FLOAT); 
     $idCategoria = filter_var($_POST['idCategoria'] ?? '', FILTER_VALIDATE_INT); 
 
+    // Guardar los datos del formulario en la sesión para repoblar el formulario si hay error
     $_SESSION['form_data'] = [
         'nombre' => $nombre,
         'descripcion' => $descripcion,
@@ -23,11 +23,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'idCategoria' => $_POST['idCategoria'] ?? ''
     ];
 
+    // Validar el precio
     if ($precio === false || $precio < 0) {
         $_SESSION['mensaje_error'] = "El **precio unitario** debe ser un número válido y positivo.";
         header('Location: ../agregarProducto.php');
         exit();
     }
+
     $imagenBlob = null; // Inicializamos la imagen como nula por defecto
 
     // Verificar si se subió un archivo de imagen y no hubo errores en la subida
@@ -55,32 +57,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit();
         }
 
+        // Obtener el contenido binario de la imagen
         $imagenBlob = file_get_contents($fileTmpPath);
 
     }
 
+    // Crear un nuevo objeto producto y asignar los valores
     $nuevoProducto = new InfoProducto(); 
     $nuevoProducto->setNombre($nombre);
     $nuevoProducto->setDescripcion($descripcion);
     $nuevoProducto->setPrecio($precio);
     $nuevoProducto->setIdCategoria($idCategoria);
     $nuevoProducto->setImagen($imagenBlob);
-
-    // Instanciar la clase CrudProductos
     $crudProductos = new CrudProductos();
 
     // Intentar agregar el producto a la base de datos
     if ($crudProductos->agregarProducto($nuevoProducto)) {
         $_SESSION['mensaje_exito'] = "Producto agregado correctamente.";
-        unset($_SESSION['form_data']); 
+        unset($_SESSION['form_data']); // Limpiar los datos del formulario de la sesión
     } else {
         $_SESSION['mensaje_error'] = "Ocurrió un error al agregar el producto.";
     }
-
     header('Location: ../modificarMenu.php');
     exit();
 
 } else {
+    // Si se intenta acceder directamente, mostrar error y redirigir
     $_SESSION['mensaje_error'] = "Acceso no permitido directamente.";
     header('Location: ../agregarProducto.php');
     exit();

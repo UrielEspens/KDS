@@ -29,6 +29,7 @@
             <img src="../img/general/puntos.png" alt="puntos" height="30px">
         </div>
         <div class="container2">
+            <!-- Formulario para el registro de empleados-->
             <form action="../pantallas/procedimientos/admin_Usuario.php" method="POST" enctype="multipart/form-data">
                     <div>
                         <label for="nombreUsuario" class = "labelTittle">Nombre usuario:</label><br>

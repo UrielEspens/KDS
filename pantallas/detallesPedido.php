@@ -18,10 +18,10 @@ $idPedido = null;
 if (isset($_GET['idPedido']) && is_numeric($_GET['idPedido'])) {
     $idPedido = $_GET['idPedido']; 
 
-    // Obtener los detalles del pedido DE LA BASE DE DATOS
-    // El método mostrarDetalles ahora devuelve un objeto DetallesPedido (o null/false)
+    // Obtener los detalles del pedido de la base de datos
     $pedido = $crud->mostrarDetalles($idPedido);
     
+    // Obtiene los productos asociados al pedido
     $productosDelPedido = $crud->obtenerProductosDePedido($idPedido);
     $pedido->setArticulos($productosDelPedido);
 
@@ -35,6 +35,7 @@ if (isset($_GET['idPedido']) && is_numeric($_GET['idPedido'])) {
     echo "<p>ID de pedido no proporcionado o inválido.</p>";
 }
 
+// Obtiene el puesto del usuario para mostrar u ocultar botones según permisos
 $usuarioPuesto = $_SESSION['puesto'];
 
 ?>
@@ -72,24 +73,29 @@ $usuarioPuesto = $_SESSION['puesto'];
     <div class="fondoDifuminado" id="fondoDifuminado">
         <div id="contenedorDetallesPedido">
             <?php if ($pedido): ?>
+                <!-- Encabezado con el estado y la hora del pedido -->
                 <div class="detalles-header header-<?php echo strtolower($pedido->getEstado()); ?>" id="estado-header">
                     <h3 id="pedido-estado-detalle"><?php echo strtoupper($pedido->getEstado()); ?></h3>
                     <div id="pedido-hora-detalle"><?php echo (new DateTime($pedido->getHoraCreacion()))->format('H:i'); ?></div>
                 </div>
 
+                <!-- Información general del pedido -->
                 <div class="info-pedido">
                     <p><strong id="pedido-numero-detalle">No. Pedido: </strong><?php echo $pedido->getIdPedido(); ?></p>
                     <p><strong id="pedido-cliente-detalle">Cliente: </strong><?php echo $pedido->getNombreCliente() . ' ' . $pedido->getApellidoCliente(); ?></p>
                     <p><strong id="pedido-mesero-detalle">Mesero: </strong><?php echo $pedido->getNombreEmpleado() . ' ' . $pedido->getApellidoEmpleado(); ?></p>
                 </div>
 
+                <!-- Listado de artículos y subtotales -->
                 <div class="lista-articulos">
                     <div class="lista-articulos-nombres" id="lista-articulos-nombres">
                         <?php
+                        // Inicializa variables para mostrar los artículos y subtotales
                         $listaArticulosTexto = "";
                         $listaSubtotalTexto = ""; 
                         $totalCalculadoEnBucle = 0.00;
 
+                        // Recorre los artículos del pedido y calcula totales
                         if (is_array($pedido->getArticulos()) && !empty($pedido->getArticulos())) {
                             foreach ($pedido->getArticulos() as $articuloObjeto) {
                                 $cantidad = $articuloObjeto->getCantidadProducto();
@@ -112,6 +118,7 @@ $usuarioPuesto = $_SESSION['puesto'];
 
                     <div class="lista-articulos-subtotales" id="lista-articulos-subtotales">
                         <?php
+                        // Muestra los subtotales de cada artículo
                         echo $listaSubtotalTexto;
                         ?>
                     </div>
@@ -121,17 +128,20 @@ $usuarioPuesto = $_SESSION['puesto'];
                     $pedido->setTotal($totalCalculadoEnBucle);
                 ?>
 
+                <!-- Muestra el total del pedido -->
                 <div class="total-pedido" id="total-pedido-detalle">Total: $<?php echo (number_format($pedido->getTotal(), 2)); ?></div>
 
+                <!-- Botones de acción: volver y eliminar (solo si no es cajero) -->
                 <div class="botones-accion">
                     <a href="inicio.php"><button id="cerrarDetalles" class="boton-volver">VOLVER</button></a>
                     <div class="botones-iconos">
-                        <!-- >
+                        <!--
                         <button class="editarDetalles">
                             <img src="../img/inicio/lapiz.png" alt="Editar" width="24px">
                         </button> 
                         -->
                         <?php if ($usuarioPuesto != 'Cajero'): ?>
+                        <!-- Botón para eliminar el pedido, solo si el usuario no es cajero -->
                         <a href="confirmarEliminarPedido.php?idPedido=<?php echo $idPedido; ?>&total=<?php echo number_format($pedido->getTotal(), 2); ?>">
                             <button class="eliminarDetalles">
                                 <img src="../img/inicio/basurero.png" alt="Eliminar" width="24px">

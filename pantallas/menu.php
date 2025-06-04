@@ -5,12 +5,14 @@ if (!isset($_SESSION['idEmpleado'])) {
     exit();
 }
 
+// Obtiene el puesto del usuario para mostrar el menú adecuado
 $usuarioPuesto = $_SESSION['puesto'];
-require_once('procedimientos/conexion.php');
-require_once('procedimientos/busquedaMenu.php');
-require_once('procedimientos/cargarCarrito.php');
-?>
 
+require_once('procedimientos/conexion.php');         
+require_once('procedimientos/busquedaMenu.php');     
+require_once('procedimientos/cargarCarrito.php');    
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,7 +27,9 @@ require_once('procedimientos/cargarCarrito.php');
             <div class="title">MENÚ</div>
         </div>
         <div class="menu-container">
+            <!-- Acceso directo al carrito de pedidos -->
             <a href="carrito.php" id="carrito"><img src="../img/menu/carritoPedido.png" alt="Opciones" height="30px"></a>
+            <!-- Menú de opciones solo para Gerente -->
             <?php if ($usuarioPuesto == 'Gerente'): ?>
                 <button id="toggleMenu">
                     <img src="../img/general/menuOpciones.png" alt="Opciones" height="30px">
@@ -46,11 +50,14 @@ require_once('procedimientos/cargarCarrito.php');
     <div class="menu-body">
         <div class="menu-options">
             <div class="menu-search-container">
-                <form action="menu.php" method="get"> <input type="text" name="buscar" placeholder="Buscar productos" value="">
+                <!-- Formulario de búsqueda de productos -->
+                <form action="menu.php" method="get">
+                    <input type="text" name="buscar" placeholder="Buscar productos" value="">
                     <button class="btn" type="submit" value="inicio">Buscar</button>
                 </form>
             </div>
             <div class="categorias-container">
+                <!-- Botones de categorías para filtrar productos -->
                 <?php if (!$mostrarResultadosBusqueda): ?>
                     <?php foreach ($categorias as $categoria): ?>
                         <a href="#<?php echo $categoria->getNombre(); ?>"> 
@@ -60,6 +67,7 @@ require_once('procedimientos/cargarCarrito.php');
                         </a>
                     <?php endforeach; ?>
                 <?php else: ?>
+                    <!-- Si hay búsqueda, muestra botón para volver a todos -->
                     <a href="menu.php" class="btn botonCategoria"><button>Todos</button></a>
                 <?php endif; ?>
             </div>
@@ -67,10 +75,12 @@ require_once('procedimientos/cargarCarrito.php');
 
         <div class="categorias-container-productos">
             <?php if ($mostrarResultadosBusqueda): ?>
+                <!-- Sección de resultados de búsqueda -->
                 <div id="resultados-busqueda-section" class="menu-section active-section">
                     <h2>Resultados de Búsqueda para "<?php echo ($textoBusqueda); ?>"</h2>
                     <div class="menu-items">
                         <?php if (!empty($resultadosBusqueda)): ?>
+                            <!-- Muestra los productos encontrados usando el método mostrarProducto de CrudProductos -->
                             <?php foreach ($resultadosBusqueda as $producto): ?>
                                 <?php $crudProductos->mostrarProducto($producto); ?>
                             <?php endforeach; ?>
@@ -80,11 +90,13 @@ require_once('procedimientos/cargarCarrito.php');
                     </div>
                 </div>
             <?php else: ?>
+                <!-- Sección de productos agrupados por categoría -->
                 <div id="todos-section" class="menu-section active-section">
                     <?php foreach ($categorias as $categoria): ?>
                         <a name="<?php echo $categoria->getNombre(); ?>"></a>
                         <h2><?php echo $categoria->getNombre(); ?></h2>
                         <div class="menu-items">
+                            <!-- Muestra los productos de la categoría usando el método mostrarProducto de CrudProductos -->
                             <?php foreach ($todosLosProductos as $producto): ?>
                                 <?php if ($producto->getIdCategoria() == $categoria->getIdCategoria()): ?>
                                     <?php $crudProductos->mostrarProducto($producto); ?>
@@ -93,7 +105,6 @@ require_once('procedimientos/cargarCarrito.php');
                         </div>
                     <?php endforeach; ?>
                 </div>
-
             <?php endif; ?>
         </div>
     </div>

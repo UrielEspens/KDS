@@ -26,6 +26,7 @@
     </div>
 
     <div class="form-container">
+        <!-- Se despliega el formulario con los campos para registrar un nuevo cliente -->
         <form action="../pantallas/procedimientos/admin_Cliente.php" method="POST">
             <div class="form-row">
                 <div class="form-col">

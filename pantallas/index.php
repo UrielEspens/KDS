@@ -22,7 +22,7 @@
             <p class="error"><?php echo $_GET['error']; ?></p>
         <?php endif; ?>
         <hr>
-
+        <!-- Formulario de inicio de sesión -->
         <form action="procedimientos/iniciarSesion.php" method="post">
 
             <label for="usuario" class = "labelTittle" ><strong>Usuario:</strong></label><br>

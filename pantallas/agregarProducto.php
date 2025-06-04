@@ -1,14 +1,12 @@
 <?php
-require_once 'procedimientos/conexion.php';
-require_once 'procedimientos/claseCategoria.php';
-require_once 'procedimientos/crudProductos.php';
-
-// Iniciar sesión para gestionar los mensajes de éxito o error
+require_once 'procedimientos/conexion.php';         
+require_once 'procedimientos/claseCategoria.php';   
+require_once 'procedimientos/crudProductos.php';     
 session_start();
 
 // Instanciar CrudProductos para obtener la lista de categorías
 $crudProductos = new CrudProductos();
-$categorias = $crudProductos->obtenerCategorias();
+$categorias = $crudProductos->obtenerCategorias(); 
 
 // Inicializar variables para mensajes y datos pre-rellenados del formulario
 $mensajeExito = '';
@@ -16,7 +14,7 @@ $mensajeError = '';
 
 // Verificar si hay mensajes en la sesión y borrarlos después de mostrarlos
 if (isset($_SESSION['mensaje_exito'])) {
-    $mensajeExito = $_SESSION['mensaje_exito'];
+    $mensajeExito = $_SESSION['mensaje_exito']; 
     unset($_SESSION['mensaje_exito']);
 }
 if (isset($_SESSION['mensaje_error'])) {
@@ -24,6 +22,7 @@ if (isset($_SESSION['mensaje_error'])) {
     unset($_SESSION['mensaje_error']);
 }
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,6 +52,7 @@ if (isset($_SESSION['mensaje_error'])) {
         </div>
     </div>
     <div class="form-container">
+        <!-- Mostrar mensaje de éxito  o error si existe -->
         <?php if (!empty($mensajeExito)): ?>
             <div class="mensaje-exito"><?php echo $mensajeExito; ?></div>
         <?php endif; ?>
@@ -60,6 +60,7 @@ if (isset($_SESSION['mensaje_error'])) {
             <div class="mensaje-error"><?php echo $mensajeError; ?></div>
         <?php endif; ?>
 
+        <!-- Formulario para agregar producto -->
         <form action="procedimientos/procesarAgregarProducto.php" method="POST" enctype="multipart/form-data">
             <div class="top-section">
                 <div class="info-column">
@@ -72,6 +73,7 @@ if (isset($_SESSION['mensaje_error'])) {
                         <div class="select-container">
                             <select id="categoria" name="idCategoria" required>
                                 <option value="">Seleccione una categoría</option>
+                                <!-- Recorre las lista de categorias para desplegarlas -->
                                 <?php if (!empty($categorias)): ?>
                                     <?php foreach ($categorias as $cat): ?>
                                         <option value="<?php echo $cat->getIdCategoria(); ?>"

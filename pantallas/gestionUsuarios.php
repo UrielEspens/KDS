@@ -11,16 +11,18 @@ if (!isset($_SESSION['idEmpleado'])) {
  $crud= new CrudUsuarios();
  $usuario= new Empleado();   
 
- //Creacion de la lista de usuarios a traves de la validacion del tipo de busqueda
- if (isset($_GET['busqueda']) && $_GET['busqueda'] != '') {
+// Creación de la lista de usuarios según el tipo de búsqueda:
+// - Si hay búsqueda por nombre/usuario, filtra por ese término
+// - Si hay filtro por puesto, muestra solo los de ese puesto
+// - Si no hay filtros, muestra todos los usuarios
+if (isset($_GET['busqueda']) && $_GET['busqueda'] != '') {
     $listaUsuarios = $crud->buscarUsuariosBusqueda($_GET['busqueda']);
-}else if(isset($_GET['puesto']) && $_GET['puesto'] != '') {
-        $listaUsuarios = $crud->buscarUsuariosPorPuesto($_GET['puesto']);
-}else {
+} else if(isset($_GET['puesto']) && $_GET['puesto'] != '') {
+    $listaUsuarios = $crud->buscarUsuariosPorPuesto($_GET['puesto']);
+} else {
     $listaUsuarios = $crud->obtenerListaUsuarios();
- }
- 
- ?>
+}
+?>
 <html>
 <head>
     <title>GestionUsuarios</title>
@@ -39,7 +41,8 @@ if (!isset($_SESSION['idEmpleado'])) {
             </button>
             <div id="menu">
             <ul>
-            <li><a href="menu.php"><img src="../img/general/menuRestaurante.png" alt="menuComida" class="icono-menu">  Ver menú</a></li>
+                <!-- Menú de navegación principal -->
+                <li><a href="menu.php"><img src="../img/general/menuRestaurante.png" alt="menuComida" class="icono-menu">  Ver menú</a></li>
                 <li><a href="historialPedidos.php"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
                 <li><a href="configuracion.php"><img src="../img/general/configuracion.png" alt="configuracion" class="icono-menu"> Configuración</a></li>
             </ul>
@@ -49,38 +52,44 @@ if (!isset($_SESSION['idEmpleado'])) {
     </div>
     <div class = "container">
         <div class = "containerBusquedaP">
+            <!-- Formulario de búsqueda por nombre/usuario -->
             <form method="GET" action="gestionUsuarios.php" class="containerBusqueda">
                 <img src="../img/general/lupa.png" alt="busquedaLupa" height="20px" width="20px">
                 <input type="text" name="busqueda" placeholder="Buscar usuario">
                 <button type="submit" class="buttonConfiguracion">Buscar</button>
             </form>
+            <!-- Formulario de filtro por puesto (Chef, Mesero, Gerente, Cajero) -->
             <form method="GET" action="gestionUsuarios.php" class="containerBusqueda">
                 <button type="submit" class="buttonConfiguracion" name="puesto" value="chef">Chef</button>
                 <button type="submit" class="buttonConfiguracion" name="puesto" value="mesero">Mesero</button>
                 <button type="submit" class="buttonConfiguracion" name="puesto" value="gerente">Gerente</button>
                 <button type="submit" class="buttonConfiguracion" name="puesto" value="cajero">Cajero</button>
             </form>
+            <!-- Botón para agregar un nuevo usuario -->
             <div class="containerBusqueda">
                 <a href="agregarUsuario.php"><button class="buttonConfiguracion">AGREGAR</button></a>
             </div>
         </div>
         <div class = "containerPerfiles">
+            <!--Se muestra y recorre la lista de los empleados -->
             <?php foreach ($listaUsuarios as $usuario){ ?>
                 <div class="containerInfo">
+                    <!-- Muestra la imagen del usuario (BLOB convertido a base64) -->
                     <img src="data:image/jpeg;base64,<?php echo base64_encode($usuario->getImagen()); ?>" alt="usuario" height="40px" width="40px" class="iconoPerfil">
                     <div class="infoPerfil">
                         <div class="labelTittle"><?php echo $usuario->getUsuario(); ?></div>
                         <div class="labelConfiguracion"><?php echo $usuario->getPuesto(); ?></div>
                     </div>
                     <div class="containerBotones">
+                        <!-- Botón para modificar usuario (usa modificarUsuario.php y CrudUsuarios) -->
                         <a href="../pantallas/modificarUsuario.php?idEmpleado=<?php echo $usuario->getIdEmpleado()?>&accion=actualizar"><img src="../img/inicio/lapiz.png" alt="actualizar" height="20"></a>
+                        <!-- Botón para eliminar usuario (usa eliminarUsuario.php y CrudUsuarios) -->
                         <a href="../pantallas/eliminarUsuario.php?idEmpleado=<?php echo $usuario->getIdEmpleado()?>&accion=eliminar"><img src="../img/inicio/basurero.png" alt="eliminar "height="20"></a>
                     </div>
                 </div>
                 <hr class="linea">
             <?php }?>
         </div>
-
     </div>
 </body>
 </html>

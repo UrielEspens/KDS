@@ -69,6 +69,7 @@ if (isset($_SESSION['mensaje_error'])) {
                         <label for="idCategoria">Categoría a Eliminar</label>
                         <select id="categoria" name="idCategoria" required>
                                 <option value="">Seleccione una categoría</option>
+                                <!-- Recoore y muestra la lista de las categrias-->
                                 <?php if (!empty($categorias)): ?>
                                     <?php foreach ($categorias as $cat): ?>
                                         <option value="<?php echo $cat->getIdCategoria(); ?>"

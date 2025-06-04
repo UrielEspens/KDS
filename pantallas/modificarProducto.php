@@ -11,29 +11,34 @@ require_once('procedimientos/crudProductos.php');
 
 $crudProductos = new CrudProductos();
 
+// Obtiene el ID del producto a modificar desde la URL
 $idProducto = $_GET['idProducto'] ?? null;
 
+// Valida el ID del producto
 if ($idProducto === null || !is_numeric($idProducto)) {
     $_SESSION['mensaje_error'] = "ID de producto no válido o no especificado.";
     header('Location: modificarMenu.php');
     exit();
 }
 
+// Obtiene el producto a modificar
 $producto = $crudProductos->obtenerProductoPorId($idProducto);
 
+// Si el producto no existe, redirige con mensaje de error
 if ($producto === null) {
     $_SESSION['mensaje_error'] = "El producto solicitado no existe.";
     header('Location: modificarMenu.php');
     exit();
 }
 
+// Obtiene la lista de categorías para el select
 $categorias = $crudProductos->obtenerCategorias();
 
-// Recuperar mensajes de sesión si existen
+// Recupera mensajes de sesión si existen y los limpia después de mostrar
 $mensajeError = $_SESSION['mensaje_error'] ?? '';
 $mensajeExito = $_SESSION['mensaje_exito'] ?? '';
-unset($_SESSION['mensaje_error']); // Limpiar mensaje después de mostrar
-unset($_SESSION['mensaje_exito']); // Limpiar mensaje después de mostrar
+unset($_SESSION['mensaje_error']); 
+unset($_SESSION['mensaje_exito']); 
 
 ?>
 
@@ -47,6 +52,7 @@ unset($_SESSION['mensaje_exito']); // Limpiar mensaje después de mostrar
 <body>
     <div class="header">
         <div class="logo-title">
+            <!-- Botón para volver al inicio -->
             <a href="inicio.php"><img src="../img/general/hogar.png" alt="Home" height="30px"></a>
             <div class="title">MODIFICAR PRODUCTO</div>
         </div>
@@ -56,6 +62,7 @@ unset($_SESSION['mensaje_exito']); // Limpiar mensaje después de mostrar
             </button>
             <div id="menu">
                 <ul>
+                    <!-- Menú de navegación principal -->
                     <li><a href="menu.php"><img src="../img/general/menuRestaurante.png" alt="menuComida" class="icono-menu"> Ver menú</a></li>
                     <hr>
                     <li><a href="historialPedidos.php"><img src="../img/general/historialPedidos.png" alt="historialPedidos" class="icono-menu"> Historial de pedidos</a></li>
@@ -66,6 +73,7 @@ unset($_SESSION['mensaje_exito']); // Limpiar mensaje después de mostrar
         </div>
     </div>
     <div class="form-container">
+        <!-- Muestra mensajes de error o éxito si existen -->
         <?php if (!empty($mensajeError)): ?>
             <p class="mensaje-error"><?php echo $mensajeError; ?></p>
         <?php endif; ?>
@@ -73,7 +81,9 @@ unset($_SESSION['mensaje_exito']); // Limpiar mensaje después de mostrar
             <p class="mensaje-exito"><?php echo $mensajeExito; ?></p>
         <?php endif; ?>
 
+        <!-- Formulario para modificar el producto -->
         <form action="procedimientos/actualizarProducto.php" method="POST" enctype="multipart/form-data">
+            <!-- ID y acción ocultos -->
             <input type="hidden" name="idProducto" value="<?php echo $producto->getIdProducto(); ?>">
             <input type="hidden" name="accion" value="actualizar">
 
@@ -87,6 +97,7 @@ unset($_SESSION['mensaje_exito']); // Limpiar mensaje después de mostrar
                         <label for="categoria">Categoría</label>
                         <div class="select-container">
                             <select id="categoria" name="categoria" required>
+                                <!--Verifica que la lista de categorias tenga algun elemento yh la recorre para mostrarla-->
                                 <?php if (!empty($categorias)): ?>
                                     <?php foreach ($categorias as $cat): ?>
                                         <option value="<?php echo $cat->getIdCategoria(); ?>"
@@ -106,12 +117,12 @@ unset($_SESSION['mensaje_exito']); // Limpiar mensaje después de mostrar
                         <label for="imagen">Imagen Actual</label>
                         <div class="image-upload-container">
                             <div class="image-upload">
+                                <!-- Muestra la imagen actual del producto (BLOB convertido a base64) -->
                                 <img id="preview-image" src="data:image/webp;base64, <?php echo base64_encode($producto->getImagen()); ?>" alt="Imagen <?php echo htmlspecialchars($producto->getNombre()); ?>">
-    
                             </div>
                         </div>
-                        
                         <div class="form-item">
+                            <!-- Input para subir una nueva imagen (opcional) -->
                             <input class="iconoDeSubirImagen" type="file" name="imagen_nueva" id="imagen_nueva" accept="image/jpeg, image/png, image/gif, image/webp">
                         </div>
                     </div>

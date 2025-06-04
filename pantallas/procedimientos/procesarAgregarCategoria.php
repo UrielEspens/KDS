@@ -12,6 +12,7 @@ $nombreCategoria = $_POST['nombre'];
 $crudProductos = new CrudProductos(); 
 $exito = $crudProductos->insertarNuevaCategoria($nombreCategoria);
 
+// Si la inserción fue exitosa, guardar mensaje de éxito en la sesión
 if ($exito) {
     $_SESSION['mensaje_exito'] = 'Categoría "' . $nombreCategoria . '" agregada con éxito.';
 } else {

@@ -17,11 +17,9 @@ if (!isset($_GET['idProducto']) || !is_numeric($_GET['idProducto'])) {
     header('Location: modificarMenu.php'); 
     exit();
 }
-
+//se obtiene el id del producto a eliminar y se crea una instancia de CrudProductos para obtener el producto
 $idProducto = $_GET['idProducto'];
-
 $crudProductos = new CrudProductos();
-
 $producto = $crudProductos->obtenerProductoPorId($idProducto);
 
 
@@ -44,7 +42,7 @@ foreach ($categorias as $categoria) {
     }
 }
 
-// Mensajes de sesión
+// Mensajes de sesión en caso de exito o error
 $mensajeExito = '';
 $mensajeError = '';
 
