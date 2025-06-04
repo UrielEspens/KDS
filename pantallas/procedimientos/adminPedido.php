@@ -47,14 +47,6 @@ if ($accion === 'eliminar_pedido' && $idPedido !== null) {
     // Validar y sanear el ID
     $idPedido = (int)$idPedido;
 
-    // Lógica para eliminar el pedido
-    // Esto implicaría:
-    // 1. Eliminar los artículos asociados a ese pedido en la tabla de detalle (si existe)
-    // 2. Eliminar el pedido de la tabla principal de pedidos
-    // ¡Asegúrate de que tu método delete de CrudPedidos maneje esto correctamente para evitar datos huérfanos!
-    
-    // Ejemplo de cómo podría ser en tu CrudPedidos:
-
     if ($crud->eliminarPedido($idPedido)) {
         // Redirigir a una página de éxito o al historial de pedidos
         header('Location: ../inicio.php?status=pedido_eliminado');

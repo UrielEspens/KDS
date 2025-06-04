@@ -94,16 +94,16 @@ if ($metodoPagoSeleccionado === 'Tarjeta de Credito' || $metodoPagoSeleccionado 
     <div class="container">
         <div class="left-column">
             <div class="pedido-info">
-                <h2>No. Pedido: <?php echo htmlspecialchars($pedido->getIdPedido()); ?></h2>
-                <p><strong>Cliente:</strong> <?php echo htmlspecialchars($pedido->getNombreCliente() . ' ' . $pedido->getApellidoCliente()); ?></p>
-                <p><strong>Mesero:</strong> <?php echo htmlspecialchars($pedido->getNombreEmpleado() . ' ' . $pedido->getApellidoEmpleado()); ?></p>
+                <h2>No. Pedido: <?php echo $pedido->getIdPedido(); ?></h2>
+                <p><strong>Cliente:</strong> <?php echo $pedido->getNombreCliente() . ' ' . $pedido->getApellidoCliente(); ?></p>
+                <p><strong>Mesero:</strong> <?php echo $pedido->getNombreEmpleado() . ' ' . $pedido->getApellidoEmpleado(); ?></p>
             </div>
 
             <div class="productos-list">
                 <?php foreach ($productosPedido as $producto): ?>
                     <div class="producto-item">
-                        <span class="producto-cantidad"><?php echo htmlspecialchars($producto->getCantidadProducto()); ?></span>
-                        <span class="producto-nombre"><?php echo htmlspecialchars($producto->getNombreProducto()); ?></span>
+                        <span class="producto-cantidad"><?php echo $producto->getCantidadProducto(); ?></span>
+                        <span class="producto-nombre"><?php echo $producto->getNombreProducto(); ?></span>
                         <span class="producto-linea"></span>
                         <span class="producto-precio">$<?php echo number_format($producto->getPrecioProducto() * $producto->getCantidadProducto(), 2); ?></span>
                     </div>
@@ -113,20 +113,20 @@ if ($metodoPagoSeleccionado === 'Tarjeta de Credito' || $metodoPagoSeleccionado 
             <div class="buttons-container">
                 <a href="inicio.php" class="btn-volver">VOLVER</a>
              
-                <form action="<?php echo htmlspecialchars($formAction); ?>" method="<?php echo htmlspecialchars($formMethod); ?>" style="flex: 1;">
-                    <input type="hidden" name="idPedido" value="<?php echo htmlspecialchars($idPedido); ?>">
-                    <input type="hidden" name="subtotal" value="<?php echo htmlspecialchars($subtotal); ?>">
-                    <input type="hidden" name="propinaToggle" value="<?php echo htmlspecialchars($aplicarPropina); ?>">
-                    <input type="hidden" name="metodoPago" value="<?php echo htmlspecialchars($metodoPagoSeleccionado); ?>">
+                <form action="<?php echo $formAction; ?>" method="<?php echo $formMethod; ?>" style="flex: 1;">
+                    <input type="hidden" name="idPedido" value="<?php echo $idPedido; ?>">
+                    <input type="hidden" name="subtotal" value="<?php echo $subtotal; ?>">
+                    <input type="hidden" name="propinaToggle" value="<?php echo $aplicarPropina; ?>">
+                    <input type="hidden" name="metodoPago" value="<?php echo $metodoPagoSeleccionado; ?>">
                     
                    
                     <?php if ($metodoPagoSeleccionado === 'Tarjeta de Credito' || $metodoPagoSeleccionado === 'Tarjeta de Debito'): ?>
-                        <input type="hidden" name="propina_monto" value="<?php echo htmlspecialchars($aplicarPropina == '1' ? $subtotal * 0.10 : 0); ?>">
-                        <input type="hidden" name="total_final" value="<?php echo htmlspecialchars($totalFinal); ?>">
-                        <input type="hidden" name="propina" value="<?php echo htmlspecialchars($aplicarPropina); ?>">
+                        <input type="hidden" name="propina_monto" value="<?php echo $aplicarPropina == '1' ? $subtotal * 0.10 : 0; ?>">
+                        <input type="hidden" name="total_final" value="<?php echo $totalFinal; ?>">
+                        <input type="hidden" name="propina" value="<?php echo $aplicarPropina; ?>">
                     <?php endif; ?>
 
-                    <button type="submit" name="accion" value="<?php echo ($metodoPagoSeleccionado === 'Tarjeta de Credito' || $metodoPagoSeleccionado === 'Tarjeta de Debito') ? 'continuar_tarjeta' : 'registrar_pago'; ?>"><?php echo htmlspecialchars($buttonText); ?></button>
+                    <button type="submit" name="accion" value="<?php echo ($metodoPagoSeleccionado === 'Tarjeta de Credito' || $metodoPagoSeleccionado === 'Tarjeta de Debito') ? 'continuar_tarjeta' : 'registrar_pago'; ?>"><?php echo $buttonText; ?></button>
                 </form>
             </div>
         </div>
@@ -142,8 +142,8 @@ if ($metodoPagoSeleccionado === 'Tarjeta de Credito' || $metodoPagoSeleccionado 
                 
                 <div class="propina-line">
                     <form method="GET" action="pago.php" class="propina-toggle-container">
-                        <input type="hidden" name="idPedido" value="<?php echo htmlspecialchars($idPedido); ?>">
-                        <input type="hidden" name="metodoPago" value="<?php echo htmlspecialchars($metodoPagoSeleccionado); ?>">
+                        <input type="hidden" name="idPedido" value="<?php echo $idPedido; ?>">
+                        <input type="hidden" name="metodoPago" value="<?php echo $metodoPagoSeleccionado; ?>">
                         <label for="propinaToggle">Propina</label>
                         <label class="switch">
                             <input type="checkbox" id="propinaToggle" name="propina" value="1" <?php echo ($aplicarPropina == '1') ? 'checked' : ''; ?> onchange="this.form.submit()">
@@ -161,8 +161,8 @@ if ($metodoPagoSeleccionado === 'Tarjeta de Credito' || $metodoPagoSeleccionado 
                 <div class="detalles-pago">
                     <h3>Detalles del pago</h3>
                     <form method="GET" action="pago.php" id="metodoPagoForm">
-                        <input type="hidden" name="idPedido" value="<?php echo htmlspecialchars($idPedido); ?>">
-                        <input type="hidden" name="propina" value="<?php echo htmlspecialchars($aplicarPropina); ?>">
+                        <input type="hidden" name="idPedido" value="<?php echo $idPedido; ?>">
+                        <input type="hidden" name="propina" value="<?php echo $aplicarPropina; ?>">
                         <div class="form-group">
                             <select id="metodoPago" name="metodoPago" required onchange="this.form.submit()">
                                 <option value="">Selecciona un método</option>

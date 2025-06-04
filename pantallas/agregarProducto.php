@@ -14,11 +14,11 @@ $categorias = $crudProductos->obtenerCategorias();
 $mensajeExito = '';
 $mensajeError = '';
 
+// Verificar si hay mensajes en la sesión y borrarlos después de mostrarlos
 if (isset($_SESSION['mensaje_exito'])) {
     $mensajeExito = $_SESSION['mensaje_exito'];
     unset($_SESSION['mensaje_exito']);
 }
-// Verificar si hay mensajes de error en la sesión y borrarlos después de mostrarlos
 if (isset($_SESSION['mensaje_error'])) {
     $mensajeError = $_SESSION['mensaje_error'];
     unset($_SESSION['mensaje_error']);

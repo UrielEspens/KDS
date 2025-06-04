@@ -25,7 +25,7 @@
 }
 
 .menu-search-container {
-    width: 40%; /* Barra de búsqueda más chica */
+    width: 40%;
     display: flex;
 }
 
@@ -156,7 +156,6 @@
     margin-left: auto;
 }
 
-/* Detalles de cada producto */
 .modal {
     display: none;
     position: fixed; 
@@ -171,10 +170,10 @@
 
 .modal-content {
     background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
+    margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
+    width: 80%;
     border-radius: 5px;
     position: relative;
 }

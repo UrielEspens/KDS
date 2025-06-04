@@ -1,14 +1,8 @@
 <?php
-// procedimientos/cargarCarrito.php
-
-// Asegúrate de que la sesión ya esté iniciada en carrito.php
-// session_start(); // Esto lo maneja carrito.php
-
-// Requiere los archivos de clases y CRUDs
 require_once('claseCliente.php');
 require_once('crudClientes.php');
 require_once('crudCarrito.php');
-require_once('crudProductos.php'); // Asegúrate de tener esta clase si la necesitas para cargar detalles de productos en el carrito
+require_once('crudProductos.php'); 
 
 // Instanciar los objetos CRUD
 $crudCarrito = new CrudCarrito();
@@ -24,8 +18,6 @@ $idEmpleado = $_SESSION['idEmpleado'] ?? null;
 
 // Validar que el idEmpleado exista
 if (is_null($idEmpleado)) {
-    // Esto ya debería estar manejado por carrito.php con el header('Location: index.php');
-    // Pero es una buena práctica añadir un mensaje de error si no se redirige
     error_log("ERROR: idEmpleado no está definido en la sesión en cargarCarrito.php");
     $_SESSION['mensaje_error'] = "No se pudo cargar la información del empleado. Por favor, inicie sesión nuevamente.";
     header('Location: ../index.php'); // Redirigir a inicio de sesión
@@ -85,7 +77,7 @@ $clienteNombreParaMostrar = $_SESSION['clienteSeleccionado_nombre'] ?? 'No hay c
 if (!empty($clienteIdActual) && empty($_SESSION['clienteSeleccionado_nombre']) && !empty($listaClientes)) {
     foreach ($listaClientes as $cliente) {
         if ((int)$cliente->getIdCliente() === (int)$clienteIdActual) {
-            $clienteNombreParaMostrar = htmlspecialchars($cliente->getNombre() . ' ' . $cliente->getPrimerApe() . ' ' . $cliente->getSegundoApe());
+            $clienteNombreParaMostrar = $cliente->getNombre() . ' ' . $cliente->getPrimerApe() . ' ' . $cliente->getSegundoApe();
             $_SESSION['clienteSeleccionado_nombre'] = $clienteNombreParaMostrar; // Guardar el nombre en sesión
             break;
         }

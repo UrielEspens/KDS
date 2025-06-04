@@ -80,7 +80,7 @@ $listaPedidos = $crud->mostrarPedidos();
                 </button>
                 </a>
                 <?php if ($usuarioPuesto == 'Gerente' || $usuarioPuesto == 'Cajero'): ?>
-                    <a href="pago.php?idPedido=<?php echo htmlspecialchars($pedido->getIdPedido()); ?>" class="botonCheck">
+                    <a href="pago.php?idPedido=<?php echo $pedido->getIdPedido(); ?>" class="botonCheck">
                         <img src="../img/inicio/controlar.png" alt="Listo" width="25px" height="27px">
                     </a>
                 <?php endif; ?>
@@ -103,7 +103,7 @@ $listaPedidos = $crud->mostrarPedidos();
                         <input type="hidden" name="idPedido" value="<?php echo $pedido->getIdPedido(); ?>">
                         <input type="hidden" name="estado" value="<?php echo $pedido->getEstado(); ?>">
                         <button type="submit" class="btn indicador-estado-chef estado-<?php echo strtolower($pedido->getEstado()); ?>">
-                            <p><?php echo htmlspecialchars($pedido->getEstado()); ?></p> </button>
+                            <p><?php echo $pedido->getEstado(); ?></p> </button>
                     </form>
 
                     <div class="order-details-chef"> <div class="order-header-chef">
@@ -117,8 +117,8 @@ $listaPedidos = $crud->mostrarPedidos();
                                 <ul>
                                     <?php foreach ($detallesPedido->getArticulos() as $articuloObjeto): ?>
                                         <li>
-                                            <span class="item-quantity"><?php echo htmlspecialchars($articuloObjeto->getCantidadProducto()); ?>x</span>
-                                            <span class="item-name"><?php echo htmlspecialchars($articuloObjeto->getNombreProducto()); ?></span>
+                                            <span class="item-quantity"><?php echo $articuloObjeto->getCantidadProducto(); ?>x</span>
+                                            <span class="item-name"><?php echo $articuloObjeto->getNombreProducto(); ?></span>
                                         </li>
                                     <?php endforeach; ?>
                                 </ul>

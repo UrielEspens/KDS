@@ -1,5 +1,9 @@
 <?php
 session_start();
+if (!isset($_SESSION['idEmpleado'])) {
+    header("location:../error/index.php");
+    exit;
+}
 
 require_once('procedimientos/crudPedidos.php');
 require_once('procedimientos/claseDetallesPedido.php');
@@ -23,7 +27,7 @@ if (isset($_GET['idPedido']) && is_numeric($_GET['idPedido'])) {
 
     // Verifica si se encontró el objeto DetallesPedido
     if (!$pedido) { // Si $pedido es null (no se encontró en DB)
-        echo "<p>El pedido con ID <strong>" . htmlspecialchars($idPedido) . "</strong> no fue encontrado.</p>";
+        echo "<p>El pedido con ID <strong>" . $idPedido . "</strong> no fue encontrado.</p>";
     }
 
 } else {

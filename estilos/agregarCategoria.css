@@ -16,35 +16,19 @@
 }
 
 .info-column {
-    /* Ajusta el width para que ocupe más espacio ya que la columna de imagen estará vacía */
-    width: 100%; /* Ocupa todo el ancho disponible en la top-section */
-    max-width: none; /* No hay un max-width estricto aquí */
+    width: 100%; 
+    max-width: none; 
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
 .image-column {
-    /* Esta columna estará vacía en "Agregar Categoría", la ocultamos o le damos un ancho muy pequeño */
-    flex: 0 0 0px; /* No ocupa espacio, no crece, no encoge */
-    width: 0px; /* Ancho cero */
-    overflow: hidden; /* Oculta cualquier contenido residual si lo hubiera */
-    visibility: hidden; /* También la hace invisible */
+    flex: 0 0 0px; 
+    width: 0px; 
+    overflow: hidden; 
+    visibility: hidden; 
 }
-
-/* Si en el futuro quieres que la image-column ocupe el espacio a la derecha,
-   incluso si está vacía, podrías volver a:
-.image-column {
-    flex: 1;
-    min-width: 250px; // O un min-width adecuado
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    // border: 1px dashed #ccc; // Para ver su espacio
-}
-*/
-
 
 .form-section {
     display: flex;
@@ -113,9 +97,6 @@ select {
     font-size: 12px;
 }
 
-/* Los siguientes estilos para imagen no se usarán directamente en agregarCategoria,
-   pero los mantengo porque son parte de tu CSS general y podrían ser útiles
-   si agregas campos de imagen a categorías en el futuro. */
 .image-upload-container {
     width: auto;
     max-height: 160px;
@@ -182,7 +163,6 @@ select {
     margin-bottom: 5px;
 }
 
-/* Estilos para el campo de precio (que no se usa en agregarCategoria, pero se mantiene la clase) */
 .price-input {
     position: relative;
     display: flex;

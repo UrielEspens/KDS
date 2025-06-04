@@ -59,12 +59,12 @@ if ($idOrden || $desdeFecha || $hastaFecha || ($tipoPago && $tipoPago !== 'todos
         <div class="filters-container">
             <div class="filter-group">
                 <label class="filter-label" for="desde-fecha">Desde</label>
-                <input type="date" class="date-input" id="desde-fecha" name="desdeFecha" value="<?php echo htmlspecialchars($desdeFecha); ?>">
+                <input type="date" class="date-input" id="desde-fecha" name="desdeFecha" value="<?php echo $desdeFecha; ?>">
             </div>
 
             <div class="filter-group">
                 <label class="filter-label" for="hasta-fecha">Hasta</label>
-                <input type="date" class="date-input" id="hasta-fecha" name="hastaFecha" value="<?php echo htmlspecialchars($hastaFecha); ?>">
+                <input type="date" class="date-input" id="hasta-fecha" name="hastaFecha" value="<?php echo $hastaFecha; ?>">
             </div>
 
             <div class="filter-group">
@@ -79,12 +79,12 @@ if ($idOrden || $desdeFecha || $hastaFecha || ($tipoPago && $tipoPago !== 'todos
 
             <div class="filter-group">
                 <label class="filter-label" for="id-orden">ID de orden</label>
-                <input type="text" class="order-id-input" id="id-orden" name="idOrden" placeholder="escriba el ID" value="<?php echo htmlspecialchars($idOrden); ?>">
+                <input type="text" class="order-id-input" id="id-orden" name="idOrden" placeholder="escriba el ID" value="<?php echo $idOrden; ?>">
             </div>
 
             <div class="filter-group">
                 <label class="filter-label" for="nombre-cliente">Cliente</label>
-                <input type="text" class="order-id-input" id="nombre-cliente" name="nombreCliente" placeholder="Nombre o Apellido" value="<?php echo htmlspecialchars($nombreClienteBusqueda); ?>">
+                <input type="text" class="order-id-input" id="nombre-cliente" name="nombreCliente" placeholder="Nombre o Apellido" value="<?php echo $nombreClienteBusqueda; ?>">
             </div>
 
 
@@ -111,11 +111,11 @@ if ($idOrden || $desdeFecha || $hastaFecha || ($tipoPago && $tipoPago !== 'todos
                 <?php if (!empty($listaPedidos)): ?>
                     <?php foreach ($listaPedidos as $pedido): ?>
                         <tr>
-                            <td><?php echo htmlspecialchars($pedido->getIdPedido()); ?></td>
-                            <td><?php echo htmlspecialchars($pedido->getFechaHora()); ?></td>
+                            <td><?php echo $pedido->getIdPedido(); ?></td>
+                            <td><?php echo $pedido->getFechaHora(); ?></td>
                             <td>$<?php echo number_format($pedido->getMontoTotal(), 2); ?></td>
-                            <td><?php echo htmlspecialchars($pedido->getTipoPago()); ?></td>
-                            <td><?php echo htmlspecialchars($pedido->getNombreCliente() . ' ' . $pedido->getApellidoCliente()); ?></td>
+                            <td><?php echo $pedido->getTipoPago(); ?></td>
+                            <td><?php echo $pedido->getNombreCliente() . ' ' . $pedido->getApellidoCliente(); ?></td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>

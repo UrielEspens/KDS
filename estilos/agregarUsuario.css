@@ -1,4 +1,4 @@
-body {  
+body {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -22,79 +22,72 @@ body {
 
 .container2 {
     display: flex;
-    flex-direction: column; /* O row, dependiendo de tu diseño */
-    gap: 15px; /* Espacio entre los elementos dentro de este contenedor */
-    /* margin-top: 20px; ya no es tan necesario con gap en .container */
+    flex-direction: column;
+    gap: 15px; 
 }
 
-/* Contenedor del Formulario */
 .containerForm {
     display: flex;
     flex-direction: column;
-    gap: 15px; /* Espacio entre los elementos del formulario */
+    gap: 15px; 
 }
 
-/* Contenedor del Perfil (si es para una sección de imagen/nombre) */
 .containerPerfil {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centra los elementos horizontalmente */
+    align-items: center; 
     gap: 15px;
-    padding-bottom: 20px; /* Espacio debajo de la sección de perfil */
-    border-bottom: 1px solid #eee; /* Una línea divisoria sutil */
-    margin-bottom: 20px; /* Espacio debajo de la línea divisoria */
+    padding-bottom: 20px; 
+    border-bottom: 1px solid #eee; 
+    margin-bottom: 20px; 
 }
 
-/* Botones de Acción (Registrar, Seleccionar, Guardar) */
-.btn, .btnRegistrar { /* Aplicamos estilos comunes a .btn y .btnRegistrar */
-    background-color: #007bff; /* Un azul primario atractivo */
-    color: #ffffff; /* Texto blanco */
+.btn, .btnRegistrar { 
+    background-color: #007bff; 
+    color: #ffffff; 
     padding: 10px 20px;
     text-align: center;
-    font-size: 16px; /* Tamaño de fuente legible */
-    font-weight: bold; /* Texto en negrita para destacar */
-    border: none; /* Quitamos el borde sólido */
-    border-radius: 5px; /* Esquinas redondeadas */
+    font-size: 16px; 
+    font-weight: bold; 
+    border: none; 
+    border-radius: 5px; 
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Transición suave al pasar el mouse */
-    text-decoration: none; /* Para los 'a' que se usan como botones */
-    display: inline-block; /* Para que los 'a' se comporten como botones */
-    width: auto; /* Ocupa solo el ancho necesario */
+    transition: background-color 0.3s ease, transform 0.2s ease; 
+    text-decoration: none; 
+    display: inline-block; 
+    width: auto; 
 }
 
 .btnRegistrar:hover,
 .btn:hover {
-    background-color: #0056b3; /* Color más oscuro al pasar el mouse */
-    transform: translateY(-2px); /* Un pequeño efecto de levantamiento */
+    background-color: #0056b3; 
+    transform: translateY(-2px); 
 }
 
-/* Input y Select */
-.input, select { /* Aplicamos estilos similares al input y al select */
-    background-color: #f8f9fa; /* Fondo ligeramente gris para los campos */
-    border: 1px solid #ced4da; /* Borde suave */
+.input, select { 
+    background-color: #f8f9fa; 
+    border: 1px solid #ced4da; 
     border-radius: 5px;
     padding: 10px 15px;
     font-size: 16px;
-    color: #495057; /* Color de texto oscuro para buena legibilidad */
-    width: 100%; /* Ocupa todo el ancho disponible del contenedor */
-    box-sizing: border-box; /* Incluye padding y border en el ancho total */
+    color: #495057; 
+    width: 100%; 
+    box-sizing: border-box; 
 }
 
 .input:focus, select:focus {
-    border-color: #80bdff; /* Borde azul al enfocar */
-    outline: none; /* Elimina el contorno predeterminado del navegador */
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Sombra suave al enfocar */
+    border-color: #80bdff; 
+    outline: none; 
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); 
 }
 
-/* Labels de Título */
 .labelTittle {
-    font-size: 18px; /* Un poco más grande para títulos */
+    font-size: 18px; 
     font-weight: bold;
-    color: #343a40; /* Un gris oscuro para el texto */
-    margin-bottom: 5px; /* Espacio debajo del label */
+    color: #343a40; 
+    margin-bottom: 5px; 
 }
 
-/* Mensajes de Éxito y Error */
 .mensaje-exito {
     background-color: #d4edda;
     color: #155724;
@@ -117,25 +110,24 @@ body {
     font-weight: bold;
 }
 
-/* Estilos para los botones del formulario de Eliminar Categoría */
 .buttons {
     display: flex;
-    justify-content: space-around; /* Distribuye los botones equitativamente */
-    gap: 15px; /* Espacio entre los botones */
-    margin-top: 25px; /* Más espacio arriba para separarlos del contenido del formulario */
+    justify-content: space-around; 
+    gap: 15px; 
+    margin-top: 25px; 
 }
 
-.btn-save { /* Para el botón "Seleccionar" (anteriormente "Guardar") */
-    background-color: #28a745; /* Verde para acciones positivas */
+.btn-save { 
+    background-color: #28a745; 
 }
 
 .btn-save:hover {
     background-color: #218838;
 }
 
-.btn-cancel { /* Para el botón "Volver" */
-    background-color: #6c757d; /* Gris para acciones secundarias */
-    color: white; /* Texto blanco */
+.btn-cancel { 
+    background-color: #6c757d; 
+    color: white; 
 }
 
 .btn-cancel:hover {

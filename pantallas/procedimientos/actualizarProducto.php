@@ -38,7 +38,7 @@ if (isset($_POST['accion']) && $_POST['accion'] === 'actualizar') {
         $maxFileSize = 10 * 1024 * 1024;
 
         if (!in_array($mime_type_real, $allowedTypes)) {
-            $mensajeError = "El archivo subido no es una imagen válida (JPG, PNG, GIF, WebP). Tipo detectado: " . htmlspecialchars($mime_type_real);
+            $mensajeError = "El archivo subido no es una imagen válida (JPG, PNG, GIF, WebP). Tipo detectado: " . $mime_type_real;
             $imagen_data = null;
         } elseif ($fileSize > $maxFileSize) {
             $mensajeError = "El tamaño de la imagen excede el límite (" . ($maxFileSize / (1024 * 1024)) . " MB).";

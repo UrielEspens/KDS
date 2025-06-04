@@ -3,7 +3,7 @@ session_start();
 if (!isset($_SESSION['idEmpleado'])) {
     header("location:../error/index.php");
     exit;
-    }
+}
 require_once 'procedimientos/conexion.php';
 require_once 'procedimientos/claseCategoria.php';
 require_once 'procedimientos/crudProductos.php';
@@ -12,15 +12,15 @@ require_once 'procedimientos/crudProductos.php';
 $crudProductos = new CrudProductos();
 $categorias = $crudProductos->obtenerCategorias();
 
-// Inicializar variables para mensajes y datos pre-rellenados del formulario
+// Inicializar variables para mensajes
 $mensajeExito = '';
 $mensajeError = '';
 
+// Verificar si hay mensajes en la sesión y borrarlos después de mostrarlos
 if (isset($_SESSION['mensaje_exito'])) {
     $mensajeExito = $_SESSION['mensaje_exito'];
     unset($_SESSION['mensaje_exito']);
 }
-// Verificar si hay mensajes de error en la sesión y borrarlos después de mostrarlos
 if (isset($_SESSION['mensaje_error'])) {
     $mensajeError = $_SESSION['mensaje_error'];
     unset($_SESSION['mensaje_error']);

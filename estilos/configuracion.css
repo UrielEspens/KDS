@@ -1,9 +1,6 @@
-/* --- Base Styles & Main Container --- */
-
-/* Ensure body styles provide proper centering and font setup */
 body {
     font-family: 'Roboto', Arial, sans-serif;
-    background-color: #f0f2f5; /* Soft light gray background */
+    background-color: #f0f2f5; 
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -12,159 +9,141 @@ body {
     box-sizing: border-box;
 }
 
-/* Main Container (Card-like appearance) */
 .container {
-    background-color: #ffffff; /* Clean white background */
-    border: 1px solid #e0e0e0; /* Subtle border */
-    border-radius: 12px; /* Nicely rounded corners */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Soft, prominent shadow for depth */
+    background-color: #ffffff; 
+    border: 1px solid #e0e0e0; 
+    border-radius: 12px; 
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); 
     display: flex;
-    flex-direction: column; /* Stack items vertically */
+    flex-direction: column; 
     width: 100%;
-    max-width: 650px; /* Adjusted max-width for a good balance */
-    padding: 30px; /* Generous internal spacing */
-    gap: 20px; /* Space between main sections (profile, options) */
-    margin: 20px auto; /* Center container with auto margins */
+    max-width: 650px; 
+    padding: 30px; 
+    gap: 20px; 
+    margin: 20px auto; 
     box-sizing: border-box;
-    overflow: hidden; /* Ensures shadow is crisp */
+    overflow: hidden; 
 }
 
-/* --- Profile Section Styles --- */
-
-/* Container for each profile row/option */
 .container-perfil {
     display: flex;
-    align-items: center; /* Vertically align items in the center */
-    justify-content: space-between; /* Push profile info left, button right */
-    padding: 15px 0; /* Vertical internal spacing */
-    border-bottom: 1px solid #f0f0f0; /* Soft separator line */
-    margin-bottom: 5px; /* Small margin below the line */
+    align-items: center; 
+    justify-content: space-between; 
+    padding: 15px 0; 
+    border-bottom: 1px solid #f0f0f0; 
+    margin-bottom: 5px; 
 }
 
-/* Remove border from the last item for a cleaner look */
 .container-perfil:last-of-type {
     border-bottom: none;
     margin-bottom: 0;
 }
 
-/* Info section (image + name/puesto) */
 .infoPerfil {
     display: flex;
     align-items: center;
-    gap: 15px; /* Space between image and text */
-    flex-grow: 1; /* Allows it to take available space before the button */
+    gap: 15px; 
+    flex-grow: 1; 
 }
 
-/* Link surrounding profile text */
 .infoPerfil a {
-    text-decoration: none; /* Remove underline */
-    color: inherit; /* Inherit text color for default */
-    display: flex; /* Allow flex properties for text content */
+    text-decoration: none; 
+    color: inherit; 
+    display: flex; 
     flex-direction: column;
     justify-content: center;
 }
 
 .infoPerfil a:hover {
-    color: #007bff; /* Highlight text on hover */
+    color: #007bff; 
 }
 
-/* Image within infoPerfil */
 .infoPerfil img {
-    width: 55px; /* Slightly larger image size */
+    width: 55px; 
     height: 55px;
-    border-radius: 50%; /* Perfect circle */
-    object-fit: cover; /* Ensures image covers area without distortion */
-    border: 2px solid #007bff; /* Accent border around image */
-    flex-shrink: 0; /* Prevent image from shrinking */
+    border-radius: 50%; 
+    object-fit: cover; 
+    border: 2px solid #007bff; 
+    flex-shrink: 0; 
 }
-
-/* --- Labels --- */
 
 .labelConfiguracion {
-    font-size: 1.1em; /* Slightly larger for main text */
-    font-weight: 500; /* Medium weight */
-    color: #343a40; /* Dark gray for good readability */
-    line-height: 1.4; /* Space between lines for name/puesto */
-    margin: 0; /* Reset margins from previous definitions */
-    margin-left: 0; /* Reset specific margin */
+    font-size: 1.1em; 
+    font-weight: 500; 
+    color: #343a40; 
+    line-height: 1.4; 
+    margin: 0; 
+    margin-left: 0; 
     border-radius: 5PX;
 }
 
-/* Specific styling for the puesto (second line in labelConfiguracion) */
 .labelConfiguracion + .labelConfiguracion {
-    font-size: 0.95em; /* Smaller for secondary text */
-    color: #6c757d; /* Lighter gray for secondary info */
+    font-size: 0.95em; 
+    color: #6c757d; 
 }
 
 .labelTittle {
     font-weight: bold;
-    font-size: 1.1em; /* Consistent size for titles */
-    color: #212529; /* Darker text for titles */
+    font-size: 1.1em; 
+    color: #212529; 
 }
 
-/* --- Buttons --- */
-
-/* Base button styles for all action buttons */
 .btn-perfil, .buttonConfiguracion {
-    background-color: #e9ecef; /* Light gray, modern background */
-    color: #343a40; /* Dark text */
-    border: none; /* No default border */
-    border-radius: 8px; /* Rounded corners */
+    background-color: #e9ecef; 
+    color: #343a40; 
+    border: none; 
+    border-radius: 8px; 
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
-    display: inline-flex; /* Use flex for centering content if needed */
+    display: inline-flex; 
     align-items: center;
     justify-content: center;
     font-size: 15px;
     font-weight: bold;
     cursor: pointer;
-    margin: 0; /* Reset margin */
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; /* Smooth transitions */
-    white-space: nowrap; /* Prevent text from breaking */
+    margin: 0; 
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; 
+    white-space: nowrap; 
     box-sizing: border-box;
 }
 
 .btn-perfil:hover, .buttonConfiguracion:hover {
-    background-color: #dee2e6; /* Slightly darker on hover */
-    transform: translateY(-2px); /* Slight lift effect */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow on hover */
+    background-color: #dee2e6; 
+    transform: translateY(-2px); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
 }
 
-/* Specific style for "CERRAR SESIÓN" button */
 .btn-perfil {
-    background-color: #dc3545; /* Red for logout/danger action */
-    color: #ffffff; /* White text */
+    background-color: #dc3545; 
+    color: #ffffff; 
 }
 
 .btn-perfil:hover {
-    background-color: #c82333; /* Darker red on hover */
+    background-color: #c82333; 
 }
 
-
-.container-perfil a { /* Targeting all links within .container-perfil */
-    text-decoration: none; /* Remove underline */
-    display: flex; /* Make it a flex container */
+.container-perfil a { 
+    text-decoration: none; 
+    display: flex; 
     align-items: center;
-    justify-content: flex-start; /* Align text to the start */
+    justify-content: flex-start; 
     border-radius: 8px;
-    color: #343a40; /* Dark text color */
+    color: #343a40; 
     transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
     box-sizing: border-box;
 }
 
 .container-perfil a:hover {
-    background-color: #e9ecef; /* Slightly darker on hover */
-    transform: translateX(5px); /* Slight slide to the right */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08); /* Soft shadow on hover */
+    background-color: #e9ecef; 
+    transform: translateX(5px); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08); 
 }
-
-/* --- Separator Line --- */
 
 .linea {
     border: none;
-    height: 1px; /* Thinner line */
-    background-color: #e0e0e0; /* Soft gray color */
-    margin: 10px 0; /* Spacing around the line */
-    width: 100%; /* Full width */
+    height: 1px; 
+    background-color: #e0e0e0; 
+    margin: 10px 0; 
+    width: 100%; 
 }

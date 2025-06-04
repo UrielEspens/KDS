@@ -1,97 +1,94 @@
 body {
-    background-color: #f0f0f0; /* Fondo general, mantenido */
+    background-color: #f0f0f0; 
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 100vh; /* Asegura que ocupe toda la altura de la ventana */
-    margin: 0; /* Elimina el margen por defecto del body */
+    min-height: 100vh; 
+    margin: 0; 
 }
 
 .modal-confirmacion {
-    background-color: #ffffff; /* Fondo blanco para el modal */
+    background-color: #ffffff; 
     padding: 30px;
     margin-top: 6%;
-    border: 1px solid #e0e0e0; /* Borde suave */
-    border-radius: 10px; /* Bordes redondeados */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25); /* Sombra más fuerte para resaltar el modal */
+    border: 1px solid #e0e0e0; 
+    border-radius: 10px; 
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25); 
     text-align: center;
-    max-width: 500px; /* Un poco más compacto */
+    max-width: 500px; 
     width: 90%;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centra el contenido horizontalmente */
-    position: relative; /* Para el z-index */
-    z-index: 1000; /* Asegura que esté encima del overlay */
+    align-items: center; 
+    position: relative; 
+    z-index: 1000; 
 }
 
 .modal-confirmacion h2 {
-    margin-bottom: 20px; /* Más espacio debajo del título */
+    margin-bottom: 20px; 
     margin-top: 0;
-    color: #333; /* Un color más neutro para el título principal */
-    font-size: 1.8em; /* Un poco más grande para el título */
-    font-weight: 600; /* Un poco menos de negrita que "bold" */
+    color: #333; 
+    font-size: 1.8em; 
+    font-weight: 600; 
 }
 
-/* Estilos para los párrafos de información del pedido */
 .modal-confirmacion p {
-    margin-bottom: 15px; /* Espacio entre párrafos */
+    margin-bottom: 15px; 
     font-size: 1.1em;
-    color: #555; /* Un gris más suave para el texto */
-    width: 100%; /* Asegura que el párrafo ocupe todo el ancho */
-    text-align: center; /* Centra el texto de los párrafos */
+    color: #555; 
+    width: 100%; 
+    text-align: center; 
 }
 
-/* Estilo específico para la información "Cliente:" y "Total:" */
 .modal-confirmacion p strong {
-    color: #333; /* Resalta el texto en negritas */
-    margin-right: 5px; /* Espacio entre el label y el valor */
+    color: #333; 
+    margin-right: 5px; 
 }
 
 .modal-buttons {
     display: flex;
     justify-content: center;
-    gap: 30px; /* Reducimos un poco el espacio entre botones */
-    margin-top: 20px; /* Espacio encima de los botones */
-    width: 100%; /* Para que los botones se centren mejor */
+    gap: 30px; 
+    margin-top: 20px; 
+    width: 100%; 
 }
 
 .modal-buttons a {
     text-decoration: none;
-    display: inline-block; /* Para que el enlace se comporte como un botón */
+    display: inline-block; 
 }
 
 .modal-buttons .btn {
-    padding: 12px 25px; /* Un poco más de padding para botones más grandes */
+    padding: 12px 25px; 
     border: none;
-    border-radius: 8px; /* Bordes más redondeados para los botones */
+    border-radius: 8px; 
     cursor: pointer;
-    font-size: 1.05em; /* Ligeramente más grande */
-    font-weight: bold; /* Negrita para los botones */
-    transition: all 0.2s ease; /* Transiciones suaves */
-    min-width: 120px; /* Ancho mínimo para que se vean consistentes */
+    font-size: 1.05em; 
+    font-weight: bold; 
+    transition: all 0.2s ease; 
+    min-width: 120px; 
     text-align: center;
-    text-transform: uppercase; /* Texto en mayúsculas para los botones */
+    text-transform: uppercase; 
 }
 
 .modal-buttons .btn-cancel {
-    background-color: #f0ad4e; /* Un naranja más suave que el amarillo */
+    background-color: #f0ad4e; 
     color: white;
-   
 }
 
 .modal-buttons .btn-cancel:hover {
-    background-color: #ec971f; /* Un naranja más oscuro en hover */
-    transform: translateY(-2px); /* Efecto de levantamiento */
+    background-color: #ec971f; 
+    transform: translateY(-2px); 
     box-shadow: 0 4px 8px rgba(240, 173, 78, 0.6);
 }
 
 .modal-buttons .btn-delete {
-    background-color: #d9534f; /* Tu rojo existente, que ya es bueno */
+    background-color: #d9534f; 
     color: white;
 }
 
 .modal-buttons .btn-delete:hover {
-    background-color: #c9302c; /* Rojo más oscuro en hover */
-    transform: translateY(-2px); /* Efecto de levantamiento */
+    background-color: #c9302c; 
+    transform: translateY(-2px); 
     box-shadow: 0 4px 8px rgba(217, 83, 79, 0.6);
 }

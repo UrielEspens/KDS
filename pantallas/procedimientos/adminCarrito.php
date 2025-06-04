@@ -28,8 +28,6 @@ $crudPedidos = new CrudPedidos();
 $idEmpleado = $_SESSION['idEmpleado'];
 
 // --- VALIDACIÓN CRÍTICA DEL idCarritoDB ---
-// Aseguramos que idCarritoDB ya esté en sesión. Si no lo está,
-// significa que cargarCarrito.php no se ejecutó o falló.
 if (!isset($_SESSION['idCarritoDB']) || !$_SESSION['idCarritoDB']) {
     error_log("ERROR: idCarritoDB no está en sesión en adminCarrito.php para empleado " . $idEmpleado);
     $_SESSION['mensaje_error'] = "Error al procesar el carrito. Por favor, recargue la página.";
@@ -49,7 +47,7 @@ if (isset($_POST['idCliente']) && !isset($_POST['accionCarrito'])) {
     $_SESSION['clienteSeleccionado_id'] = $clienteIdSeleccionado;
     $clienteObjeto = $crudClientes->obtenerClientePorId($clienteIdSeleccionado);
     if ($clienteObjeto) {
-        $_SESSION['clienteSeleccionado_nombre'] = htmlspecialchars($clienteObjeto->getNombre() . " " . $clienteObjeto->getPrimerApe() . " " . $clienteObjeto->getSegundoApe());
+        $_SESSION['clienteSeleccionado_nombre'] = $clienteObjeto->getNombre() . " " . $clienteObjeto->getPrimerApe() . " " . $clienteObjeto->getSegundoApe();
     } else {
         $_SESSION['clienteSeleccionado_nombre'] = 'Cliente no encontrado.';
         error_log("WARNING: Cliente con ID " . $clienteIdSeleccionado . " no encontrado al seleccionar cliente en carrito.");

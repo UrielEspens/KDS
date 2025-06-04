@@ -8,6 +8,7 @@ if (!isset($_SESSION['idEmpleado'])) {
 $usuarioPuesto = $_SESSION['puesto'];
 require_once('procedimientos/conexion.php');
 require_once('procedimientos/busquedaMenu.php');
+require_once('procedimientos/cargarCarrito.php');
 ?>
 
 <!DOCTYPE html>

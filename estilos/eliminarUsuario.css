@@ -25,9 +25,8 @@
     margin-top: 15px;
 }
 
-.labelTittle
-{
-    font-weight: bold; /* Texto en negritas */   
+.labelTittle {
+    font-weight: bold; 
 }
 
 .labelConfiguracion {
@@ -35,34 +34,35 @@
     color: #000000;
 }
 
-.iconoPerfil{
+.iconoPerfil {
     margin-top: 3%;
 }
 
-.containerPerfil{
+.containerPerfil {
     display: flex;
     gap: 15px;
 }
 
-.containerInfo{
+.containerInfo {
     display: flex;
     flex-flow: column;
     margin-top: 30px;
 }
 
-.containerInfo2{
+.containerInfo2 {
     display: flex;
     flex-flow: column;
     margin-top: 10px;
 }
+
 .linea {
     border: none;
-    background: none; /* Elimina el fondo */
-    border-top: 2px dotted #000000; /* Línea punteada */
+    background: none; 
+    border-top: 2px dotted #000000; 
     margin-top: 2%;
 }
 
-.btnEliminar{
+.btnEliminar {
     background-color: #f8f8f8;
     color: rgb(0, 0, 0);
     border: black 1px solid;
@@ -73,7 +73,7 @@
     cursor: pointer;
 }
 
-.btnCancelar{
+.btnCancelar {
     background-color: #dc3939;
     color: rgb(0, 0, 0);
     border: black 1px solid;
@@ -84,7 +84,7 @@
     cursor: pointer;
 }
 
-.containerBotones{
+.containerBotones {
     display: flex;
     margin-left: auto;
     gap: 45px;
